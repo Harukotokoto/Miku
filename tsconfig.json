@@ -6,7 +6,13 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@/libraries/*": ["src/libraries/*"],
+      "@/handlers/*": ["src/libraries/Classes/Handlers/*"]
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules"]
