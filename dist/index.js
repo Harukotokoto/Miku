@@ -13,7 +13,7 @@ exports.client = new Miku_1.Miku({
         repliedUser: false,
     },
     debugMode: true,
-    // admins: ['1004365048887660655'],
+    admins: ['1004365048887660655'],
     prefix: 'm.',
 });
 exports.client.run();

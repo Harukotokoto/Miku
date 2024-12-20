@@ -98,7 +98,12 @@ class Miku extends discord_js_1.Client {
             const commandFiles = yield globPromise(__dirname + '/../../handlers/commands/**/*{.ts,.js}');
             for (const file of commandFiles) {
                 const command = yield this.importFile(file);
-                this.logger.info(`/${command.name}を読み込みました`);
+                if (command.type === discord_js_1.ApplicationCommandType.ChatInput || !command.type) {
+                    this.logger.info(`"/${command.name}"を読み込みました`);
+                }
+                else {
+                    this.logger.info(`"${command.name}"を読み込みました`);
+                }
                 commands.push(command);
                 this.commands.set(command.name, command);
             }

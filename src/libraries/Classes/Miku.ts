@@ -1,4 +1,5 @@
 import {
+  ApplicationCommandType,
   Client,
   ClientEvents,
   ClientOptions,
@@ -77,7 +78,11 @@ export class Miku extends Client {
     for (const file of commandFiles) {
       const command: CommandType = await this.importFile(file);
 
-      this.logger.info(`/${command.name}を読み込みました`);
+      if (command.type === ApplicationCommandType.ChatInput || !command.type) {
+        this.logger.info(`"/${command.name}"を読み込みました`);
+      } else {
+        this.logger.info(`"${command.name}"を読み込みました`);
+      }
 
       commands.push(command);
       this.commands.set(command.name, command);

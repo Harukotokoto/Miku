@@ -18,9 +18,6 @@ exports.default = new Event_1.Event('interactionCreate', (interaction) => __awai
     if (interaction.isCommand()) {
         const command = index_1.client.commands.get(interaction.commandName);
         const Error = new CommandError_1.CommandError(interaction);
-        const member = (_a = interaction.guild) === null || _a === void 0 ? void 0 : _a.members.cache.get(interaction.user.id);
-        if (!member)
-            return;
         yield interaction.deferReply({
             ephemeral: (command === null || command === void 0 ? void 0 : command.ephemeral) || false,
         });
@@ -35,8 +32,13 @@ exports.default = new Event_1.Event('interactionCreate', (interaction) => __awai
         if (index_1.client.debugMode && !index_1.client.admins.includes(interaction.user.id)) {
             return yield Error.create('開発モードが有効です\n許容されたユーザーのみコマンドを実行することができます', CommandError_1.ErrorTypes.Warn);
         }
-        if (!member.permissions.has(command.requiredPermissions || [])) {
-            return yield Error.create('このコマンドを使用する権限が不足しています');
+        if (interaction.guild) {
+            const member = (_a = interaction.guild) === null || _a === void 0 ? void 0 : _a.members.cache.get(interaction.user.id);
+            if (!member)
+                return;
+            if (!member.permissions.has(command.requiredPermissions || [])) {
+                return yield Error.create('このコマンドを使用する権限が不足しています');
+            }
         }
         if (!command.type || command.type === discord_js_1.ApplicationCommandType.ChatInput) {
             yield command.execute.interaction({

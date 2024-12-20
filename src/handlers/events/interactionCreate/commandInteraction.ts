@@ -14,9 +14,6 @@ export default new Event('interactionCreate', async (interaction) => {
 
     const Error = new CommandError(interaction);
 
-    const member = interaction.guild?.members.cache.get(interaction.user.id);
-    if (!member) return;
-
     await interaction.deferReply({
       ephemeral: command?.ephemeral || false,
     });
@@ -46,8 +43,13 @@ export default new Event('interactionCreate', async (interaction) => {
       );
     }
 
-    if (!member.permissions.has(command.requiredPermissions || [])) {
-      return await Error.create('このコマンドを使用する権限が不足しています');
+    if (interaction.guild) {
+      const member = interaction.guild?.members.cache.get(interaction.user.id);
+      if (!member) return;
+
+      if (!member.permissions.has(command.requiredPermissions || [])) {
+        return await Error.create('このコマンドを使用する権限が不足しています');
+      }
     }
 
     if (!command.type || command.type === ApplicationCommandType.ChatInput) {

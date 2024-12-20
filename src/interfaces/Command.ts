@@ -33,6 +33,7 @@ type CommandBase = {
   ephemeral?: boolean;
   aliases?: string[];
   isOwnerCommand?: boolean;
+  canUseUserCommand?: boolean;
 };
 
 type Command<

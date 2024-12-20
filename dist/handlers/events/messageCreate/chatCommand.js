@@ -35,7 +35,8 @@ exports.default = new Event_1.Event('messageCreate', (message) => __awaiter(void
         return yield Error.create('このコマンドはBot関係者のみ実行可能です', CommandError_1.ErrorTypes.Warn);
     }
     if (index_1.client.debugMode && !index_1.client.admins.includes(message.author.id)) {
-        return yield Error.create('開発モードが有効です\n許容されたユーザーのみコマンドを実行することができます', CommandError_1.ErrorTypes.Warn);
+        return yield Error.create('開発モードが有効です\n' +
+            '許容されたユーザーのみコマンドを実行することができます', CommandError_1.ErrorTypes.Warn);
     }
     if (!member.permissions.has(command.requiredPermissions || [])) {
         return yield Error.create('このコマンドを使用する権限が不足しています');
