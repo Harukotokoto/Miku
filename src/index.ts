@@ -15,4 +15,7 @@ export const client = new Miku({
   prefix: 'm.',
 });
 
+process.on('unhandledRejection', (err) => {});
+process.on('uncaughtException', (err) => {});
+
 client.run();

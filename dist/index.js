@@ -16,4 +16,6 @@ exports.client = new Miku_1.Miku({
     admins: ['1004365048887660655'],
     prefix: 'm.',
 });
+process.on('unhandledRejection', (err) => { });
+process.on('uncaughtException', (err) => { });
 exports.client.run();

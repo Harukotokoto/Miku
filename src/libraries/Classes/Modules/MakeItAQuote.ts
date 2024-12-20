@@ -2,12 +2,12 @@ import axios from 'axios';
 
 export class MakeItAQuote {
   public constructor(
-    private text: string,
-    private avatarURL: string,
-    private username: string,
-    private display_name: string,
-    private color: boolean,
-    private watermark: string,
+    private text?: string,
+    private avatarURL?: string,
+    private username?: string,
+    private display_name?: string,
+    private color?: boolean,
+    private watermark?: string,
   ) {}
 
   public setText = (text: string) => {
@@ -48,22 +48,21 @@ export class MakeItAQuote {
     if (!username) throw new Error('ユーザー名が指定されていません');
     if (!display_name) throw new Error('表示名が指定されていません');
 
-    const response = await axios.post(`${process.env.VOIDS_API}/fakequote`, {
-      text: text,
-      avatar: avatarURL,
-      username: username,
-      display_name: display_name,
-      color: color || false,
-      watermark: watermark || '',
-    });
+    const imageBuffer = await axios.post(
+      `https://api.voids.top/fakequotebeta`,
+      {
+        text: text,
+        avatar: avatarURL,
+        username: username,
+        display_name: display_name,
+        color: color || false,
+        watermark: watermark || '',
+      },
+      {
+        responseType: 'arraybuffer',
+      },
+    );
 
-    const imageBuffer = await axios.get(response.data.url, {
-      responseType: 'arraybuffer',
-    });
-
-    return {
-      binary: Buffer.from(imageBuffer.data, 'binary'),
-      url: response.data.url,
-    };
+    return Buffer.from(imageBuffer.data, 'binary');
   };
 }
