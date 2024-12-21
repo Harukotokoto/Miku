@@ -40,11 +40,9 @@ export default new Command({
       await interaction.followUp({
         embeds: [
           {
-            description:
-              `[クリックして招待](<${url.toString()}>)\n` +
-              interaction.options.getUser('bot')
-                ? ''
-                : '[ユーザーインストール](<https://discord.com/oauth2/authorize?client_id=1318492572858974268&permissions=8&integration_type=1&scope=bot+applications.commands>)',
+            description: interaction.options.getUser('bot')
+              ? `[クリックして招待](<${url.toString()}>)`
+              : `[クリックして招待](<${url.toString()}>)\n[ユーザーインストール](<https://discord.com/oauth2/authorize?client_id=1318492572858974268&integration_type=1&scope=applications.commands>)`,
             color: Colors.Yellow,
             footer: client.footer(),
           },
