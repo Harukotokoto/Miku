@@ -154,6 +154,8 @@ exports.default = new Command_1.Command({
                         {
                             title: '複合化しました',
                             description: decrypted.toString(),
+                            color: discord_js_1.Colors.Purple,
+                            footer: client.footer(),
                         },
                     ],
                 });

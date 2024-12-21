@@ -15,6 +15,7 @@ const MakeItAQuote_1 = require("../../../libraries/Classes/Modules/MakeItAQuote"
 exports.default = new Command_1.Command({
     name: 'Make it a Quote',
     type: discord_js_1.ApplicationCommandType.Message,
+    ephemeral: true,
     contexts: [
         discord_js_1.InteractionContextType.PrivateChannel,
         discord_js_1.InteractionContextType.BotDM,

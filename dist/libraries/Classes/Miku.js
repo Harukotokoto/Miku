@@ -52,10 +52,10 @@ const util_1 = require("util");
 const glob_1 = __importDefault(require("glob"));
 const index_1 = require("../../index");
 require('dotenv').config();
-const globPromise = (0, util_1.promisify)(glob_1.default);
 class Miku extends discord_js_1.Client {
     constructor(options) {
         super(options);
+        this.globPromise = (0, util_1.promisify)(glob_1.default);
         this.logger = new Logger_1.Logger();
         this.commands = new discord_js_1.Collection();
         this.debugMode = options.debugMode || false;
@@ -95,7 +95,7 @@ class Miku extends discord_js_1.Client {
     registerCommands() {
         return __awaiter(this, void 0, void 0, function* () {
             const commands = [];
-            const commandFiles = yield globPromise(__dirname + '/../../handlers/commands/**/*{.ts,.js}');
+            const commandFiles = yield this.globPromise(__dirname + '/../../handlers/commands/**/*{.ts,.js}');
             for (const file of commandFiles) {
                 const command = yield this.importFile(file);
                 if (command.type === discord_js_1.ApplicationCommandType.ChatInput || !command.type) {
@@ -118,7 +118,7 @@ class Miku extends discord_js_1.Client {
     }
     registerEvents() {
         return __awaiter(this, void 0, void 0, function* () {
-            const eventFiles = yield globPromise(`${__dirname}/../../handlers/events/**/*{.ts,.js}`);
+            const eventFiles = yield this.globPromise(`${__dirname}/../../handlers/events/**/*{.ts,.js}`);
             for (const filePath of eventFiles) {
                 const event = yield this.importFile(filePath);
                 if (event && 'event' in event) {

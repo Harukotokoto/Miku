@@ -12,7 +12,7 @@ export const getCommands = async (): Promise<CommandList[]> => {
   const commands: CommandList[] = [];
 
   const commandFiles = await client.globPromise(
-    `${__dirname}/../../commands/**/*{.ts,.js}`,
+    `${__dirname}/../../../handlers/commands/**/*{.ts,.js}`,
   );
 
   for (const filePath of commandFiles) {
