@@ -36,7 +36,8 @@ export class Miku extends Client {
   public footer(): EmbedFooterData {
     const user = client.users.cache.get('1004365048887660655');
     return {
-      text: 'Produced by ' + (user ? user.displayName : 'Harukoto'),
+      text: 'Produced by Harukoto',
+      iconURL: user?.displayAvatarURL(),
     };
   }
 

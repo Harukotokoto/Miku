@@ -45,7 +45,7 @@ exports.default = new Command_1.Command({
                     {
                         description: interaction.options.getUser('bot')
                             ? `[クリックして招待](<${url.toString()}>)`
-                            : `[クリックして招待](<${url.toString()}>)\n[ユーザーインストール](<https://discord.com/oauth2/authorize?client_id=1318492572858974268&integration_type=1&scope=bot>)`,
+                            : `[クリックして招待](<${url.toString()}>)\n[ユーザーインストール](<https://discord.com/oauth2/authorize?client_id=1318492572858974268&integration_type=1&scope=applications.commands>)`,
                         color: discord_js_1.Colors.Yellow,
                         footer: client.footer(),
                     },
