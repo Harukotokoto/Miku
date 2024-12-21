@@ -9,6 +9,7 @@ import {
 export default new Command({
   name: 'ユーザーのアバターを取得',
   type: ApplicationCommandType.User,
+  ephemeral: true,
   contexts: [
     InteractionContextType.PrivateChannel,
     InteractionContextType.BotDM,

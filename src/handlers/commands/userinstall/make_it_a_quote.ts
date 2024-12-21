@@ -9,6 +9,7 @@ import { MakeItAQuote } from '@/libraries/Classes/Modules/MakeItAQuote';
 export default new Command({
   name: 'Make it a Quote',
   type: ApplicationCommandType.Message,
+  ephemeral: true,
   contexts: [
     InteractionContextType.PrivateChannel,
     InteractionContextType.BotDM,
