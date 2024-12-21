@@ -14,7 +14,8 @@ export default new Command({
       ];
 
       const categoryDictionary: Record<string, string> = {
-        info: '情報',
+        info: '情報系コマンド',
+        fun: "ネタ系コマンド"
       };
 
       function getCategoryDisplayName(category: string) {

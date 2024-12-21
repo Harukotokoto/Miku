@@ -21,6 +21,15 @@ exports.default = new Command_1.Command({
             const categories = [
                 ...new Set(commands === null || commands === void 0 ? void 0 : commands.map((command) => command.category)),
             ];
+            const categoryDictionary = {
+                info: '情報',
+            };
+            function getCategoryDisplayName(category) {
+                if (categoryDictionary[category]) {
+                    return categoryDictionary[category];
+                }
+                return category.charAt(0).toUpperCase() + category.slice(1);
+            }
             yield interaction.followUp({
                 embeds: [
                     {
@@ -41,7 +50,7 @@ exports.default = new Command_1.Command({
                             {
                                 type: discord_js_1.ComponentType.StringSelect,
                                 options: categories.map((category) => {
-                                    const categoryName = category.charAt(0).toUpperCase() + category.slice(1);
+                                    const categoryName = getCategoryDisplayName(category);
                                     return {
                                         label: categoryName,
                                         value: category,
@@ -79,8 +88,7 @@ exports.default = new Command_1.Command({
                     return;
                 if (i.customId === 'category_select') {
                     const selectedCategory = i.values[0];
-                    const categoryName = selectedCategory.charAt(0).toUpperCase() +
-                        selectedCategory.slice(1);
+                    const categoryName = getCategoryDisplayName(selectedCategory);
                     const commandList = commands === null || commands === void 0 ? void 0 : commands.filter((cmd) => cmd.category === selectedCategory);
                     yield i.update({
                         embeds: [
@@ -104,7 +112,7 @@ exports.default = new Command_1.Command({
                                     {
                                         type: discord_js_1.ComponentType.StringSelect,
                                         options: categories.map((category) => {
-                                            const categoryName = category.charAt(0).toUpperCase() + category.slice(1);
+                                            const categoryName = getCategoryDisplayName(category);
                                             return {
                                                 label: categoryName,
                                                 value: category,
@@ -150,7 +158,7 @@ exports.default = new Command_1.Command({
                     const commandDescription = command.description;
                     const commandUsage = command.usage;
                     const isOwnerCommand = command.isOwnerCommand;
-                    const categoryName = (cmd === null || cmd === void 0 ? void 0 : cmd.category.charAt(0).toUpperCase()) + (cmd === null || cmd === void 0 ? void 0 : cmd.category.slice(1));
+                    const categoryName = getCategoryDisplayName(cmd === null || cmd === void 0 ? void 0 : cmd.category);
                     i.update({
                         embeds: [
                             {
