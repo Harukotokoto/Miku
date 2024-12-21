@@ -3,8 +3,6 @@ import {
   ApplicationCommandOptionType,
   ApplicationCommandType,
 } from 'discord.js';
-import glob from 'glob';
-import { promisify } from 'util';
 import { client } from '@/index';
 import { CommandList } from '@/interfaces/CommandList';
 

@@ -13,6 +13,17 @@ export default new Command({
         ...new Set(commands?.map((command) => command.category)),
       ];
 
+      const categoryDictionary: Record<string, string> = {
+        info: '情報',
+      };
+
+      function getCategoryDisplayName(category: string) {
+        if (categoryDictionary[category]) {
+          return categoryDictionary[category];
+        }
+        return category.charAt(0).toUpperCase() + category.slice(1);
+      }
+
       await interaction.followUp({
         embeds: [
           {
@@ -34,8 +45,7 @@ export default new Command({
               {
                 type: ComponentType.StringSelect,
                 options: categories.map((category) => {
-                  const categoryName =
-                    category.charAt(0).toUpperCase() + category.slice(1);
+                  const categoryName = getCategoryDisplayName(category);
                   return {
                     label: categoryName,
                     value: category,
@@ -78,9 +88,7 @@ export default new Command({
         if (i.customId === 'category_select') {
           const selectedCategory = i.values[0];
 
-          const categoryName =
-            selectedCategory.charAt(0).toUpperCase() +
-            selectedCategory.slice(1);
+          const categoryName = getCategoryDisplayName(selectedCategory);
 
           const commandList = commands?.filter(
             (cmd) => cmd.category === selectedCategory,
@@ -108,8 +116,7 @@ export default new Command({
                   {
                     type: ComponentType.StringSelect,
                     options: categories.map((category) => {
-                      const categoryName =
-                        category.charAt(0).toUpperCase() + category.slice(1);
+                      const categoryName = getCategoryDisplayName(category);
 
                       return {
                         label: categoryName,
@@ -163,8 +170,7 @@ export default new Command({
           const commandDescription = command.description;
           const commandUsage = command.usage;
           const isOwnerCommand = command.isOwnerCommand;
-          const categoryName =
-            cmd?.category.charAt(0).toUpperCase() + cmd?.category.slice(1);
+          const categoryName = getCategoryDisplayName(cmd?.category);
 
           i.update({
             embeds: [
