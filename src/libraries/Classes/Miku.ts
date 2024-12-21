@@ -16,8 +16,6 @@ import { MikuOptions } from '@/interfaces/MikuOptions';
 
 require('dotenv').config();
 
-const globPromise = promisify(glob);
-
 export class Miku extends Client {
   public prefix;
   public debugMode;
@@ -30,6 +28,8 @@ export class Miku extends Client {
     this.admins = options.admins || [];
     this.prefix = options.prefix || '!';
   }
+
+  public globPromise = promisify(glob);
 
   public logger = new Logger();
 
@@ -60,7 +60,7 @@ export class Miku extends Client {
 
   public commands: Collection<string, CommandType> = new Collection();
 
-  private async importFile<T>(filePath: string): Promise<T> {
+  public async importFile<T>(filePath: string): Promise<T> {
     const file = await import(filePath);
     if (!file) {
       this.logger.error(`File ${filePath} not found`);
@@ -71,7 +71,7 @@ export class Miku extends Client {
 
   private async registerCommands() {
     const commands: CommandType[] = [];
-    const commandFiles = await globPromise(
+    const commandFiles = await this.globPromise(
       __dirname + '/../../handlers/commands/**/*{.ts,.js}',
     );
 
@@ -104,7 +104,7 @@ export class Miku extends Client {
   }
 
   private async registerEvents() {
-    const eventFiles = await globPromise(
+    const eventFiles = await this.globPromise(
       `${__dirname}/../../handlers/events/**/*{.ts,.js}`,
     );
 
