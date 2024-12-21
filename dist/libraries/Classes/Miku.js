@@ -65,7 +65,8 @@ class Miku extends discord_js_1.Client {
     footer() {
         const user = index_1.client.users.cache.get('1004365048887660655');
         return {
-            text: 'Produced by ' + (user ? user.displayName : 'Harukoto'),
+            text: 'Produced by Harukoto',
+            iconURL: user === null || user === void 0 ? void 0 : user.displayAvatarURL(),
         };
     }
     run() {

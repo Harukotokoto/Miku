@@ -50,48 +50,53 @@ export default new Command({
         }
       };
 
-      return {
-        author: {
-          name: guild.name,
-          icon_url: guild.iconURL()?.toString(),
-        },
-        image: {
-          url: guild.bannerURL()?.toString() || '',
-        },
-        fields: [
+      await interaction.followUp({
+        embeds: [
           {
-            name: 'サーバー作成日',
-            value: '<t:' + Math.round(guild.createdAt.getTime() / 1000) + '>',
-            inline: true,
-          },
-          {
-            name: 'サーバー所有者',
-            value: '<@!' + (await guild.fetchOwner()).id + '>',
-            inline: true,
-          },
-          {
-            name: 'メンバー数',
-            value: guild.memberCount + '人',
-            inline: true,
-          },
-          {
-            name: 'BANされたユーザー数',
-            value: (await guild.bans.fetch()).size.toString() + 'メンバー',
-            inline: true,
-          },
-          {
-            name: '認証レベル',
-            value: verification_levels[guild.verificationLevel],
-            inline: true,
-          },
-          {
-            name: 'サーバーブースト進行度',
-            value: createBoostBar() ?? '生成中にエラーが発生しました',
+            author: {
+              name: guild.name,
+              icon_url: guild.iconURL()?.toString(),
+            },
+            image: {
+              url: guild.bannerURL()?.toString() || '',
+            },
+            fields: [
+              {
+                name: 'サーバー作成日',
+                value:
+                  '<t:' + Math.round(guild.createdAt.getTime() / 1000) + '>',
+                inline: true,
+              },
+              {
+                name: 'サーバー所有者',
+                value: '<@!' + (await guild.fetchOwner()).id + '>',
+                inline: true,
+              },
+              {
+                name: 'メンバー数',
+                value: guild.memberCount + '人',
+                inline: true,
+              },
+              {
+                name: 'BANされたユーザー数',
+                value: (await guild.bans.fetch()).size.toString() + 'メンバー',
+                inline: true,
+              },
+              {
+                name: '認証レベル',
+                value: verification_levels[guild.verificationLevel],
+                inline: true,
+              },
+              {
+                name: 'サーバーブースト進行度',
+                value: createBoostBar() ?? '生成中にエラーが発生しました',
+              },
+            ],
+            color: Colors.Gold,
+            footer: client.footer(),
           },
         ],
-        color: Colors.Gold,
-        footer: client.footer(),
-      };
+      });
     },
   },
 });
