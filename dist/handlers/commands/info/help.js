@@ -24,6 +24,7 @@ exports.default = new Command_1.Command({
             const categoryDictionary = {
                 info: '情報系コマンド',
                 fun: 'ネタ系コマンド',
+                dev: '開発者向けコマンド',
             };
             function getCategoryDisplayName(category) {
                 if (categoryDictionary[category]) {

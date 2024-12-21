@@ -23,7 +23,7 @@ exports.default = new Command_1.Command({
                         fields: [
                             {
                                 name: '開発者',
-                                value: 'Harukoto([@harukoto_vlrnt](<https://x.com/harukoto_vlrnt>)',
+                                value: 'Harukoto([@harukoto_vlrnt](<https://x.com/harukoto_vlrnt>))',
                                 inline: true,
                             },
                             {
