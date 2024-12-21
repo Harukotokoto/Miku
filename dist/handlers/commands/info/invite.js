@@ -15,6 +15,15 @@ const CommandError_1 = require("../../../libraries/Classes/Handlers/CommandError
 exports.default = new Command_1.Command({
     name: 'invite',
     description: 'Botの招待リンクを表示します',
+    contexts: [
+        discord_js_1.InteractionContextType.PrivateChannel,
+        discord_js_1.InteractionContextType.BotDM,
+        discord_js_1.InteractionContextType.Guild,
+    ],
+    integrationTypes: [
+        discord_js_1.ApplicationIntegrationType.UserInstall,
+        discord_js_1.ApplicationIntegrationType.GuildInstall,
+    ],
     options: [
         {
             name: 'bot',

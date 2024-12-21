@@ -14,6 +14,15 @@ const discord_js_1 = require("discord.js");
 exports.default = new Command_1.Command({
     name: 'avatar',
     description: 'ユーザーのアバターを取得します',
+    contexts: [
+        discord_js_1.InteractionContextType.PrivateChannel,
+        discord_js_1.InteractionContextType.BotDM,
+        discord_js_1.InteractionContextType.Guild,
+    ],
+    integrationTypes: [
+        discord_js_1.ApplicationIntegrationType.UserInstall,
+        discord_js_1.ApplicationIntegrationType.GuildInstall,
+    ],
     options: [
         {
             name: 'user',

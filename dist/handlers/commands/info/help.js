@@ -15,6 +15,15 @@ const getCommands_1 = require("../../../libraries/Functions/Util/getCommands");
 exports.default = new Command_1.Command({
     name: 'help',
     description: 'コマンドの詳細を表示します',
+    contexts: [
+        discord_js_1.InteractionContextType.PrivateChannel,
+        discord_js_1.InteractionContextType.BotDM,
+        discord_js_1.InteractionContextType.Guild,
+    ],
+    integrationTypes: [
+        discord_js_1.ApplicationIntegrationType.UserInstall,
+        discord_js_1.ApplicationIntegrationType.GuildInstall,
+    ],
     execute: {
         interaction: (_a) => __awaiter(void 0, [_a], void 0, function* ({ client, interaction }) {
             const commands = yield (0, getCommands_1.getCommands)();

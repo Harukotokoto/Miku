@@ -22,6 +22,15 @@ exports.default = new Command_1.Command({
             required: true,
         },
     ],
+    contexts: [
+        discord_js_1.InteractionContextType.PrivateChannel,
+        discord_js_1.InteractionContextType.BotDM,
+        discord_js_1.InteractionContextType.Guild,
+    ],
+    integrationTypes: [
+        discord_js_1.ApplicationIntegrationType.UserInstall,
+        discord_js_1.ApplicationIntegrationType.GuildInstall,
+    ],
     execute: {
         interaction: (_a) => __awaiter(void 0, [_a], void 0, function* ({ client, interaction }) {
             const snowflake = interaction.options.getString('snowflake', true);
