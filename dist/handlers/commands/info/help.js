@@ -22,7 +22,8 @@ exports.default = new Command_1.Command({
                 ...new Set(commands === null || commands === void 0 ? void 0 : commands.map((command) => command.category)),
             ];
             const categoryDictionary = {
-                info: '情報',
+                info: '情報系コマンド',
+                fun: 'ネタ系コマンド',
             };
             function getCategoryDisplayName(category) {
                 if (categoryDictionary[category]) {
