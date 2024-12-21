@@ -1,6 +1,7 @@
 import {
   ApplicationCommandType,
   ChatInputCommandInteraction,
+  InteractionContextType,
   MessageContextMenuCommandInteraction,
   UserContextMenuCommandInteraction,
 } from 'discord.js';
@@ -14,9 +15,15 @@ export default new Event('interactionCreate', async (interaction) => {
 
     const Error = new CommandError(interaction);
 
-    await interaction.deferReply({
-      ephemeral: command?.ephemeral || false,
-    });
+    if (!interaction.guild && interaction.inGuild()) {
+      await interaction.deferReply({
+        ephemeral: true,
+      });
+    } else {
+      await interaction.deferReply({
+        ephemeral: command?.ephemeral || false,
+      });
+    }
 
     if (!command) return await Error.create('コマンドが存在しません');
 

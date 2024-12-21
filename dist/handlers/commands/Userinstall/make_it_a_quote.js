@@ -12,10 +12,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Command_1 = require("../../../libraries/Classes/Handlers/Command");
 const discord_js_1 = require("discord.js");
 const MakeItAQuote_1 = require("../../../libraries/Classes/Modules/MakeItAQuote");
+const CommandError_1 = require("../../../libraries/Classes/Handlers/CommandError");
 exports.default = new Command_1.Command({
     name: 'Make it a Quote',
     type: discord_js_1.ApplicationCommandType.Message,
-    ephemeral: true,
     contexts: [
         discord_js_1.InteractionContextType.PrivateChannel,
         discord_js_1.InteractionContextType.BotDM,
@@ -26,6 +26,10 @@ exports.default = new Command_1.Command({
         interaction: (_a) => __awaiter(void 0, [_a], void 0, function* ({ client, interaction }) {
             var _b;
             const message = interaction.targetMessage;
+            const error = new CommandError_1.CommandError(interaction);
+            if (!message.cleanContent) {
+                return yield error.create('テキストが含まれていません');
+            }
             const miq = new MakeItAQuote_1.MakeItAQuote()
                 .setText(message.cleanContent)
                 .setUsername(message.author.tag)

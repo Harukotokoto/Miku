@@ -18,9 +18,16 @@ exports.default = new Event_1.Event('interactionCreate', (interaction) => __awai
     if (interaction.isCommand()) {
         const command = index_1.client.commands.get(interaction.commandName);
         const Error = new CommandError_1.CommandError(interaction);
-        yield interaction.deferReply({
-            ephemeral: (command === null || command === void 0 ? void 0 : command.ephemeral) || false,
-        });
+        if (!interaction.guild && interaction.inGuild()) {
+            yield interaction.deferReply({
+                ephemeral: true,
+            });
+        }
+        else {
+            yield interaction.deferReply({
+                ephemeral: (command === null || command === void 0 ? void 0 : command.ephemeral) || false,
+            });
+        }
         if (!command)
             return yield Error.create('コマンドが存在しません');
         if (!command.execute.interaction)

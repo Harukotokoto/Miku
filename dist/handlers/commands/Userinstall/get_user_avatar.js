@@ -14,7 +14,6 @@ const discord_js_1 = require("discord.js");
 exports.default = new Command_1.Command({
     name: 'ユーザーのアバターを取得',
     type: discord_js_1.ApplicationCommandType.User,
-    ephemeral: true,
     contexts: [
         discord_js_1.InteractionContextType.PrivateChannel,
         discord_js_1.InteractionContextType.BotDM,

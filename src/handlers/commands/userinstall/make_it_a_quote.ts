@@ -5,11 +5,11 @@ import {
   InteractionContextType,
 } from 'discord.js';
 import { MakeItAQuote } from '@/libraries/Classes/Modules/MakeItAQuote';
+import { CommandError } from '@/handlers/CommandError';
 
 export default new Command({
   name: 'Make it a Quote',
   type: ApplicationCommandType.Message,
-  ephemeral: true,
   contexts: [
     InteractionContextType.PrivateChannel,
     InteractionContextType.BotDM,
@@ -19,6 +19,12 @@ export default new Command({
   execute: {
     interaction: async ({ client, interaction }) => {
       const message = interaction.targetMessage;
+
+      const error = new CommandError(interaction);
+
+      if (!message.cleanContent) {
+        return await error.create('テキストが含まれていません');
+      }
 
       const miq = new MakeItAQuote()
         .setText(message.cleanContent)

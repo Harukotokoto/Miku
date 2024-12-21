@@ -51,48 +51,52 @@ exports.default = new Command_1.Command({
                             '\nブーストレベル最大🎉');
                 }
             };
-            return {
-                author: {
-                    name: guild.name,
-                    icon_url: (_b = guild.iconURL()) === null || _b === void 0 ? void 0 : _b.toString(),
-                },
-                image: {
-                    url: ((_c = guild.bannerURL()) === null || _c === void 0 ? void 0 : _c.toString()) || '',
-                },
-                fields: [
+            yield interaction.followUp({
+                embeds: [
                     {
-                        name: 'サーバー作成日',
-                        value: '<t:' + Math.round(guild.createdAt.getTime() / 1000) + '>',
-                        inline: true,
-                    },
-                    {
-                        name: 'サーバー所有者',
-                        value: '<@!' + (yield guild.fetchOwner()).id + '>',
-                        inline: true,
-                    },
-                    {
-                        name: 'メンバー数',
-                        value: guild.memberCount + '人',
-                        inline: true,
-                    },
-                    {
-                        name: 'BANされたユーザー数',
-                        value: (yield guild.bans.fetch()).size.toString() + 'メンバー',
-                        inline: true,
-                    },
-                    {
-                        name: '認証レベル',
-                        value: verification_levels[guild.verificationLevel],
-                        inline: true,
-                    },
-                    {
-                        name: 'サーバーブースト進行度',
-                        value: (_d = createBoostBar()) !== null && _d !== void 0 ? _d : '生成中にエラーが発生しました',
+                        author: {
+                            name: guild.name,
+                            icon_url: (_b = guild.iconURL()) === null || _b === void 0 ? void 0 : _b.toString(),
+                        },
+                        image: {
+                            url: ((_c = guild.bannerURL()) === null || _c === void 0 ? void 0 : _c.toString()) || '',
+                        },
+                        fields: [
+                            {
+                                name: 'サーバー作成日',
+                                value: '<t:' + Math.round(guild.createdAt.getTime() / 1000) + '>',
+                                inline: true,
+                            },
+                            {
+                                name: 'サーバー所有者',
+                                value: '<@!' + (yield guild.fetchOwner()).id + '>',
+                                inline: true,
+                            },
+                            {
+                                name: 'メンバー数',
+                                value: guild.memberCount + '人',
+                                inline: true,
+                            },
+                            {
+                                name: 'BANされたユーザー数',
+                                value: (yield guild.bans.fetch()).size.toString() + 'メンバー',
+                                inline: true,
+                            },
+                            {
+                                name: '認証レベル',
+                                value: verification_levels[guild.verificationLevel],
+                                inline: true,
+                            },
+                            {
+                                name: 'サーバーブースト進行度',
+                                value: (_d = createBoostBar()) !== null && _d !== void 0 ? _d : '生成中にエラーが発生しました',
+                            },
+                        ],
+                        color: discord_js_1.Colors.Gold,
+                        footer: client.footer(),
                     },
                 ],
-                color: discord_js_1.Colors.Gold,
-                footer: client.footer(),
-            };
+            });
         }),
     },
 });
