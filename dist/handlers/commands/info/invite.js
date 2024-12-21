@@ -33,19 +33,15 @@ exports.default = new Command_1.Command({
     ],
     execute: {
         interaction: (_a) => __awaiter(void 0, [_a], void 0, function* ({ client, interaction }) {
-            var _b, _c;
-            if (!interaction.guild)
-                return;
-            const userId = ((_b = interaction.options.getUser('bot')) === null || _b === void 0 ? void 0 : _b.id) || ((_c = client.user) === null || _c === void 0 ? void 0 : _c.id);
-            const member = interaction.guild.members.cache.get(userId);
+            const user = interaction.options.getUser('bot') || client.user;
             const error = new CommandError_1.CommandError(interaction);
-            if (!member)
-                return yield error.create('指定されたユーザーはサーバー内に存在しません');
-            if (!member.user.bot)
+            if (!user)
+                return yield error.create('不明なユーザーです');
+            if (!user.bot)
                 return yield error.create('Botを指定する必要があります');
             const baseUrl = 'https://discord.com/oauth2/authorize';
             const url = new URL(baseUrl);
-            url.searchParams.set('client_id', member.id);
+            url.searchParams.set('client_id', user.id);
             url.searchParams.set('permissions', '8');
             url.searchParams.set('integration_type', '0');
             url.searchParams.set('scope', 'bot applications.commands');

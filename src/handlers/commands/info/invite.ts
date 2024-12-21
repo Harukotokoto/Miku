@@ -28,7 +28,6 @@ export default new Command({
   ],
   execute: {
     interaction: async ({ client, interaction }) => {
-      if (!interaction.guild) return;
       const user = interaction.options.getUser('bot') || client.user;
 
       const error = new CommandError(interaction);
