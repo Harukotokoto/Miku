@@ -10,7 +10,7 @@ export default new Command({
   description: 'Snowflakeを解析し、情報を出力します',
   options: [
     {
-      type: ApplicationCommandOptionType.Integer,
+      type: ApplicationCommandOptionType.String,
       name: 'snowflake',
       description: '内部ID',
       required: true,

@@ -16,7 +16,7 @@ exports.default = new Command_1.Command({
     description: 'Snowflakeを解析し、情報を出力します',
     options: [
         {
-            type: discord_js_1.ApplicationCommandOptionType.Integer,
+            type: discord_js_1.ApplicationCommandOptionType.String,
             name: 'snowflake',
             description: '内部ID',
             required: true,
