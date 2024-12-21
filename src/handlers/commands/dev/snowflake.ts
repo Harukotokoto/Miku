@@ -1,7 +1,9 @@
 import { Command } from '@/handlers/Command';
 import {
   ApplicationCommandOptionType,
+  ApplicationIntegrationType,
   Colors,
+  InteractionContextType,
   SnowflakeUtil,
 } from 'discord.js';
 
@@ -15,6 +17,15 @@ export default new Command({
       description: '内部ID',
       required: true,
     },
+  ],
+  contexts: [
+    InteractionContextType.PrivateChannel,
+    InteractionContextType.BotDM,
+    InteractionContextType.Guild,
+  ],
+  integrationTypes: [
+    ApplicationIntegrationType.UserInstall,
+    ApplicationIntegrationType.GuildInstall,
   ],
   execute: {
     interaction: async ({ client, interaction }) => {

@@ -14,7 +14,10 @@ export default new Command({
     InteractionContextType.BotDM,
     InteractionContextType.Guild,
   ],
-  integrationTypes: [ApplicationIntegrationType.UserInstall],
+  integrationTypes: [
+    ApplicationIntegrationType.UserInstall,
+    ApplicationIntegrationType.GuildInstall,
+  ],
   execute: {
     interaction: async ({ client, interaction }) => {
       const user = interaction.targetUser;

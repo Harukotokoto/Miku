@@ -1,9 +1,22 @@
 import { Command } from '@/libraries/Classes/Handlers/Command';
-import { Colors } from 'discord.js';
+import {
+  ApplicationIntegrationType,
+  Colors,
+  InteractionContextType,
+} from 'discord.js';
 
 export default new Command({
   name: 'ping',
   description: 'BotにPingを送信します',
+  contexts: [
+    InteractionContextType.PrivateChannel,
+    InteractionContextType.BotDM,
+    InteractionContextType.Guild,
+  ],
+  integrationTypes: [
+    ApplicationIntegrationType.UserInstall,
+    ApplicationIntegrationType.GuildInstall,
+  ],
   execute: {
     interaction: async ({ client, interaction }) => {
       const ping = client.ws.ping;

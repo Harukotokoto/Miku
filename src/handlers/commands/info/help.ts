@@ -1,10 +1,24 @@
 import { Command } from '@/handlers/Command';
-import { Colors, ComponentType } from 'discord.js';
+import {
+  ApplicationIntegrationType,
+  Colors,
+  ComponentType,
+  InteractionContextType,
+} from 'discord.js';
 import { getCommands } from '@/libraries/Functions/Util/getCommands';
 
 export default new Command({
   name: 'help',
   description: 'コマンドの詳細を表示します',
+  contexts: [
+    InteractionContextType.PrivateChannel,
+    InteractionContextType.BotDM,
+    InteractionContextType.Guild,
+  ],
+  integrationTypes: [
+    ApplicationIntegrationType.UserInstall,
+    ApplicationIntegrationType.GuildInstall,
+  ],
   execute: {
     interaction: async ({ client, interaction }) => {
       const commands = await getCommands();

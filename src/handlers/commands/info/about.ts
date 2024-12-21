@@ -1,9 +1,24 @@
 import { Command } from '@/handlers/Command';
-import { ButtonStyle, Colors, ComponentType } from 'discord.js';
+import {
+  ApplicationIntegrationType,
+  ButtonStyle,
+  Colors,
+  ComponentType,
+  InteractionContextType,
+} from 'discord.js';
 
 export default new Command({
   name: 'about',
   description: 'Mikuに関する情報を表示します',
+  contexts: [
+    InteractionContextType.PrivateChannel,
+    InteractionContextType.BotDM,
+    InteractionContextType.Guild,
+  ],
+  integrationTypes: [
+    ApplicationIntegrationType.UserInstall,
+    ApplicationIntegrationType.GuildInstall,
+  ],
   execute: {
     interaction: async ({ client, interaction }) => {
       await interaction.followUp({

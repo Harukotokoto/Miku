@@ -9,6 +9,15 @@ import {
 export default new Command({
   name: 'avatar',
   description: 'ユーザーのアバターを取得します',
+  contexts: [
+    InteractionContextType.PrivateChannel,
+    InteractionContextType.BotDM,
+    InteractionContextType.Guild,
+  ],
+  integrationTypes: [
+    ApplicationIntegrationType.UserInstall,
+    ApplicationIntegrationType.GuildInstall,
+  ],
   options: [
     {
       name: 'user',

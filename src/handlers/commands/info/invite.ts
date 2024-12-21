@@ -1,10 +1,24 @@
 import { Command } from '@/handlers/Command';
-import { ApplicationCommandOptionType, Colors } from 'discord.js';
+import {
+  ApplicationCommandOptionType,
+  ApplicationIntegrationType,
+  Colors,
+  InteractionContextType,
+} from 'discord.js';
 import { CommandError } from '@/handlers/CommandError';
 
 export default new Command({
   name: 'invite',
   description: 'Botの招待リンクを表示します',
+  contexts: [
+    InteractionContextType.PrivateChannel,
+    InteractionContextType.BotDM,
+    InteractionContextType.Guild,
+  ],
+  integrationTypes: [
+    ApplicationIntegrationType.UserInstall,
+    ApplicationIntegrationType.GuildInstall,
+  ],
   options: [
     {
       name: 'bot',
