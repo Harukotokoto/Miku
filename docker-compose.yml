@@ -6,4 +6,4 @@ services:
       - VOIDS_API=${VOIDS_API}
     volumes:
       - ./logs:/usr/src/app/logs
-    restart: unless-stopped
+    restart: always
