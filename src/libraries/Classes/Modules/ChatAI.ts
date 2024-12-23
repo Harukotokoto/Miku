@@ -55,16 +55,7 @@ export class ChatAI {
     const json: AvailableModels = response.data;
 
     if (options?.category) {
-      switch (options.category) {
-        case ModelCategories.ChatGPT:
-          return json.data.filter((data) => data.owned_by === 'openai');
-        case ModelCategories.Grok:
-          return json.data.filter((data) => data.owned_by === 'x.ai');
-        case ModelCategories.Claude:
-          return json.data.filter((data) => data.owned_by === 'anthropic');
-        case ModelCategories.Gemini:
-          return json.data.filter((data) => data.owned_by === 'google');
-      }
+      return json.data.filter((data) => data.owned_by.match(options.category));
     } else if (options?.model) {
       return json.data.filter((data) => data.id.match(options.model));
     } else {

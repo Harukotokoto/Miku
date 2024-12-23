@@ -1,6 +1,6 @@
 export enum ModelCategories {
-  ChatGPT = 'ChatGPT',
-  Grok = 'Grok',
-  Claude = 'Claude',
-  Gemini = 'Gemini',
+  ChatGPT = 'openai',
+  Grok = 'x.ai',
+  Claude = 'anthropic',
+  Gemini = 'google',
 }
