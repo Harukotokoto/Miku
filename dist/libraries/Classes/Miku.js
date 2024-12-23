@@ -52,6 +52,7 @@ const util_1 = require("util");
 const glob_1 = __importDefault(require("glob"));
 const index_1 = require("../../index");
 const pin_message_1 = require("../Models/pin_message");
+const mongoose = __importStar(require("mongoose"));
 require('dotenv').config();
 class Miku extends discord_js_1.Client {
     constructor(options) {
@@ -102,6 +103,12 @@ class Miku extends discord_js_1.Client {
         this.loadPinnedChannels().then(() => {
             this.logger.info('メッセージが固定されているチャンネルをキャッシュしました');
         });
+        this.connect().then(() => {
+            this.logger.info(`MongoDBに接続しました`);
+        });
+    }
+    connect() {
+        return mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_TABLE}`);
     }
     importFile(filePath) {
         return __awaiter(this, void 0, void 0, function* () {
