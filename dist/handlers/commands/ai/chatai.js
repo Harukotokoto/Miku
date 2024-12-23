@@ -15,6 +15,7 @@ const ChatAI_1 = require("../../../libraries/Classes/Modules/ChatAI");
 const CommandError_1 = require("../../../libraries/Classes/Handlers/CommandError");
 const Pagination_1 = require("../../../libraries/Classes/Utils/Pagination");
 const AIRoles_1 = require("../../../libraries/Enums/AIRoles");
+const Emoji_1 = require("../../../libraries/Enums/Emoji");
 exports.default = new Command_1.Command({
     name: 'chatai',
     description: 'AIと会話します',
@@ -106,6 +107,17 @@ exports.default = new Command_1.Command({
                 if (model.length === 0) {
                     return yield create('指定されたモデルが見つかりませんでした');
                 }
+                yield interaction.followUp({
+                    embeds: [
+                        {
+                            description: `${Emoji_1.Emoji.Loading} 生成中です...`,
+                            color: discord_js_1.Colors.Yellow,
+                            footer: {
+                                text: 'Powered by [Voids API](<https://voids.top/>)',
+                            },
+                        },
+                    ],
+                });
                 const ai = new ChatAI_1.ChatAI({
                     model: model[0].id,
                 });
@@ -117,13 +129,13 @@ exports.default = new Command_1.Command({
                         },
                     ],
                 });
-                yield interaction.followUp({
+                yield interaction.editReply({
                     embeds: [
                         {
                             description: response,
                             color: discord_js_1.Colors.Green,
                             footer: {
-                                text: `${ChatAI_1.ChatAI.modelDictionaly[model[0].owned_by]}(${model[0].id}) | Powered by Voids.top`,
+                                text: `${ChatAI_1.ChatAI.modelDictionaly[model[0].owned_by]} (${model[0].id}) | Powered by [Voids API](<https://voids.top/>)`,
                             },
                         },
                     ],

@@ -122,7 +122,7 @@ export default new Command({
               description: `${Emoji.Loading} 生成中です...`,
               color: Colors.Yellow,
               footer: {
-                text: 'Powered by [Voids API](<https://voids.top/>)',
+                text: `${ChatAI.modelDictionaly[model[0].owned_by]} (${model[0].id}) | Powered by Voids API`,
               },
             },
           ],
@@ -147,7 +147,7 @@ export default new Command({
               description: response,
               color: Colors.Green,
               footer: {
-                text: `${ChatAI.modelDictionaly[model[0].owned_by]} (${model[0].id}) | Powered by [Voids API](<https://voids.top/>)`,
+                text: `${ChatAI.modelDictionaly[model[0].owned_by]} (${model[0].id}) | Powered by Voids API`,
               },
             },
           ],

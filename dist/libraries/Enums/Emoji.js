@@ -9,4 +9,5 @@ var Emoji;
     Emoji["Right_0"] = "<:0_right:1320001846697394217>";
     Emoji["Middle_0"] = "<:0_middle:1320001861981437993>";
     Emoji["Left_0"] = "<:0_left:1320001871796113410>";
+    Emoji["Loading"] = "<a:loading:1320632880543830070>";
 })(Emoji || (exports.Emoji = Emoji = {}));
