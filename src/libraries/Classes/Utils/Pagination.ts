@@ -78,16 +78,16 @@ export class Pagination {
     });
 
     collector.on('end', async () => {
-      const disabledActionRow = {
-        ...components,
-        components: components[0].components.map((button) => ({
+      const disabledComponents = components.map((actionRow) => ({
+        ...actionRow,
+        components: actionRow.components.map((button) => ({
           ...button,
           disabled: true,
         })),
-      };
+      }));
 
       await message.edit({
-        components: disabledActionRow,
+        components: disabledComponents,
       });
     });
   }
