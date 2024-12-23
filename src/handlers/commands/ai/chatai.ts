@@ -1,5 +1,5 @@
 import { Command } from '@/handlers/Command';
-import { APIEmbed, ApplicationCommandOptionType, Colors } from 'discord.js';
+import { APIEmbed, ApplicationCommandOptionType, Colors, ApplicationIntegrationType, InteractionContextType } from 'discord.js';
 import { ChatAI } from '@/libraries/Classes/Modules/ChatAI';
 import { ModelCategories } from '@/libraries/Enums/ModelCategories';
 import { CommandError } from '@/handlers/CommandError';
