@@ -34,12 +34,12 @@ export default new Command({
       const { create } = new CommandError(interaction);
 
       if (cmd === 'models') {
-        const category = interaction.options.getString('category');
+        const category = interaction.options.getString(
+          'category',
+        ) as ModelCategories;
 
         const models = category
-          ? await ChatAI.getModels({
-              category: category as ModelCategories,
-            })
+          ? await ChatAI.getModels({ category })
           : await ChatAI.getModels();
 
         const sortedModels = models.reduce(
@@ -53,24 +53,30 @@ export default new Command({
           {} as Record<string, string[]>,
         );
 
-        const categories = Object.keys(sortedModels);
+        const filteredCategories = category
+          ? { [category]: sortedModels[category] }
+          : sortedModels;
 
         const embedData: APIEmbed[] = [];
         let pageContent: string[] = [];
 
-        categories.forEach((category, categoryIndex) => {
-          sortedModels[category].forEach((id, index) => {
+        Object.keys(filteredCategories).forEach((category) => {
+          const modelsInCategory = filteredCategories[category];
+          modelsInCategory.forEach((id, index) => {
             pageContent.push(`${index + 1}. ${id}`);
             if (
               pageContent.length === 10 ||
-              (categoryIndex === categories.length - 1 &&
-                index === sortedModels[category].length - 1)
+              index === modelsInCategory.length - 1
             ) {
+              const modelDictionaly: Record<string, string> = {
+                openai: 'ChatGPT',
+                'x.ai': 'Grok',
+                anthropic: 'Claude',
+                google: 'Gemini',
+              };
               embedData.push({
-                title: `Models - ${category}`,
-                description: pageContent
-                  .map((content, index) => `${index + 1}. ${content}`)
-                  .join('\n'),
+                title: `Models - ${modelDictionaly[category]}`,
+                description: pageContent.join('\n'),
                 color: Colors.Aqua,
               });
               pageContent = [];
