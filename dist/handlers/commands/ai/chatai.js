@@ -113,7 +113,7 @@ exports.default = new Command_1.Command({
                             description: `${Emoji_1.Emoji.Loading} 生成中です...`,
                             color: discord_js_1.Colors.Yellow,
                             footer: {
-                                text: 'Powered by [Voids API](<https://voids.top/>)',
+                                text: `${ChatAI_1.ChatAI.modelDictionaly[model[0].owned_by]} (${model[0].id}) | Powered by Voids API`,
                             },
                         },
                     ],
@@ -135,7 +135,7 @@ exports.default = new Command_1.Command({
                             description: response,
                             color: discord_js_1.Colors.Green,
                             footer: {
-                                text: `${ChatAI_1.ChatAI.modelDictionaly[model[0].owned_by]} (${model[0].id}) | Powered by [Voids API](<https://voids.top/>)`,
+                                text: `${ChatAI_1.ChatAI.modelDictionaly[model[0].owned_by]} (${model[0].id}) | Powered by Voids API`,
                             },
                         },
                     ],

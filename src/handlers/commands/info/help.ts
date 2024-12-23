@@ -32,6 +32,7 @@ export default new Command({
         fun: 'ネタ系コマンド',
         dev: '開発者向けコマンド',
         auth: '認証系コマンド',
+        ai: 'AI系コマンド',
       };
 
       function getCategoryDisplayName(category: string) {
