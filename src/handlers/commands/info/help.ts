@@ -33,6 +33,7 @@ export default new Command({
         dev: '開発者向けコマンド',
         auth: '認証系コマンド',
         ai: 'AI系コマンド',
+        util: '便利系コマンド',
       };
 
       function getCategoryDisplayName(category: string) {

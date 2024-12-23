@@ -13,6 +13,7 @@ import { CommandType } from '@/interfaces/Command';
 import { Event } from '@/libraries/Classes/Handlers/Event';
 import { client } from '@/index';
 import { MikuOptions } from '@/interfaces/MikuOptions';
+import { pin_model } from '@/libraries/Models/pin_message';
 
 require('dotenv').config();
 
@@ -41,6 +42,24 @@ export class Miku extends Client {
     };
   }
 
+  public pinned_channels: string[] = [];
+  private async loadPinnedChannels() {
+    const datas = await pin_model.find();
+    this.pinned_channels = datas.map((data) => data.ChannelID);
+  }
+
+  public addPinnedChannels(id: string) {
+    if (!this.pinned_channels.includes(id)) {
+      this.pinned_channels.push(id);
+    }
+  }
+
+  public removePinnedChannels(id: string) {
+    this.pinned_channels = this.pinned_channels.filter(
+      (channelId) => channelId !== id,
+    );
+  }
+
   public run() {
     this.login(process.env.CLIENT_TOKEN)
       .then(() => {
@@ -56,6 +75,12 @@ export class Miku extends Client {
 
     this.registerEvents().then(() => {
       this.logger.info('全てのイベントが正常に登録されました');
+    });
+
+    this.loadPinnedChannels().then(() => {
+      this.logger.info(
+        'メッセージが固定されているチャンネルをキャッシュしました',
+      );
     });
   }
 
