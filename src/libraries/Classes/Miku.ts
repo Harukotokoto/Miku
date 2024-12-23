@@ -14,6 +14,7 @@ import { Event } from '@/libraries/Classes/Handlers/Event';
 import { client } from '@/index';
 import { MikuOptions } from '@/interfaces/MikuOptions';
 import { pin_model } from '@/libraries/Models/pin_message';
+import * as mongoose from 'mongoose';
 
 require('dotenv').config();
 
@@ -43,6 +44,7 @@ export class Miku extends Client {
   }
 
   public pinned_channels: string[] = [];
+
   private async loadPinnedChannels() {
     const datas = await pin_model.find();
     this.pinned_channels = datas.map((data) => data.ChannelID);
@@ -82,6 +84,16 @@ export class Miku extends Client {
         'メッセージが固定されているチャンネルをキャッシュしました',
       );
     });
+
+    this.connect().then(() => {
+      this.logger.info(`MongoDBに接続しました`);
+    });
+  }
+
+  private connect() {
+    return mongoose.connect(
+      `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_TABLE}`,
+    );
   }
 
   public commands: Collection<string, CommandType> = new Collection();

@@ -51,12 +51,14 @@ const Logger_1 = require("../Classes/Utils/Logger");
 const util_1 = require("util");
 const glob_1 = __importDefault(require("glob"));
 const index_1 = require("../../index");
+const pin_message_1 = require("../Models/pin_message");
 require('dotenv').config();
 class Miku extends discord_js_1.Client {
     constructor(options) {
         super(options);
         this.globPromise = (0, util_1.promisify)(glob_1.default);
         this.logger = new Logger_1.Logger();
+        this.pinned_channels = [];
         this.commands = new discord_js_1.Collection();
         this.debugMode = options.debugMode || false;
         this.admins = options.admins || [];
@@ -68,6 +70,20 @@ class Miku extends discord_js_1.Client {
             text: 'Produced by Harukoto',
             iconURL: user === null || user === void 0 ? void 0 : user.displayAvatarURL(),
         };
+    }
+    loadPinnedChannels() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const datas = yield pin_message_1.pin_model.find();
+            this.pinned_channels = datas.map((data) => data.ChannelID);
+        });
+    }
+    addPinnedChannels(id) {
+        if (!this.pinned_channels.includes(id)) {
+            this.pinned_channels.push(id);
+        }
+    }
+    removePinnedChannels(id) {
+        this.pinned_channels = this.pinned_channels.filter((channelId) => channelId !== id);
     }
     run() {
         this.login(process.env.CLIENT_TOKEN)
@@ -82,6 +98,9 @@ class Miku extends discord_js_1.Client {
         });
         this.registerEvents().then(() => {
             this.logger.info('全てのイベントが正常に登録されました');
+        });
+        this.loadPinnedChannels().then(() => {
+            this.logger.info('メッセージが固定されているチャンネルをキャッシュしました');
         });
     }
     importFile(filePath) {

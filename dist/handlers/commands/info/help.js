@@ -35,6 +35,8 @@ exports.default = new Command_1.Command({
                 fun: 'ネタ系コマンド',
                 dev: '開発者向けコマンド',
                 auth: '認証系コマンド',
+                ai: 'AI系コマンド',
+                util: '便利系コマンド',
             };
             function getCategoryDisplayName(category) {
                 if (categoryDictionary[category]) {
