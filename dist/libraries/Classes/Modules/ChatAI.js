@@ -69,3 +69,9 @@ class ChatAI {
     }
 }
 exports.ChatAI = ChatAI;
+ChatAI.modelDictionaly = {
+    openai: 'ChatGPT',
+    'x.ai': 'Grok',
+    anthropic: 'Claude',
+    google: 'Gemini',
+};

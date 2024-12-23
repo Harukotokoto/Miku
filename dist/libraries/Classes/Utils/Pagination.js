@@ -70,9 +70,9 @@ class Pagination {
                 });
             }));
             collector.on('end', () => __awaiter(this, void 0, void 0, function* () {
-                const disabledActionRow = Object.assign(Object.assign({}, components), { components: components[0].components.map((button) => (Object.assign(Object.assign({}, button), { disabled: true }))) });
+                const disabledComponents = components.map((actionRow) => (Object.assign(Object.assign({}, actionRow), { components: actionRow.components.map((button) => (Object.assign(Object.assign({}, button), { disabled: true }))) })));
                 yield message.edit({
-                    components: disabledActionRow,
+                    components: disabledComponents,
                 });
             }));
         });

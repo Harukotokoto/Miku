@@ -14,6 +14,7 @@ const discord_js_1 = require("discord.js");
 const ChatAI_1 = require("../../../libraries/Classes/Modules/ChatAI");
 const CommandError_1 = require("../../../libraries/Classes/Handlers/CommandError");
 const Pagination_1 = require("../../../libraries/Classes/Utils/Pagination");
+const AIRoles_1 = require("../../../libraries/Enums/AIRoles");
 exports.default = new Command_1.Command({
     name: 'chatai',
     description: 'AIと会話します',
@@ -33,6 +34,25 @@ exports.default = new Command_1.Command({
                         { name: 'Gemini', value: 'google' },
                     ],
                     type: discord_js_1.ApplicationCommandOptionType.String,
+                },
+            ],
+        },
+        {
+            name: 'chat',
+            description: 'AIと会話します',
+            type: discord_js_1.ApplicationCommandOptionType.Subcommand,
+            options: [
+                {
+                    name: 'content',
+                    type: discord_js_1.ApplicationCommandOptionType.String,
+                    description: '内容',
+                    required: true,
+                },
+                {
+                    name: 'model',
+                    type: discord_js_1.ApplicationCommandOptionType.String,
+                    autocomplete: true,
+                    description: '使用するモデル',
                 },
             ],
         },
@@ -64,14 +84,8 @@ exports.default = new Command_1.Command({
                         pageContent.push(`${index + 1}. ${id}`);
                         if (pageContent.length === 10 ||
                             index === modelsInCategory.length - 1) {
-                            const modelDictionaly = {
-                                openai: 'ChatGPT',
-                                'x.ai': 'Grok',
-                                anthropic: 'Claude',
-                                google: 'Gemini',
-                            };
                             embedData.push({
-                                title: `Models - ${modelDictionaly[category]}`,
+                                title: `Models - ${ChatAI_1.ChatAI.modelDictionaly[category]}`,
                                 description: pageContent.join('\n'),
                                 color: discord_js_1.Colors.Aqua,
                             });
@@ -86,6 +100,45 @@ exports.default = new Command_1.Command({
                 });
                 yield pagination.build();
             }
+            if (cmd === 'chat') {
+                const selectedModel = interaction.options.getString('model') || 'gpt-4-turbo-2024-04-09';
+                const model = yield ChatAI_1.ChatAI.getModels({ model: selectedModel });
+                if (model.length === 0) {
+                    return yield create('指定されたモデルが見つかりませんでした');
+                }
+                const ai = new ChatAI_1.ChatAI({
+                    model: model[0].id,
+                });
+                const response = yield ai.generate({
+                    messages: [
+                        {
+                            role: AIRoles_1.AIRoles.User,
+                            content: interaction.options.getString('content', true),
+                        },
+                    ],
+                });
+                yield interaction.followUp({
+                    embeds: [
+                        {
+                            description: response,
+                            color: discord_js_1.Colors.Green,
+                            footer: {
+                                text: `${ChatAI_1.ChatAI.modelDictionaly[model[0].owned_by]}(${model[0].id}) | Powered by Voids.top`,
+                            },
+                        },
+                    ],
+                });
+            }
+        }),
+        autoComplete: (_a) => __awaiter(void 0, [_a], void 0, function* ({ client, interaction }) {
+            const models = yield ChatAI_1.ChatAI.getModels();
+            const modelIds = models.map((model) => model.id);
+            yield interaction.respond(modelIds.map((modelId) => {
+                return {
+                    name: modelId,
+                    value: modelId,
+                };
+            }));
         }),
     },
 });

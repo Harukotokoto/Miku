@@ -5,4 +5,5 @@ export enum Emoji {
   Right_0 = '<:0_right:1320001846697394217>',
   Middle_0 = '<:0_middle:1320001861981437993>',
   Left_0 = '<:0_left:1320001871796113410>',
+  Loading = '<a:loading:1320632880543830070>',
 }

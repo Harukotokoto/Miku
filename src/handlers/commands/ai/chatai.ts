@@ -5,6 +5,7 @@ import { ModelCategories } from '@/libraries/Enums/ModelCategories';
 import { CommandError } from '@/handlers/CommandError';
 import { Pagination } from '@/libraries/Classes/Utils/Pagination';
 import { AIRoles } from '@/libraries/Enums/AIRoles';
+import { Emoji } from '@/libraries/Enums/Emoji';
 
 export default new Command({
   name: 'chatai',
@@ -115,6 +116,18 @@ export default new Command({
           return await create('指定されたモデルが見つかりませんでした');
         }
 
+        await interaction.followUp({
+          embeds: [
+            {
+              description: `${Emoji.Loading} 生成中です...`,
+              color: Colors.Yellow,
+              footer: {
+                text: 'Powered by [Voids API](<https://voids.top/>)',
+              },
+            },
+          ],
+        });
+
         const ai = new ChatAI({
           model: model[0].id,
         });
@@ -128,13 +141,13 @@ export default new Command({
           ],
         });
 
-        await interaction.followUp({
+        await interaction.editReply({
           embeds: [
             {
               description: response,
               color: Colors.Green,
               footer: {
-                text: `${ChatAI.modelDictionaly[model[0].owned_by]}(${model[0].id}) | Powered by Voids.top`,
+                text: `${ChatAI.modelDictionaly[model[0].owned_by]} (${model[0].id}) | Powered by [Voids API](<https://voids.top/>)`,
               },
             },
           ],
