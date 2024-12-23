@@ -10,6 +10,15 @@ import { Emoji } from '@/libraries/Enums/Emoji';
 export default new Command({
   name: 'chatai',
   description: 'AIと会話します',
+  contexts: [
+    InteractionContextType.PrivateChannel,
+    InteractionContextType.BotDM,
+    InteractionContextType.Guild,
+  ],
+  integrationTypes: [
+    ApplicationIntegrationType.UserInstall,
+    ApplicationIntegrationType.GuildInstall,
+  ],
   options: [
     {
       name: 'models',
