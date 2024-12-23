@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Command_1 = require("../../../libraries/Classes/Handlers/Command");
 const discord_js_1 = require("discord.js");
 const ChatAI_1 = require("../../../libraries/Classes/Modules/ChatAI");
-const ModelCategories_1 = require("../../../libraries/Enums/ModelCategories");
 const CommandError_1 = require("../../../libraries/Classes/Handlers/CommandError");
 const Pagination_1 = require("../../../libraries/Classes/Utils/Pagination");
 exports.default = new Command_1.Command({
@@ -44,11 +43,9 @@ exports.default = new Command_1.Command({
             const { create } = new CommandError_1.CommandError(interaction);
             if (cmd === 'models') {
                 const category = interaction.options.getString('category');
-                // モデルの取得
                 const models = category
-                    ? yield ChatAI_1.ChatAI.getModels({ category }) // カテゴリが指定されていればそのカテゴリのみ取得
-                    : yield ChatAI_1.ChatAI.getModels(); // カテゴリが指定されていなければ全て取得
-                // モデルをカテゴリごとに分類
+                    ? yield ChatAI_1.ChatAI.getModels({ category })
+                    : yield ChatAI_1.ChatAI.getModels();
                 const sortedModels = models.reduce((acc, model) => {
                     if (!acc[model.owned_by]) {
                         acc[model.owned_by] = [];
@@ -56,22 +53,25 @@ exports.default = new Command_1.Command({
                     acc[model.owned_by].push(model.id);
                     return acc;
                 }, {});
-                // カテゴリが存在する場合に絞り込む
                 const filteredCategories = category
                     ? { [category]: sortedModels[category] }
                     : sortedModels;
                 const embedData = [];
                 let pageContent = [];
-                // ページネーション用のモデルを作成
                 Object.keys(filteredCategories).forEach((category) => {
                     const modelsInCategory = filteredCategories[category];
                     modelsInCategory.forEach((id, index) => {
                         pageContent.push(`${index + 1}. ${id}`);
                         if (pageContent.length === 10 ||
                             index === modelsInCategory.length - 1) {
-                            // ModelCategoriesのenumを使用して、カテゴリ名をタイトルに反映
+                            const modelDictionaly = {
+                                openai: 'ChatGPT',
+                                'x.ai': 'Grok',
+                                anthropic: 'Claude',
+                                google: 'Gemini',
+                            };
                             embedData.push({
-                                title: `Models - ${ModelCategories_1.ModelCategories[category]}`, // Enumを使用してタイトルにカテゴリ名を表示
+                                title: `Models - ${modelDictionaly[category]}`,
                                 description: pageContent.join('\n'),
                                 color: discord_js_1.Colors.Aqua,
                             });

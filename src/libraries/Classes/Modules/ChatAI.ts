@@ -12,6 +12,13 @@ export class ChatAI {
   private readonly model: string | null;
   private originUrl = `${process.env.VOIDS_API}/v1`;
 
+  public static modelDictionaly: Record<string, string> = {
+    openai: 'ChatGPT',
+    'x.ai': 'Grok',
+    anthropic: 'Claude',
+    google: 'Gemini',
+  };
+
   constructor(options: AIOptions) {
     this.category = options.category || null;
     this.model = options.model || null;

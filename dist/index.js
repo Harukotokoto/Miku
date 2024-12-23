@@ -16,10 +16,10 @@ exports.client = new Miku_1.Miku({
     admins: ['1004365048887660655', '957885295251034112'],
     prefix: 'm.',
 });
-process.on('unhandledRejection', (err) => {
-    exports.client.logger.error(err);
-});
-process.on('uncaughtException', (err) => {
-    exports.client.logger.error(err.message);
-});
+// process.on('unhandledRejection', (err) => {
+//   client.logger.error(err as string);
+// });
+// process.on('uncaughtException', (err) => {
+//   client.logger.error(err.message);
+// });
 exports.client.run();

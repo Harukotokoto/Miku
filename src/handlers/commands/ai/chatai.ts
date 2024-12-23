@@ -4,6 +4,7 @@ import { ChatAI } from '@/libraries/Classes/Modules/ChatAI';
 import { ModelCategories } from '@/libraries/Enums/ModelCategories';
 import { CommandError } from '@/handlers/CommandError';
 import { Pagination } from '@/libraries/Classes/Utils/Pagination';
+import { AIRoles } from '@/libraries/Enums/AIRoles';
 
 export default new Command({
   name: 'chatai',
@@ -24,6 +25,25 @@ export default new Command({
             { name: 'Gemini', value: 'google' },
           ],
           type: ApplicationCommandOptionType.String,
+        },
+      ],
+    },
+    {
+      name: 'chat',
+      description: 'AIと会話します',
+      type: ApplicationCommandOptionType.Subcommand,
+      options: [
+        {
+          name: 'content',
+          type: ApplicationCommandOptionType.String,
+          description: '内容',
+          required: true,
+        },
+        {
+          name: 'model',
+          type: ApplicationCommandOptionType.String,
+          autocomplete: true,
+          description: '使用するモデル',
         },
       ],
     },
@@ -68,14 +88,8 @@ export default new Command({
               pageContent.length === 10 ||
               index === modelsInCategory.length - 1
             ) {
-              const modelDictionaly: Record<string, string> = {
-                openai: 'ChatGPT',
-                'x.ai': 'Grok',
-                anthropic: 'Claude',
-                google: 'Gemini',
-              };
               embedData.push({
-                title: `Models - ${modelDictionaly[category]}`,
+                title: `Models - ${ChatAI.modelDictionaly[category]}`,
                 description: pageContent.join('\n'),
                 color: Colors.Aqua,
               });
@@ -92,6 +106,53 @@ export default new Command({
 
         await pagination.build();
       }
+
+      if (cmd === 'chat') {
+        const selectedModel =
+          interaction.options.getString('model') || 'gpt-4-turbo-2024-04-09';
+        const model = await ChatAI.getModels({ model: selectedModel });
+        if (model.length === 0) {
+          return await create('指定されたモデルが見つかりませんでした');
+        }
+
+        const ai = new ChatAI({
+          model: model[0].id,
+        });
+
+        const response = await ai.generate({
+          messages: [
+            {
+              role: AIRoles.User,
+              content: interaction.options.getString('content', true),
+            },
+          ],
+        });
+
+        await interaction.followUp({
+          embeds: [
+            {
+              description: response,
+              color: Colors.Green,
+              footer: {
+                text: `${ChatAI.modelDictionaly[model[0].owned_by]}(${model[0].id}) | Powered by Voids.top`,
+              },
+            },
+          ],
+        });
+      }
+    },
+    autoComplete: async ({ client, interaction }) => {
+      const models = await ChatAI.getModels();
+      const modelIds = models.map((model) => model.id);
+
+      await interaction.respond(
+        modelIds.map((modelId) => {
+          return {
+            name: modelId,
+            value: modelId,
+          };
+        }),
+      );
     },
   },
 });
