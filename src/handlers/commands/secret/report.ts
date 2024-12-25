@@ -1,6 +1,6 @@
 import { Command } from '@/handlers/Command';
 import { ApplicationCommandOptionType, Colors } from 'discord.js';
-import axios from 'axios';
+import { CoolTime } from '@/libraries/Classes/Utils/CoolTime';
 
 export default new Command({
   name: 'report',
@@ -32,8 +32,9 @@ export default new Command({
       const cmd = interaction.options.getSubcommand();
 
       const ct = new CoolTime(interaction.user.id);
+      const cooldown = ct.getCoolTime(1000 * 60 * 60 * 3);
 
-      if (ct.getCoolTime(1000 * 60 * 60 * 3)) {
+      if (cooldown) {
         const next = ct.getNextAvailableTime(1000 * 60 * 60 * 3);
         if (!next) return;
 

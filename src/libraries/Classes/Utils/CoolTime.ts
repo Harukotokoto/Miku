@@ -1,4 +1,4 @@
-class CoolTime {
+export class CoolTime {
   private static coolTimeData: { userId: string; lastUsed: Date }[] = [];
   private readonly userId: string;
 

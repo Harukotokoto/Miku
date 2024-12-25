@@ -30,4 +30,15 @@ exports.default = new Event_1.Event('ready', () => __awaiter(void 0, void 0, voi
             status: 'dnd',
         });
     }
+    else {
+        index_1.client.user.setPresence({
+            activities: [
+                {
+                    name: 'Im Here!',
+                    type: discord_js_1.ActivityType.Playing,
+                },
+            ],
+            status: 'online',
+        });
+    }
 }));

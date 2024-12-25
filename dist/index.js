@@ -12,8 +12,8 @@ exports.client = new Miku_1.Miku({
     allowedMentions: {
         repliedUser: false,
     },
-    debugMode: true,
-    admins: ['1004365048887660655', '957885295251034112'],
+    debugMode: false,
+    admins: ['1004365048887660655', '957885295251034112', '1301893603328786464'],
     prefix: 'm.',
 });
 process.on('unhandledRejection', (err) => {

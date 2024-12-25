@@ -19,6 +19,15 @@ const Emoji_1 = require("../../../libraries/Enums/Emoji");
 exports.default = new Command_1.Command({
     name: 'chatai',
     description: 'AIと会話します',
+    contexts: [
+        discord_js_1.InteractionContextType.PrivateChannel,
+        discord_js_1.InteractionContextType.BotDM,
+        discord_js_1.InteractionContextType.Guild,
+    ],
+    integrationTypes: [
+        discord_js_1.ApplicationIntegrationType.UserInstall,
+        discord_js_1.ApplicationIntegrationType.GuildInstall,
+    ],
     options: [
         {
             name: 'models',
