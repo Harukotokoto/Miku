@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CoolTime = void 0;
 class CoolTime {
     constructor(userId) {
         this.userId = userId;
@@ -30,4 +32,5 @@ class CoolTime {
         return null;
     }
 }
+exports.CoolTime = CoolTime;
 CoolTime.coolTimeData = [];

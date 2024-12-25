@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const Command_1 = require("../../../libraries/Classes/Handlers/Command");
 const discord_js_1 = require("discord.js");
+const CoolTime_1 = require("../../../libraries/Classes/Utils/CoolTime");
 exports.default = new Command_1.Command({
     name: 'report',
     isOwnerCommand: true,
@@ -39,7 +40,7 @@ exports.default = new Command_1.Command({
     execute: {
         interaction: (_a) => __awaiter(void 0, [_a], void 0, function* ({ client, interaction }) {
             const cmd = interaction.options.getSubcommand();
-            const ct = new CoolTime(interaction.user.id);
+            const ct = new CoolTime_1.CoolTime(interaction.user.id);
             const cooldown = ct.getCoolTime(1000 * 60 * 60 * 3);
             if (cooldown) {
                 const next = ct.getNextAvailableTime(1000 * 60 * 60 * 3);
@@ -58,16 +59,17 @@ exports.default = new Command_1.Command({
                 });
             }
             if (cmd === 'user') {
+                ct.setCoolTime();
                 const user = interaction.options.getUser('user', true);
                 yield interaction.followUp({
                     embeds: [
                         {
                             title: 'ユーザーを通報',
                             description: `${user.displayName}(${user.tag})を通報します\n` +
-                                '**Target:**\n' +
+                                '- **Target:**\n' +
                                 `  - **Name:** ${user.username}\n` +
                                 `  - **ID:** ${user.id}\n` +
-                                '**Status:**\n' +
+                                '- **Status:**\n' +
                                 '  - **Threads:** 1/1\n' +
                                 '  - **Request:** 0/6000',
                             color: discord_js_1.Colors.Blue,
@@ -90,12 +92,12 @@ exports.default = new Command_1.Command({
                             {
                                 title: 'ユーザーを通報',
                                 description: `${user.displayName}(${user.tag})を通報します\n` +
-                                    '**Target:**\n' +
-                                    ` - **Name:** ${user.username}\n` +
-                                    ` - **ID:** ${user.id}\n` +
-                                    '- Status:\n' +
-                                    ' - Threads: 1/1\n' +
-                                    ` - Request: ${sum}/6000`,
+                                    '- **Target:**\n' +
+                                    `  - **Name:** ${user.username}\n` +
+                                    `  - **ID:** ${user.id}\n` +
+                                    '- **Status:**\n' +
+                                    '  - Threads: 1/1\n' +
+                                    `  - Request: ${sum}/6000`,
                                 color: discord_js_1.Colors.Blue,
                                 footer: client.footer(),
                             },
@@ -115,7 +117,6 @@ exports.default = new Command_1.Command({
                         },
                     ],
                 });
-                ct.setCoolTime();
             }
         }),
     },

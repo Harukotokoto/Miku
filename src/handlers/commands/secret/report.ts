@@ -53,6 +53,7 @@ export default new Command({
       }
 
       if (cmd === 'user') {
+        ct.setCoolTime();
         const user = interaction.options.getUser('user', true);
 
         await interaction.followUp({
@@ -61,10 +62,10 @@ export default new Command({
               title: 'ユーザーを通報',
               description:
                 `${user.displayName}(${user.tag})を通報します\n` +
-                '**Target:**\n' +
+                '- **Target:**\n' +
                 `  - **Name:** ${user.username}\n` +
                 `  - **ID:** ${user.id}\n` +
-                '**Status:**\n' +
+                '- **Status:**\n' +
                 '  - **Threads:** 1/1\n' +
                 '  - **Request:** 0/6000',
               color: Colors.Blue,
@@ -94,12 +95,12 @@ export default new Command({
                 title: 'ユーザーを通報',
                 description:
                   `${user.displayName}(${user.tag})を通報します\n` +
-                  '**Target:**\n' +
-                  ` - **Name:** ${user.username}\n` +
-                  ` - **ID:** ${user.id}\n` +
-                  '- Status:\n' +
-                  ' - Threads: 1/1\n' +
-                  ` - Request: ${sum}/6000`,
+                  '- **Target:**\n' +
+                  `  - **Name:** ${user.username}\n` +
+                  `  - **ID:** ${user.id}\n` +
+                  '- **Status:**\n' +
+                  '  - Threads: 1/1\n' +
+                  `  - Request: ${sum}/6000`,
                 color: Colors.Blue,
                 footer: client.footer(),
               },
@@ -122,8 +123,6 @@ export default new Command({
             },
           ],
         });
-
-        ct.setCoolTime();
       }
     },
   },
