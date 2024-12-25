@@ -1,11 +1,20 @@
 import { Command } from '@/handlers/Command';
-import { ApplicationCommandOptionType, Colors } from 'discord.js';
+import { ApplicationCommandOptionType, ApplicationIntegrationType, Colors, InteractionContextType } from 'discord.js';
 import { CoolTime } from '@/libraries/Classes/Utils/CoolTime';
 
 export default new Command({
   name: 'report',
   isOwnerCommand: true,
   description: 'report',
+  contexts: [
+    InteractionContextType.PrivateChannel,
+    InteractionContextType.BotDM,
+    InteractionContextType.Guild,
+  ],
+  integrationTypes: [
+    ApplicationIntegrationType.UserInstall,
+    ApplicationIntegrationType.GuildInstall,
+  ],
   options: [
     {
       name: 'user',
