@@ -31,6 +31,26 @@ export default new Command({
     interaction: async ({ client, interaction }) => {
       const cmd = interaction.options.getSubcommand();
 
+      const ct = new CoolTime(interaction.user.id);
+
+      if (ct.getCoolTime(1000 * 60 * 60 * 3)) {
+        const next = ct.getNextAvailableTime(1000 * 60 * 60 * 3);
+        if (!next) return;
+
+        return await interaction.followUp({
+          embeds: [
+            {
+              title: 'エラーが発生しました',
+              description:
+                '3時間に1回のみコマンドを実行することができます。\n' +
+                `次は<t:${next}:R>に実行できます`,
+              color: Colors.Red,
+              footer: client.footer(),
+            },
+          ],
+        });
+      }
+
       if (cmd === 'user') {
         const user = interaction.options.getUser('user', true);
 
@@ -101,6 +121,8 @@ export default new Command({
             },
           ],
         });
+
+        ct.setCoolTime();
       }
     },
   },
