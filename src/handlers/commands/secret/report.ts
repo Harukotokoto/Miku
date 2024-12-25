@@ -41,11 +41,11 @@ export default new Command({
               description:
                 `${user.displayName}(${user.tag})を通報します\n` +
                 '**Target:**\n' +
-                ` - **Name:** ${user.username}\n` +
-                ` - **ID:** ${user.id}\n` +
-                '- Status:\n' +
-                ' - Threads: 1/1\n' +
-                ' - Request: 0/6000',
+                `  - **Name:** ${user.username}\n` +
+                `  - **ID:** ${user.id}\n` +
+                '**Status:**\n' +
+                '  - **Threads:** 1/1\n' +
+                '  - **Request:** 0/6000',
               color: Colors.Blue,
               footer: client.footer(),
             },
