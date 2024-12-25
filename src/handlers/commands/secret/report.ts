@@ -95,7 +95,7 @@ export default new Command({
               description:
                 '**リクエストした回数:** 6000\n' +
                 `**成功した回数:** ${Math.floor(Math.random() * (3000 - 600 + 1)) + 600}\n` +
-                `**予測成功確率: ${Math.random() * (42.0 - 0.2) + 0.2}%`,
+                `**予測成功確率:** ${(Math.random() * (42.0 - 0.2) + 0.2).toFixed(2)}%`,
               color: Colors.Green,
               footer: client.footer(),
             },
