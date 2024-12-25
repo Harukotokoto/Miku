@@ -22,5 +22,15 @@ export default new Event('ready', async () => {
       ],
       status: 'dnd',
     });
+  } else {
+    client.user.setPresence({
+      activities: [
+        {
+          name: 'Im Here!',
+          type: ActivityType.Playing,
+        },
+      ],
+      status: 'online',
+    });
   }
 });
