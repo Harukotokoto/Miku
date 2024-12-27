@@ -1,5 +1,10 @@
 import { Command } from '@/handlers/Command';
-import { ApplicationCommandOptionType, ApplicationIntegrationType, Colors, InteractionContextType } from 'discord.js';
+import {
+  ApplicationCommandOptionType,
+  ApplicationIntegrationType,
+  Colors,
+  InteractionContextType,
+} from 'discord.js';
 import { CoolTime } from '@/libraries/Classes/Utils/CoolTime';
 
 export default new Command({
