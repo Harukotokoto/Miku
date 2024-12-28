@@ -57,5 +57,18 @@ export default new Event('interactionCreate', async (interaction) => {
         ],
       });
     }
+
+    await member.roles.add(role);
+
+    await interaction.followUp({
+      embeds: [
+        {
+          title: "認証しました",
+          description: `${role}が付与されました`,
+          color: Colors.Green,
+          footer: client.footer(),
+        }
+      ]
+    })
   }
 });
