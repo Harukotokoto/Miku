@@ -1,10 +1,10 @@
 import {
-  ApplicationCommandType,
-  Client,
-  ClientEvents,
-  ClientOptions,
-  Collection,
-  EmbedFooterData,
+    ApplicationCommandType,
+    Client,
+    ClientEvents,
+    ClientOptions,
+    Collection,
+    EmbedFooterData,
 } from 'discord.js';
 import { Logger } from '@/libraries/Classes/Utils/Logger';
 import { promisify } from 'util';
@@ -19,138 +19,142 @@ import * as mongoose from 'mongoose';
 require('dotenv').config();
 
 export class Miku extends Client {
-  public prefix;
-  public debugMode;
-  public admins;
+    public prefix;
+    public debugMode;
+    public admins;
 
-  public constructor(options: ClientOptions & MikuOptions) {
-    super(options);
+    public constructor(options: ClientOptions & MikuOptions) {
+        super(options);
 
-    this.debugMode = options.debugMode || false;
-    this.admins = options.admins || [];
-    this.prefix = options.prefix || '!';
-  }
-
-  public globPromise = promisify(glob);
-
-  public logger = new Logger();
-
-  public footer(): EmbedFooterData {
-    const user = client.users.cache.get('1004365048887660655');
-    return {
-      text: 'Produced by Harukoto',
-      iconURL: user?.displayAvatarURL(),
-    };
-  }
-
-  public pinned_channels: string[] = [];
-
-  private async loadPinnedChannels() {
-    const datas = await pin_model.find();
-    this.pinned_channels = datas.map((data) => data.ChannelID);
-  }
-
-  public addPinnedChannels(id: string) {
-    if (!this.pinned_channels.includes(id)) {
-      this.pinned_channels.push(id);
-    }
-  }
-
-  public removePinnedChannels(id: string) {
-    this.pinned_channels = this.pinned_channels.filter(
-      (channelId) => channelId !== id,
-    );
-  }
-
-  public run() {
-    this.login(process.env.CLIENT_TOKEN)
-      .then(() => {
-        this.logger.info('ログインしました');
-      })
-      .catch((e) => {
-        this.logger.error(e);
-      });
-
-    this.registerCommands().then(() => {
-      this.logger.info('全てのコマンドが正常に登録されました');
-    });
-
-    this.registerEvents().then(() => {
-      this.logger.info('全てのイベントが正常に登録されました');
-    });
-
-    this.loadPinnedChannels().then(() => {
-      this.logger.info(
-        'メッセージが固定されているチャンネルをキャッシュしました',
-      );
-    });
-
-    this.connect().then(() => {
-      this.logger.info(`MongoDBに接続しました`);
-    });
-  }
-
-  private connect() {
-    return mongoose.connect(
-      `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_TABLE}`,
-    );
-  }
-
-  public commands: Collection<string, CommandType> = new Collection();
-
-  public async importFile<T>(filePath: string): Promise<T> {
-    const file = await import(filePath);
-    if (!file) {
-      this.logger.error(`File ${filePath} not found`);
+        this.debugMode = options.debugMode || false;
+        this.admins = options.admins || [];
+        this.prefix = options.prefix || '!';
     }
 
-    return file.default;
-  }
+    public globPromise = promisify(glob);
 
-  private async registerCommands() {
-    const commands: CommandType[] = [];
-    const commandFiles = await this.globPromise(
-      __dirname + '/../../handlers/commands/**/*{.ts,.js}',
-    );
+    public logger = new Logger();
 
-    for (const file of commandFiles) {
-      const command: CommandType = await this.importFile(file);
-
-      if (command.type === ApplicationCommandType.ChatInput || !command.type) {
-        this.logger.info(`"/${command.name}"を読み込みました`);
-      } else {
-        this.logger.info(`"${command.name}"を読み込みました`);
-      }
-
-      commands.push(command);
-      this.commands.set(command.name, command);
+    public footer(): EmbedFooterData {
+        const user = client.users.cache.get('1004365048887660655');
+        return {
+            text: 'Produced by Harukoto',
+            iconURL: user?.displayAvatarURL(),
+        };
     }
 
-    this.once('ready', () => {
-      this.application?.commands
-        .set(commands)
-        .then(() =>
-          this.logger.info(
-            `${commands.length}個のスラッシュコマンドを${this.guilds.cache.size}個のサーバーで登録しました`,
-          ),
-        )
-        .catch((e) => {
-          this.logger.error(`Failed to register slash commands`);
-          this.logger.error(e);
+    public pinned_channels: string[] = [];
+
+    private async loadPinnedChannels() {
+        const datas = await pin_model.find();
+        this.pinned_channels = datas.map((data) => data.ChannelID);
+    }
+
+    public addPinnedChannels(id: string) {
+        if (!this.pinned_channels.includes(id)) {
+            this.pinned_channels.push(id);
+        }
+    }
+
+    public removePinnedChannels(id: string) {
+        this.pinned_channels = this.pinned_channels.filter(
+            (channelId) => channelId !== id,
+        );
+    }
+
+    public run() {
+        this.login(process.env.CLIENT_TOKEN)
+            .then(() => {
+                this.logger.info('ログインしました');
+            })
+            .catch((e) => {
+                this.logger.error(e);
+            });
+
+        this.registerCommands().then(() => {
+            this.logger.info('全てのコマンドが正常に登録されました');
         });
-    });
-  }
 
-  private async registerEvents() {
-    const eventFiles = await this.globPromise(
-      `${__dirname}/../../handlers/events/**/*{.ts,.js}`,
-    );
+        this.registerEvents().then(() => {
+            this.logger.info('全てのイベントが正常に登録されました');
+        });
 
-    for (const filePath of eventFiles) {
-      const event = await this.importFile<Event<keyof ClientEvents>>(filePath);
-      if (event && 'event' in event) {
-        this.on(event.event, event.run);
-      }
+        this.loadPinnedChannels().then(() => {
+            this.logger.info(
+                'メッセージが固定されているチャンネルをキャッシュしました',
+            );
+        });
+
+        this.connect().then(() => {
+            this.logger.info(`MongoDBに接続しました`);
+        });
     }
-  }
+
+    private connect() {
+        return mongoose.connect(
+            `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_TABLE}`,
+        );
+    }
+
+    public commands: Collection<string, CommandType> = new Collection();
+
+    public async importFile<T>(filePath: string): Promise<T> {
+        const file = await import(filePath);
+        if (!file) {
+            this.logger.error(`File ${filePath} not found`);
+        }
+
+        return file.default;
+    }
+
+    private async registerCommands() {
+        const commands: CommandType[] = [];
+        const commandFiles = await this.globPromise(
+            __dirname + '/../../handlers/commands/**/*{.ts,.js}',
+        );
+
+        for (const file of commandFiles) {
+            const command: CommandType = await this.importFile(file);
+
+            if (
+                command.type === ApplicationCommandType.ChatInput ||
+                !command.type
+            ) {
+                this.logger.info(`"/${command.name}"を読み込みました`);
+            } else {
+                this.logger.info(`"${command.name}"を読み込みました`);
+            }
+
+            commands.push(command);
+            this.commands.set(command.name, command);
+        }
+
+        this.once('ready', () => {
+            this.application?.commands
+                .set(commands)
+                .then(() =>
+                    this.logger.info(
+                        `${commands.length}個のスラッシュコマンドを${this.guilds.cache.size}個のサーバーで登録しました`,
+                    ),
+                )
+                .catch((e) => {
+                    this.logger.error(`Failed to register slash commands`);
+                    this.logger.error(e);
+                });
+        });
+    }
+
+    private async registerEvents() {
+        const eventFiles = await this.globPromise(
+            `${__dirname}/../../handlers/events/**/*{.ts,.js}`,
+        );
+
+        for (const filePath of eventFiles) {
+            const event =
+                await this.importFile<Event<keyof ClientEvents>>(filePath);
+            if (event && 'event' in event) {
+                this.on(event.event, event.run);
+            }
+        }
+    }
 }

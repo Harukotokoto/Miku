@@ -1,5 +1,5 @@
 export interface MikuOptions {
-  debugMode?: boolean;
-  admins?: string[];
-  prefix?: string;
+    debugMode?: boolean;
+    admins?: string[];
+    prefix?: string;
 }

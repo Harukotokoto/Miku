@@ -1,14 +1,14 @@
 services:
-  miku:
-    build: .
-    environment:
-      - CLIENT_TOKEN=${CLIENT_TOKEN}
-      - VOIDS_API=${VOIDS_API}
-      - DB_DRIVER=${DB_DRIVER}
-      - DB_HOST=${DB_HOST}
-      - DB_TABLE=${DB_TABLE}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-    volumes:
-      - ./logs:/usr/src/app/logs
-    restart: always
+    miku:
+        build: .
+        environment:
+            - CLIENT_TOKEN=${CLIENT_TOKEN}
+            - VOIDS_API=${VOIDS_API}
+            - DB_DRIVER=${DB_DRIVER}
+            - DB_HOST=${DB_HOST}
+            - DB_TABLE=${DB_TABLE}
+            - DB_USER=${DB_USER}
+            - DB_PASSWORD=${DB_PASSWORD}
+        volumes:
+            - ./logs:/usr/src/app/logs
+        restart: always
