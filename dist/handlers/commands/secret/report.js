@@ -16,6 +16,15 @@ exports.default = new Command_1.Command({
     name: 'report',
     isOwnerCommand: true,
     description: 'report',
+    contexts: [
+        discord_js_1.InteractionContextType.PrivateChannel,
+        discord_js_1.InteractionContextType.BotDM,
+        discord_js_1.InteractionContextType.Guild,
+    ],
+    integrationTypes: [
+        discord_js_1.ApplicationIntegrationType.UserInstall,
+        discord_js_1.ApplicationIntegrationType.GuildInstall,
+    ],
     options: [
         {
             name: 'user',

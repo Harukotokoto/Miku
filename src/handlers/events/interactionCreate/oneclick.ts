@@ -1,10 +1,10 @@
 import { Event } from '@/handlers/Event';
-import { Colors, PermissionsBitField } from 'discord.js';
+import { Colors, PermissionFlagsBits } from 'discord.js';
 import { client } from '@/index';
 
 export default new Event('interactionCreate', async (interaction) => {
   if (!interaction.isButton()) return;
-  if (!interaction.customId.startsWith('oneclick-')) {
+  if (interaction.customId.startsWith('oneclick-')) {
     await interaction.deferReply({ ephemeral: true });
     const roleId = interaction.customId.split('-')[1];
     const role = await interaction.guild?.roles.fetch(roleId);
@@ -44,7 +44,7 @@ export default new Event('interactionCreate', async (interaction) => {
 
     if (
       me.roles.highest.position < role.position ||
-      me.permissions.has(PermissionsBitField.Flags.ManageRoles)
+      !me.permissions.has(PermissionFlagsBits.ManageRoles)
     ) {
       return await interaction.followUp({
         embeds: [
@@ -63,12 +63,12 @@ export default new Event('interactionCreate', async (interaction) => {
     await interaction.followUp({
       embeds: [
         {
-          title: "認証しました",
+          title: '認証しました',
           description: `${role}が付与されました`,
           color: Colors.Green,
           footer: client.footer(),
-        }
-      ]
-    })
+        },
+      ],
+    });
   }
 });

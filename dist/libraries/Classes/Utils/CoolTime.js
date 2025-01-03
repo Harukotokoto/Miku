@@ -27,7 +27,7 @@ class CoolTime {
     getNextAvailableTime(time) {
         const entry = CoolTime.coolTimeData.find((entry) => entry.userId === this.userId);
         if (entry) {
-            return entry.lastUsed.getTime() + time;
+            return Math.floor(new Date(entry.lastUsed.getTime() + time).getTime() / 1000);
         }
         return null;
     }
