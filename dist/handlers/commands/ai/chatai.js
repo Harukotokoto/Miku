@@ -111,7 +111,8 @@ exports.default = new Command_1.Command({
                 yield pagination.build();
             }
             if (cmd === 'chat') {
-                const selectedModel = interaction.options.getString('model') || 'gpt-4-turbo-2024-04-09';
+                const selectedModel = interaction.options.getString('model') ||
+                    'gpt-4-turbo-2024-04-09';
                 const model = yield ChatAI_1.ChatAI.getModels({ model: selectedModel });
                 if (model.length === 0) {
                     return yield create('指定されたモデルが見つかりませんでした');

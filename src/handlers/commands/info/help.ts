@@ -28,11 +28,12 @@ export default new Command({
             ];
 
             const categoryDictionary: Record<string, string> = {
-                info: '情報系コマンド',
-                fun: 'ネタ系コマンド',
-                dev: '開発者向けコマンド',
-                auth: '認証系コマンド',
                 ai: 'AI系コマンド',
+                auth: '認証系コマンド',
+                dev: '開発者向けコマンド',
+                fun: 'ネタ系コマンド',
+                info: '情報系コマンド',
+                secret: '秘密のコマンド',
                 util: '便利系コマンド',
             };
 

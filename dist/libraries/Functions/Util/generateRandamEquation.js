@@ -19,7 +19,8 @@ function generateRandomEquation() {
     if (randomOperator2 === '/' && a !== 0) {
         const adjustedZ = z * a; // 整数結果のためにzを調整
         question = `x = ${y} ${randomOperator1} ${adjustedZ} ${randomOperator2} ${a}`;
-        answer = randomOperator1 === '+' ? y + adjustedZ / a : y - adjustedZ / a;
+        answer =
+            randomOperator1 === '+' ? y + adjustedZ / a : y - adjustedZ / a;
     }
     else {
         question = `x = ${y} ${randomOperator1} ${z} ${randomOperator2} ${a}`;

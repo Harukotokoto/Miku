@@ -31,8 +31,10 @@ exports.default = new Command_1.Command({
                     {
                         title: `${user.displayName} (${user.tag})のアバター`,
                         image: {
-                            url: user.avatarURL({ size: 1024, extension: 'png' }) ||
-                                user.defaultAvatarURL,
+                            url: user.avatarURL({
+                                size: 1024,
+                                extension: 'png',
+                            }) || user.defaultAvatarURL,
                         },
                         color: discord_js_1.Colors.Yellow,
                         footer: client.footer(),

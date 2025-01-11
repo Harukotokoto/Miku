@@ -64,6 +64,7 @@ class Miku extends discord_js_1.Client {
         this.debugMode = options.debugMode || false;
         this.admins = options.admins || [];
         this.prefix = options.prefix || '!';
+        this.onReady = options.onReady || (() => __awaiter(this, void 0, void 0, function* () { }));
     }
     footer() {
         const user = index_1.client.users.cache.get('1004365048887660655');
@@ -106,6 +107,7 @@ class Miku extends discord_js_1.Client {
         this.connect().then(() => {
             this.logger.info(`MongoDBに接続しました`);
         });
+        this.once('ready', () => __awaiter(this, void 0, void 0, function* () { return yield this.onReady(); }));
     }
     connect() {
         return mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_TABLE}`);
@@ -125,7 +127,8 @@ class Miku extends discord_js_1.Client {
             const commandFiles = yield this.globPromise(__dirname + '/../../handlers/commands/**/*{.ts,.js}');
             for (const file of commandFiles) {
                 const command = yield this.importFile(file);
-                if (command.type === discord_js_1.ApplicationCommandType.ChatInput || !command.type) {
+                if (!command.type ||
+                    command.type === discord_js_1.ApplicationCommandType.ChatInput) {
                     this.logger.info(`"/${command.name}"を読み込みました`);
                 }
                 else {

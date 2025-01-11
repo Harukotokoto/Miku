@@ -47,7 +47,8 @@ exports.default = new Event_1.Event('interactionCreate', (interaction) => __awai
                 return yield Error.create('このコマンドを使用する権限が不足しています');
             }
         }
-        if (!command.type || command.type === discord_js_1.ApplicationCommandType.ChatInput) {
+        if (!command.type ||
+            command.type === discord_js_1.ApplicationCommandType.ChatInput) {
             yield command.execute.interaction({
                 client: index_1.client,
                 interaction: interaction,

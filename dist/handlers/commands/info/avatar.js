@@ -48,10 +48,15 @@ exports.default = new Command_1.Command({
                 yield interaction.followUp({
                     embeds: [
                         {
-                            title: user.tag + '(' + user.displayName + ') のアバター',
+                            title: user.tag +
+                                '(' +
+                                user.displayName +
+                                ') のアバター',
                             image: {
-                                url: user.avatarURL({ size: 1024, extension: 'png' }) ||
-                                    user.defaultAvatarURL,
+                                url: user.avatarURL({
+                                    size: 1024,
+                                    extension: 'png',
+                                }) || user.defaultAvatarURL,
                             },
                             color: discord_js_1.Colors.Yellow,
                             footer: client.footer(),
@@ -63,9 +68,15 @@ exports.default = new Command_1.Command({
                 yield interaction.followUp({
                     embeds: [
                         {
-                            title: user.tag + '(' + user.displayName + ') のアバター',
+                            title: user.tag +
+                                '(' +
+                                user.displayName +
+                                ') のアバター',
                             image: {
-                                url: user.displayAvatarURL({ size: 1024, extension: 'png' }),
+                                url: user.displayAvatarURL({
+                                    size: 1024,
+                                    extension: 'png',
+                                }),
                             },
                             color: discord_js_1.Colors.Yellow,
                             footer: client.footer(),

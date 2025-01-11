@@ -22,6 +22,7 @@ export class Miku extends Client {
     public prefix;
     public debugMode;
     public admins;
+    public onReady: () => Promise<void>;
 
     public constructor(options: ClientOptions & MikuOptions) {
         super(options);
@@ -29,6 +30,7 @@ export class Miku extends Client {
         this.debugMode = options.debugMode || false;
         this.admins = options.admins || [];
         this.prefix = options.prefix || '!';
+        this.onReady = options.onReady || (async () => {});
     }
 
     public globPromise = promisify(glob);
@@ -88,6 +90,8 @@ export class Miku extends Client {
         this.connect().then(() => {
             this.logger.info(`MongoDBに接続しました`);
         });
+
+        this.once('ready', async () => await this.onReady());
     }
 
     private connect() {
@@ -117,8 +121,8 @@ export class Miku extends Client {
             const command: CommandType = await this.importFile(file);
 
             if (
-                command.type === ApplicationCommandType.ChatInput ||
-                !command.type
+                !command.type ||
+                command.type === ApplicationCommandType.ChatInput
             ) {
                 this.logger.info(`"/${command.name}"を読み込みました`);
             } else {

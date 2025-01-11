@@ -64,7 +64,9 @@ exports.default = new Command_1.Command({
                         fields: [
                             {
                                 name: 'サーバー作成日',
-                                value: '<t:' + Math.round(guild.createdAt.getTime() / 1000) + '>',
+                                value: '<t:' +
+                                    Math.round(guild.createdAt.getTime() / 1000) +
+                                    '>',
                                 inline: true,
                             },
                             {
@@ -79,7 +81,8 @@ exports.default = new Command_1.Command({
                             },
                             {
                                 name: 'BANされたユーザー数',
-                                value: (yield guild.bans.fetch()).size.toString() + 'メンバー',
+                                value: (yield guild.bans.fetch()).size.toString() +
+                                    'メンバー',
                                 inline: true,
                             },
                             {

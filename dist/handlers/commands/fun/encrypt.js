@@ -69,7 +69,10 @@ exports.default = new Command_1.Command({
                 const message = interaction.options.getString('message', true);
                 const key = crypto_1.default.randomUUID();
                 const algorithm = 'aes-256-ecb';
-                const keyBuffer = crypto_1.default.createHash('sha256').update(key).digest();
+                const keyBuffer = crypto_1.default
+                    .createHash('sha256')
+                    .update(key)
+                    .digest();
                 const cipher = crypto_1.default.createCipheriv(algorithm, keyBuffer, null);
                 let encrypted = cipher.update(message, 'utf8', 'hex');
                 encrypted += cipher.final('hex');
@@ -145,7 +148,10 @@ exports.default = new Command_1.Command({
                 const hash = interaction.options.getString('hash', true);
                 const key = interaction.options.getString('key', true);
                 const algorithm = 'aes-256-ecb';
-                const keyBuffer = crypto_1.default.createHash('sha256').update(key).digest();
+                const keyBuffer = crypto_1.default
+                    .createHash('sha256')
+                    .update(key)
+                    .digest();
                 const decipher = crypto_1.default.createDecipheriv(algorithm, keyBuffer, null);
                 let decrypted = decipher.update(hash, 'hex', 'utf8');
                 decrypted += decipher.final('utf8');

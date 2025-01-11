@@ -48,8 +48,10 @@ exports.default = new Command_1.Command({
             var _b;
             const role = interaction.options.getRole('role', true);
             const title = interaction.options.getString('title') || 'ワンクリック認証';
-            const description = ((_b = interaction.options.getString('description')) === null || _b === void 0 ? void 0 : _b.replace('%n', '\n')) ||
-                'ボタンを押して認証します\n' + `認証完了後、${role}が付与されます`;
+            const description = ((_b = interaction.options
+                .getString('description')) === null || _b === void 0 ? void 0 : _b.replace('%n', '\n')) ||
+                'ボタンを押して認証します\n' +
+                    `認証完了後、${role}が付与されます`;
             yield interaction.followUp({
                 embeds: [
                     {

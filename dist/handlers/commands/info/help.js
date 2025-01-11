@@ -31,11 +31,12 @@ exports.default = new Command_1.Command({
                 ...new Set(commands === null || commands === void 0 ? void 0 : commands.map((command) => command.category)),
             ];
             const categoryDictionary = {
-                info: '情報系コマンド',
-                fun: 'ネタ系コマンド',
-                dev: '開発者向けコマンド',
-                auth: '認証系コマンド',
                 ai: 'AI系コマンド',
+                auth: '認証系コマンド',
+                dev: '開発者向けコマンド',
+                fun: 'ネタ系コマンド',
+                info: '情報系コマンド',
+                secret: '秘密のコマンド',
                 util: '便利系コマンド',
             };
             function getCategoryDisplayName(category) {
@@ -143,12 +144,15 @@ exports.default = new Command_1.Command({
                                     {
                                         type: discord_js_1.ComponentType.StringSelect,
                                         options: commands
-                                            .filter((command) => command.category === selectedCategory)
+                                            .filter((command) => command.category ===
+                                            selectedCategory)
                                             .map((command) => {
                                             return {
-                                                label: '/' + command.command.name,
+                                                label: '/' +
+                                                    command.command.name,
                                                 value: command.command.name,
-                                                description: command.command.description,
+                                                description: command.command
+                                                    .description,
                                             };
                                         }),
                                         placeholder: 'コマンドを選択',
@@ -165,7 +169,8 @@ exports.default = new Command_1.Command({
                     const command = cmd === null || cmd === void 0 ? void 0 : cmd.command;
                     if (!command)
                         return;
-                    const commandName = command.name.charAt(0).toUpperCase() + command.name.slice(1);
+                    const commandName = command.name.charAt(0).toUpperCase() +
+                        command.name.slice(1);
                     const aliases = command.aliases
                         .map((alias) => '`' + alias + '`')
                         .join(', ');
@@ -187,7 +192,8 @@ exports.default = new Command_1.Command({
                                 fields: [
                                     {
                                         name: 'エイリアス',
-                                        value: aliases || 'このコマンドにエイリアスは設定されていません',
+                                        value: aliases ||
+                                            'このコマンドにエイリアスは設定されていません',
                                     },
                                     {
                                         name: '使用方法',
