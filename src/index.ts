@@ -68,7 +68,7 @@ player.events.on('emptyChannel', async (queue) => {
 
 client.on('error', (err) => {
     client.logger.error(err.message);
-})
+});
 
 process.on('unhandledRejection', (err) => {
     client.logger.error(err as string);
