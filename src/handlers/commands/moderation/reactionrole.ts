@@ -111,7 +111,7 @@ export default new Command({
             const option = interaction.options.getFocused(true);
             if (option.name === 'panel_id') {
                 const reaction_roles = await ReactionRoleModel.find({
-                    GuildID: interaction.guild?.id,
+                    guildId: interaction.guild?.id,
                 });
                 if (!reaction_roles) return;
 
