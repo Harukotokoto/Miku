@@ -3,8 +3,8 @@ import { useQueue } from 'discord-player';
 import { Colors } from 'discord.js';
 
 export default new Command({
-    name: "shuffle",
-    description: "キュー内の楽曲をシャッフルします",
+    name: 'shuffle',
+    description: 'キュー内の楽曲をシャッフルします',
     execute: {
         interaction: async ({ client, interaction }) => {
             if (!interaction.guild) return;
@@ -46,6 +46,6 @@ export default new Command({
                     },
                 ],
             });
-        }
-    }
-})
+        },
+    },
+});

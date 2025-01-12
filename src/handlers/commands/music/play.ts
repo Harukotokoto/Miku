@@ -4,14 +4,14 @@ import {
     ApplicationCommandOptionType,
     Colors,
     ComponentType,
-    MessageComponentInteraction
+    MessageComponentInteraction,
 } from 'discord.js';
 import { QueryType, useMainPlayer, useQueue } from 'discord-player';
 import { truncateText } from '@/libraries/Functions/truncateText';
 
 export default new Command({
-    name: "play",
-    description: "楽曲を再生します (YouTube)",
+    name: 'play',
+    description: '楽曲を再生します (YouTube)',
     options: [
         {
             name: 'query',
@@ -24,7 +24,9 @@ export default new Command({
         interaction: async ({ client, interaction }) => {
             if (!interaction.guild) return;
 
-            const member = await interaction.guild.members.fetch(interaction.user.id);
+            const member = await interaction.guild.members.fetch(
+                interaction.user.id,
+            );
             if (!member) return;
 
             const channel = member.voice.channel;
@@ -32,7 +34,8 @@ export default new Command({
                 return interaction.followUp({
                     embeds: [
                         {
-                            description: 'まずはボイスチャットに参加する必要があります',
+                            description:
+                                'まずはボイスチャットに参加する必要があります',
                             color: Colors.Red,
                             footer: client.footer(),
                         },
@@ -61,7 +64,10 @@ export default new Command({
 
             const tracks = searchResult.tracks;
 
-            if (searchResult.hasPlaylist() || searchResult.tracks.length === 1) {
+            if (
+                searchResult.hasPlaylist() ||
+                searchResult.tracks.length === 1
+            ) {
                 let queue = useQueue(interaction.guild);
 
                 if (!queue) {
@@ -181,6 +187,6 @@ export default new Command({
                     components: [],
                 });
             });
-        }
-    }
-})
+        },
+    },
+});

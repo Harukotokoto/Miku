@@ -3,8 +3,8 @@ import { QueueRepeatMode, useQueue } from 'discord-player';
 import { ApplicationCommandOptionType, Colors } from 'discord.js';
 
 export default new Command({
-    name: "loop",
-    description: "ループ再生の設定をします",
+    name: 'loop',
+    description: 'ループ再生の設定をします',
     options: [
         {
             name: 'type',
@@ -71,6 +71,6 @@ export default new Command({
                     },
                 ],
             });
-        }
-    }
-})
+        },
+    },
+});

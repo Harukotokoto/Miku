@@ -3,8 +3,8 @@ import { useQueue } from 'discord-player';
 import { Colors } from 'discord.js';
 
 export default new Command({
-    name: "stop",
-    description: "楽曲の再生を停止します",
+    name: 'stop',
+    description: '楽曲の再生を停止します',
     execute: {
         interaction: async ({ client, interaction }) => {
             if (!interaction.guild) return;
@@ -33,6 +33,6 @@ export default new Command({
                     },
                 ],
             });
-        }
-    }
-})
+        },
+    },
+});

@@ -5,8 +5,8 @@ import { chunkArray } from '@/libraries/Functions/chunkArray';
 import { Pagination } from '@/libraries/Classes/Utils/Pagination';
 
 export default new Command({
-    name: "queue",
-    description: "キューを確認します",
+    name: 'queue',
+    description: 'キューを確認します',
     execute: {
         interaction: async ({ client, interaction }) => {
             if (!interaction.guild) return;
@@ -88,6 +88,6 @@ export default new Command({
 
                 await pagination.build();
             }
-        }
-    }
-})
+        },
+    },
+});
