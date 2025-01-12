@@ -89,9 +89,17 @@ export default new Command({
 
                 return await interaction.editReply({
                     embeds: [
+                        tracks.length !== 1
+                            ? {
+                                  description: `${tracks.length}個の楽曲ををキューに追加しました`,
+                                  color: Colors.Blue,
+                                  footer: client.footer(),
+                              }
+                            : {},
                         {
-                            description: `${tracks.length}個の楽曲ををキューに追加しました`,
-                            thumbnail: {
+                            title: '🎵 再生中 🎵',
+                            description: `[${tracks[0].title}](${tracks[0].url}) - ${tracks[0].author}`,
+                            image: {
                                 url: tracks[0].thumbnail,
                             },
                             color: Colors.Blue,
@@ -171,6 +179,19 @@ export default new Command({
                 if (!queue.isPlaying()) {
                     queue.node.setVolume(35);
                     await queue.node.play();
+                    return await interaction.editReply({
+                        embeds: [
+                            {
+                                title: '🎵 再生中 🎵',
+                                description: `[${track.title}](${track.url}) - ${track.author}`,
+                                image: {
+                                    url: track.thumbnail,
+                                },
+                                color: Colors.Blue,
+                                footer: client.footer(),
+                            },
+                        ],
+                    });
                 }
 
                 await interaction.editReply({

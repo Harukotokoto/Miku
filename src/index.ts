@@ -42,15 +42,11 @@ player.events.on('playerError', async (queue, error) => {
     });
 });
 
-player.events.on('playerStart', async (queue, track) => {
+player.events.on('emptyQueue', async (queue) => {
     await queue.metadata.send({
         embeds: [
             {
-                title: '🎵 再生中 🎵',
-                description: `[${track.title}](${track.url}) - ${track.author}`,
-                image: {
-                    url: track.thumbnail,
-                },
+                description: 'キュー内のすべての楽曲を再生しました',
                 color: Colors.Blue,
                 footer: client.footer(),
             },
