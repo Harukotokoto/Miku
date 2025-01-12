@@ -77,8 +77,6 @@ export async function queue({
         },
     );
 
-    console.log(pages);
-
     if (pages.length < 2) {
         await interaction.followUp({
             embeds: pages,

@@ -25,7 +25,7 @@ export async function shuffle({
     }
 
     if (queue.tracks.size < 2) {
-        return interaction.reply({
+        return interaction.followUp({
             embeds: [
                 {
                     description:
@@ -39,7 +39,7 @@ export async function shuffle({
 
     queue.tracks.shuffle();
 
-    return interaction.reply({
+    return interaction.followUp({
         embeds: [
             {
                 description: `${queue.tracks.size}個の楽曲をシャッフルしました`,
