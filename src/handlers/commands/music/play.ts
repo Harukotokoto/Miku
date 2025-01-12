@@ -1,5 +1,6 @@
 import { Command } from '@/handlers/Command';
 import {
+    APIEmbed,
     APISelectMenuOption,
     ApplicationCommandOptionType,
     Colors,
@@ -95,7 +96,7 @@ export default new Command({
                                   color: Colors.Blue,
                                   footer: client.footer(),
                               }
-                            : {},
+                            : undefined,
                         {
                             title: '🎵 再生中 🎵',
                             description: `[${tracks[0].title}](${tracks[0].url}) - ${tracks[0].author}`,
@@ -105,7 +106,7 @@ export default new Command({
                             color: Colors.Blue,
                             footer: client.footer(),
                         },
-                    ],
+                    ].filter((embed) => embed !== undefined),
                     components: [],
                 });
             }
