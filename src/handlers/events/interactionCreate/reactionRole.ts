@@ -13,7 +13,7 @@ export default new Event('interactionCreate', async (interaction) => {
 
         const message = interaction.message;
 
-        const data = ReactionRoleModel.findOne({ messageId: message.id });
+        const data = await ReactionRoleModel.findOne({ messageId: message.id });
         if (!data) {
             await interaction.reply({
                 embeds: [
