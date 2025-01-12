@@ -2,7 +2,6 @@ import { Miku } from '@/libraries/Classes/Miku';
 import { Colors, IntentsBitField } from 'discord.js';
 import { Player } from 'discord-player';
 import { YoutubeiExtractor } from 'discord-player-youtubei';
-import { play } from '@/libraries/subCommands/music/play';
 
 export const client = new Miku({
     intents: [
@@ -31,10 +30,6 @@ export const player = new Player(client);
 client.run();
 
 player.events.on('playerError', async (queue, error) => {
-    if (!queue.metadata) {
-        return client.logger.error(error.stack || error.message);
-    }
-
     await queue.metadata.send({
         embeds: [
             {
@@ -48,15 +43,11 @@ player.events.on('playerError', async (queue, error) => {
 });
 
 player.events.on('playerStart', async (queue, track) => {
-    if (!queue.metadata) {
-        throw new Error('Metadetaが見つかりませんでした');
-    }
-
     await queue.metadata.send({
         embeds: [
             {
                 title: '🎵 再生中 🎵',
-                description: `${track.title} - ${track.author}`,
+                description: `[${track.title}](${track.url}) - ${track.author}`,
                 image: {
                     url: track.thumbnail,
                 },
@@ -67,15 +58,12 @@ player.events.on('playerStart', async (queue, track) => {
     });
 });
 
-player.events.on('playerFinish', async (queue) => {
-    if (!queue.metadata) {
-        throw new Error('Metadetaが見つかりませんでした');
-    }
-
+player.events.on('emptyChannel', async (queue) => {
     await queue.metadata.send({
         embeds: [
             {
-                description: 'すべての楽曲の再生が終了しました',
+                description:
+                    '5分間VCにユーザーがいなかったため再生を終了しました',
                 color: Colors.Blue,
                 footer: client.footer(),
             },

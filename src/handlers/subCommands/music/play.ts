@@ -6,9 +6,8 @@ import {
     ComponentType,
     MessageComponentInteraction,
 } from 'discord.js';
-import { player } from '@/index';
 import { truncateText } from '@/libraries/Functions/truncateText';
-import { QueryType } from 'discord-player';
+import { QueryType, useMainPlayer, useQueue } from 'discord-player';
 
 export async function play({
     client,
@@ -34,6 +33,7 @@ export async function play({
             ],
         });
 
+    const player = useMainPlayer();
     const query = interaction.options.getString('query', true);
 
     const searchResult = await player.search(query, {
@@ -107,9 +107,13 @@ export async function play({
 
         const track = tracks[parseInt(selected_option)];
 
-        const queue = player.queues.create(interaction.guild, {
-            metadata: interaction.channel,
-        });
+        let queue = useQueue(interaction.guild);
+
+        if (!queue) {
+            queue = player.queues.create(interaction.guild, {
+                metadata: interaction.channel,
+            });
+        }
 
         if (!queue.connection) {
             await queue.connect(channel);
@@ -117,20 +121,20 @@ export async function play({
 
         queue.addTrack(track);
 
-        await queue.node.play();
+        if (!queue.isPlaying()) {
+            queue.node.setVolume(35);
+            await queue.node.play();
+        }
 
         await interaction.editReply({
             embeds: [
                 {
-                    title: `**${track.title}**を再生します`,
-                    image: {
+                    description: `[${track.title}](${track.url})をキューに追加しました`,
+                    thumbnail: {
                         url: track.thumbnail,
                     },
                     color: Colors.Blue,
                     footer: client.footer(),
-                    author: {
-                        name: track.author,
-                    },
                 },
             ],
             components: [],
