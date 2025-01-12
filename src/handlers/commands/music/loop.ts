@@ -7,8 +7,8 @@ export default new Command({
     description: 'ループ再生の設定をします',
     options: [
         {
-            name: 'type',
-            description: 'ループの種類',
+            name: 'mode',
+            description: 'モード',
             type: ApplicationCommandOptionType.Number,
             choices: [
                 {
