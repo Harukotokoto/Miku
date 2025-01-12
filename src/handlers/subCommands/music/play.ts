@@ -55,6 +55,41 @@ export async function play({
 
     const tracks = searchResult.tracks;
 
+    if (searchResult.hasPlaylist()) {
+        let queue = useQueue(interaction.guild);
+
+        if (!queue) {
+            queue = player.queues.create(interaction.guild, {
+                metadata: interaction.channel,
+            });
+        }
+
+        if (!queue.connection) {
+            await queue.connect(channel);
+        }
+
+        queue.addTrack(tracks);
+
+        if (!queue.isPlaying()) {
+            queue.node.setVolume(35);
+            await queue.node.play();
+        }
+
+        return await interaction.editReply({
+            embeds: [
+                {
+                    description: `${tracks.length}個の楽曲ををキューに追加しました`,
+                    thumbnail: {
+                        url: tracks[0].thumbnail,
+                    },
+                    color: Colors.Blue,
+                    footer: client.footer(),
+                },
+            ],
+            components: [],
+        });
+    }
+
     const track_options: APISelectMenuOption[] = tracks
         .slice(0, 25)
         .map((track, index) => {

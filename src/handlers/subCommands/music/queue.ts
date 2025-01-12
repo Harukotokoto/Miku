@@ -45,7 +45,7 @@ export async function queue({
         return await interaction.followUp({
             embeds: [
                 {
-                    title: `キュー - ページ 1`,
+                    title: `キュー - ページ 1/1`,
                     description: `**現在再生中:** [${currentTrack.title}](${currentTrack.url}) - ${currentTrack.author}`,
                     color: Colors.Blue,
                     footer: client.footer(),
@@ -59,7 +59,7 @@ export async function queue({
     const pages: APIEmbed[] = chunkedTracks.map(
         (trackGroup: Track[], index) => {
             return {
-                title: `キュー - ページ ${index + 1}`,
+                title: `キュー - ページ ${index + 1}/${chunkedTracks.length}`,
                 description: [
                     `**現在再生中:** [${currentTrack.title}](${currentTrack.url}) - ${currentTrack.author}`,
                     '',
