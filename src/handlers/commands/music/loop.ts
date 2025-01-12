@@ -10,6 +10,7 @@ export default new Command({
             name: 'mode',
             description: 'モード',
             type: ApplicationCommandOptionType.Number,
+            required: true,
             choices: [
                 {
                     name: 'OFF',
