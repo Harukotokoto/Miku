@@ -12,7 +12,8 @@
             "@/*": ["src/*"],
             "@/libraries/*": ["src/libraries/*"],
             "@/handlers/*": ["src/libraries/Classes/Handlers/*"],
-            "@/subCommands/*": ["src/handlers/subCommands/*"]
+            "@/modules/*": ["src/libraries/Classes/Modules/*"],
+            "@/models/*": ["src/libraries/Models/*"]
         }
     },
     "include": ["src"],

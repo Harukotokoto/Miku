@@ -9,7 +9,7 @@ import {
 export default new Command({
     name: 'math',
     description: '簡単な数学の問題を解かせ、13以上かを確認する認証を設置します',
-    requiredPermissions: ["ManageRoles", 'ManageGuild'],
+    requiredPermissions: ['ManageRoles', 'ManageGuild'],
     options: [
         {
             name: 'setup',

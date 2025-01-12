@@ -32,6 +32,7 @@ export default new Command({
                 auth: '認証系コマンド',
                 dev: '開発者向けコマンド',
                 info: '情報系コマンド',
+                moderation: '管理系コマンド',
                 music: '音楽コマンド',
                 secret: '秘密のコマンド',
                 util: '便利系コマンド',
