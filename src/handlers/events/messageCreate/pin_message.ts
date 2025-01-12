@@ -7,7 +7,9 @@ export default new Event('messageCreate', async (message) => {
 
     if (message.author.id === client.user?.id) return;
 
-    const pin_data = await PinnedMessage.findOne({ ChannelID: message.channel.id });
+    const pin_data = await PinnedMessage.findOne({
+        ChannelID: message.channel.id,
+    });
     if (!pin_data) return;
 
     const oldMessage = await message.channel.messages.fetch(
