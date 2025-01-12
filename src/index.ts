@@ -62,8 +62,7 @@ player.events.on('emptyChannel', async (queue) => {
     await queue.metadata.send({
         embeds: [
             {
-                description:
-                    '人数が0人になったため再生を終了しました',
+                description: '人数が0人になったため再生を終了しました',
                 color: Colors.Blue,
                 footer: client.footer(),
             },
