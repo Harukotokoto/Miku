@@ -8,9 +8,13 @@
         "format": "run-s format:*",
         "tsc:build": "tsc -p .",
         "tsc:alias": "tsc-alias",
+        "git:pull": "git pull",
+        "docker:build": "docker compose build",
+        "docker:up": "docker compose up -d",
         "build": "run-s tsc:*",
         "start": "run-s format build && node --experimental-global-webcrypto ./dist/index.js",
-        "dev": "ts-node -r tsconfig-paths/register ./src/index.ts"
+        "dev": "ts-node -r tsconfig-paths/register ./src/index.ts",
+        "update": "run-s git:* docker:*"
     },
     "dependencies": {
         "@discord-player/extractor": "^7.0.0",
