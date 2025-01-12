@@ -9,6 +9,7 @@ import {
 export default new Command({
     name: 'oneclick',
     description: 'ワンクリック認証を設定します',
+    requiredPermissions: ["ManageRoles", 'ManageGuild'],
     options: [
         {
             name: 'setup',
