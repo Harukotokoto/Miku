@@ -31,8 +31,8 @@ export default new Command({
                 ai: 'AI系コマンド',
                 auth: '認証系コマンド',
                 dev: '開発者向けコマンド',
-                fun: 'ネタ系コマンド',
                 info: '情報系コマンド',
+                music: '音楽コマンド',
                 secret: '秘密のコマンド',
                 util: '便利系コマンド',
             };
