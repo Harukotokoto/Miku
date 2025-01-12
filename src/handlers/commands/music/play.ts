@@ -192,6 +192,7 @@ export default new Command({
                                 footer: client.footer(),
                             },
                         ],
+                        components: [],
                     });
                 }
 
