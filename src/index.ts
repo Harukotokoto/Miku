@@ -63,7 +63,7 @@ player.events.on('emptyChannel', async (queue) => {
         embeds: [
             {
                 description:
-                    '5分間VCにユーザーがいなかったため再生を終了しました',
+                    '人数が0人になったため再生を終了しました',
                 color: Colors.Blue,
                 footer: client.footer(),
             },
