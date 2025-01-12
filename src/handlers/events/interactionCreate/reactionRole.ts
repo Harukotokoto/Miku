@@ -23,6 +23,7 @@ export default new Event('interactionCreate', async (interaction) => {
                         footer: client.footer(),
                     },
                 ],
+                ephemeral: true,
             });
 
             return await message.delete();
