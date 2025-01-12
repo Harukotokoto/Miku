@@ -162,7 +162,7 @@ export default new Command({
                     await interaction.followUp({
                         embeds: [
                             {
-                                title: 'パネルを再描画します',
+                                description: 'パネルを再描画します',
                                 color: Colors.Blue,
                                 footer: client.footer(),
                             },

@@ -1,6 +1,7 @@
 import { Event } from '@/handlers/Event';
 import { Colors } from 'discord.js';
 import { client } from '@/index';
+import ReactionRoleModel from '@/models/ReactionRole';
 
 export default new Event('interactionCreate', async (interaction) => {
     if (!interaction.isStringSelectMenu()) return;
@@ -9,6 +10,23 @@ export default new Event('interactionCreate', async (interaction) => {
             interaction.user.id,
         );
         if (!member) return;
+
+        const message = interaction.message;
+
+        const data = ReactionRoleModel.findOne({ messageId: message.id });
+        if (!data) {
+            await interaction.reply({
+                embeds: [
+                    {
+                        description: '削除されたパネルです',
+                        color: Colors.Red,
+                        footer: client.footer(),
+                    },
+                ],
+            });
+
+            return await message.delete();
+        }
 
         await interaction.deferReply({ ephemeral: true });
 
