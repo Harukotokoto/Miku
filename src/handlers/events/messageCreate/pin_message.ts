@@ -7,15 +7,6 @@ export default new Event('messageCreate', async (message) => {
 
     if (message.author.id === client.user?.id) return;
     if (message.author.bot) return;
-    if (message.system) return;
-    if (message.content.length === 0) return;
-    if (message.embeds.length === 0) return;
-    if (message.attachments.size === 0) return;
-    if (message.components.length > 0) return;
-    if (message.flags.has('Crossposted')) return;
-    if (message.flags.has('IsCrosspost')) return;
-    if (message.flags.has('SuppressEmbeds')) return;
-    if (message.flags.has('SourceMessageDeleted')) return;
 
     const pin_data = await PinnedMessage.findOne({
         channelId: message.channel.id,
