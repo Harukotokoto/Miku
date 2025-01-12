@@ -1,5 +1,5 @@
 import { client } from '@/index';
-import { pin_model } from '@/libraries/Models/pin_message';
+import PinnedMessage from '@/libraries/Models/PinnedMessage';
 import { Event } from '@/handlers/Event';
 
 export default new Event('messageCreate', async (message) => {
@@ -7,11 +7,11 @@ export default new Event('messageCreate', async (message) => {
 
     if (message.author.id === client.user?.id) return;
 
-    const pin_data = await pin_model.findOne({ ChannelID: message.channel.id });
+    const pin_data = await PinnedMessage.findOne({ ChannelID: message.channel.id });
     if (!pin_data) return;
 
     const oldMessage = await message.channel.messages.fetch(
-        pin_data.LastMessageID,
+        pin_data.lastMessageId,
     );
     if (!oldMessage) return;
 
@@ -21,6 +21,6 @@ export default new Event('messageCreate', async (message) => {
         embeds: oldMessage.embeds,
     });
 
-    pin_data.LastMessageID = msg.id;
+    pin_data.lastMessageId = msg.id;
     await pin_data.save();
 });

@@ -13,7 +13,7 @@ import { CommandType } from '@/interfaces/Command';
 import { Event } from '@/libraries/Classes/Handlers/Event';
 import { client } from '@/index';
 import { MikuOptions } from '@/interfaces/MikuOptions';
-import { pin_model } from '@/libraries/Models/pin_message';
+import PinnedMessage from '@/libraries/Models/PinnedMessage';
 import * as mongoose from 'mongoose';
 
 require('dotenv').config();
@@ -48,8 +48,8 @@ export class Miku extends Client {
     public pinned_channels: string[] = [];
 
     private async loadPinnedChannels() {
-        const datas = await pin_model.find();
-        this.pinned_channels = datas.map((data) => data.ChannelID);
+        const datas = await PinnedMessage.find();
+        this.pinned_channels = datas.map((data) => data.channelId);
     }
 
     public addPinnedChannels(id: string) {

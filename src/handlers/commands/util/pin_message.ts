@@ -1,6 +1,6 @@
 import { ApplicationCommandType, Colors } from 'discord.js';
 import { Command } from '@/handlers/Command';
-import { pin_model } from '@/libraries/Models/pin_message';
+import PinnedMessage from '@/libraries/Models/PinnedMessage';
 
 export default new Command({
     name: 'メッセージを固定/解除',
@@ -11,7 +11,7 @@ export default new Command({
         interaction: async ({ client, interaction }) => {
             const message = interaction.targetMessage;
 
-            const pin_data = await pin_model.findOne({
+            const pin_data = await PinnedMessage.findOne({
                 ChannelID: interaction.channel?.id,
             });
             if (!pin_data) {
@@ -46,7 +46,7 @@ export default new Command({
                     ],
                 });
 
-                await pin_model.create({
+                await PinnedMessage.create({
                     GuildID: interaction.guild?.id,
                     ChannelID: interaction.channel?.id,
                     MessageID: message.id,
@@ -65,7 +65,9 @@ export default new Command({
                     ],
                 });
             } else {
-                await pin_model.deleteOne({ ChannelID: message.channel.id });
+                await PinnedMessage.deleteOne({
+                    ChannelID: message.channel.id,
+                });
 
                 client.removePinnedChannels(interaction.channel?.id as string);
 
