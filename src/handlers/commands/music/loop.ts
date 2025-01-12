@@ -47,11 +47,11 @@ export default new Command({
                 });
             }
 
-            const loopMode: QueueRepeatMode =
-                interaction.options.getNumber('mode') ||
-                queue.repeatMode === QueueRepeatMode.OFF
-                    ? QueueRepeatMode.QUEUE
-                    : QueueRepeatMode.OFF;
+            const loopMode = interaction.options.getNumber('mode', true) as
+                | 0
+                | 1
+                | 2
+                | 3;
 
             queue.setRepeatMode(loopMode);
 
