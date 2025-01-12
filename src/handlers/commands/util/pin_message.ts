@@ -47,10 +47,10 @@ export default new Command({
                 });
 
                 await PinnedMessage.create({
-                    GuildID: interaction.guild?.id,
-                    ChannelID: interaction.channel?.id,
-                    MessageID: message.id,
-                    LastMessageID: msg?.id,
+                    guildId: interaction.guild?.id,
+                    channelId: interaction.channel?.id,
+                    messageId: message.id,
+                    lastMessageId: msg?.id,
                 });
 
                 client.addPinnedChannels(interaction.channel?.id as string);
@@ -66,7 +66,7 @@ export default new Command({
                 });
             } else {
                 await PinnedMessage.deleteOne({
-                    ChannelID: message.channel.id,
+                    channelId: message.channel.id,
                 });
 
                 client.removePinnedChannels(interaction.channel?.id as string);
