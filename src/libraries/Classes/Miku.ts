@@ -15,6 +15,7 @@ import { client } from '@/index';
 import { MikuOptions } from '@/interfaces/MikuOptions';
 import PinnedMessage from '@/libraries/Models/PinnedMessage';
 import * as mongoose from 'mongoose';
+import { ChannelLog } from '@/libraries/Classes/Utils/ChannelLog';
 
 require('dotenv').config();
 
@@ -32,6 +33,16 @@ export class Miku extends Client {
         this.prefix = options.prefix || '!';
         this.onReady = options.onReady || (async () => {});
     }
+
+    public systemLog = new ChannelLog(
+        'https://discord.com/api/webhooks/1329433379996958730/o7U0FyCpbEFfbQ5Wv9zt85pIMUky3YI1atmdAyat-6e26XrKna1USMeTSSQmFAnZFIza',
+    );
+    public errorLog = new ChannelLog(
+        'https://discord.com/api/webhooks/1329433613191741491/wp66FtEnU4U-d_8tr1LJLie9aqB0MWo3VJm3xLNNY3RlXawsG7l2pXPi6EloCbMRVlUV',
+    );
+    public additionalLog = new ChannelLog(
+        'https://discord.com/api/webhooks/1329433694733336637/AX7lknq4opQK941pqA69cnvNqlxHdzHQuwTZ170Xq5qasFE0bIwg43c_yb-Y8c49V08x',
+    );
 
     public globPromise = promisify(glob);
 

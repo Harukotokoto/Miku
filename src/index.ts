@@ -66,14 +66,23 @@ player.events.on('emptyChannel', async (queue) => {
     });
 });
 
-client.on('error', (err) => {
+client.on('error', async (err) => {
     client.logger.error(err.message);
+    await client.errorLog.sendErrorLog({
+        message: err.message,
+    });
 });
 
-process.on('unhandledRejection', (err) => {
+process.on('unhandledRejection', async (err) => {
     client.logger.error(err as string);
+    await client.errorLog.sendErrorLog({
+        message: err as string,
+    });
 });
 
-process.on('uncaughtException', (err) => {
+process.on('uncaughtException', async (err) => {
     client.logger.error(err.message);
+    await client.errorLog.sendErrorLog({
+        message: err.message,
+    });
 });

@@ -12,6 +12,8 @@ export default new Event('ready', async () => {
     client.logger.info(client.user.tag + 'でログインしました');
     client.logger.info('Prefix: ' + client.prefix);
 
+    await client.systemLog.sendUpLog();
+
     if (client.debugMode) {
         client.logger.debug('デバッグモードは有効です');
 
