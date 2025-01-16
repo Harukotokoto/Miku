@@ -1,16 +1,17 @@
-import { ButtonStyle, Colors, ComponentType, WebhookClient } from 'discord.js';
+import { Colors } from 'discord.js';
 import { SendErrorOptions } from '@/interfaces/SendErrorOptions';
 import { getOsName } from '@/libraries/Functions/System/getOsName';
 import { getCpuUsage } from '@/libraries/Functions/System/getCpuUsage';
 import { getRamUsage } from '@/libraries/Functions/System/getRamUsage';
 import { getDiskUsage } from '@/libraries/Functions/System/getDiskUsage';
 import { client } from '@/index';
+import { MikuWebhookClient } from '@/libraries/Functions/MikuWebhookClient';
 
 export class ChannelLog {
-    private webhook: WebhookClient;
+    private webhook: MikuWebhookClient;
 
     constructor(webhookUrl: string) {
-        this.webhook = new WebhookClient({
+        this.webhook = new MikuWebhookClient({
             url: webhookUrl,
         });
     }
