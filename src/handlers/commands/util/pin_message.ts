@@ -12,7 +12,7 @@ export default new Command({
             const message = interaction.targetMessage;
 
             const pin_data = await PinnedMessage.findOne({
-                ChannelID: interaction.channel?.id,
+                channelId: interaction.channel?.id,
             });
             if (!pin_data) {
                 if (!message.content) {
