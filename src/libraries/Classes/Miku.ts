@@ -16,10 +16,12 @@ import { MikuOptions } from '@/interfaces/MikuOptions';
 import PinnedMessage from '@/libraries/Models/PinnedMessage';
 import * as mongoose from 'mongoose';
 import { ChannelLog } from '@/libraries/Classes/Utils/ChannelLog';
+import { GuildAudioQueue } from '@/interfaces/GuildAudioQueue';
 
 require('dotenv').config();
 
 export class Miku extends Client {
+    /* Clientの設定 */
     public prefix;
     public debugMode;
     public admins;
@@ -34,6 +36,11 @@ export class Miku extends Client {
         this.onReady = options.onReady || (async () => {});
     }
 
+    /* 読み上げ機能のキャッシュ */
+    public readerChannels = new Collection<string, string>();
+    public guildAudioQueues = new Collection<string, GuildAudioQueue>();
+
+    /* ログのWebhookの設定 */
     public systemLog = new ChannelLog(
         'https://discord.com/api/webhooks/1329433379996958730/o7U0FyCpbEFfbQ5Wv9zt85pIMUky3YI1atmdAyat-6e26XrKna1USMeTSSQmFAnZFIza',
     );
@@ -44,6 +51,7 @@ export class Miku extends Client {
         'https://discord.com/api/webhooks/1329433694733336637/AX7lknq4opQK941pqA69cnvNqlxHdzHQuwTZ170Xq5qasFE0bIwg43c_yb-Y8c49V08x',
     );
 
+    /* 必要なモジュールを登録 */
     public globPromise = promisify(glob);
 
     public logger = new Logger();
@@ -56,6 +64,7 @@ export class Miku extends Client {
         };
     }
 
+    /* メッセージのピンのキャッシュ */
     public pinned_channels: string[] = [];
 
     private async loadPinnedChannels() {

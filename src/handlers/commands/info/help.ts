@@ -34,6 +34,7 @@ export default new Command({
                 info: '情報系コマンド',
                 moderation: '管理系コマンド',
                 music: '音楽コマンド',
+                reader: '読み上げコマンド',
                 secret: '秘密のコマンド',
                 util: '便利系コマンド',
             };
