@@ -58,7 +58,7 @@ export default new Command({
             connection.destroy();
             client.readerChannels.delete(interaction.guild.id);
 
-            await interaction.reply({
+            await interaction.followUp({
                 embeds: [
                     {
                         description: '切断しました',
