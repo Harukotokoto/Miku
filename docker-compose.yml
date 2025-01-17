@@ -13,3 +13,4 @@ services:
         volumes:
             - ./logs:/usr/src/app/logs
         restart: always
+        network_mode: "host"
