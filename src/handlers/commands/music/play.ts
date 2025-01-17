@@ -210,6 +210,12 @@ export default new Command({
                     components: [],
                 });
             });
+
+            collector.on('end', async () => {
+                await interaction.editReply({
+                    components: [],
+                });
+            });
         },
     },
 });
