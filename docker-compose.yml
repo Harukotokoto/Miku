@@ -9,6 +9,7 @@ services:
             - DB_TABLE=${DB_TABLE}
             - DB_USER=${DB_USER}
             - DB_PASSWORD=${DB_PASSWORD}
+            - VOICEVOX_API=${VOICEVOX_API}
         volumes:
             - ./logs:/usr/src/app/logs
         restart: always
