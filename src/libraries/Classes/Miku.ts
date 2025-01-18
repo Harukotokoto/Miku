@@ -16,7 +16,7 @@ import { MikuOptions } from '@/interfaces/MikuOptions';
 import PinnedMessage from '@/libraries/Models/PinnedMessage';
 import * as mongoose from 'mongoose';
 import { ChannelLog } from '@/libraries/Classes/Utils/ChannelLog';
-import { GuildAudioQueue } from '@/interfaces/GuildAudioQueue';
+import { GuildAudioQueue } from '@/interfaces/Voicevox';
 
 require('dotenv').config();
 

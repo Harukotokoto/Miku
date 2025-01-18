@@ -1,11 +1,25 @@
-import { AudioQueryOptions } from '@/interfaces/AudioQueryOptions';
-import { SynthesisOptions } from '@/interfaces/SynthesisOptions';
-import { VoicevoxOptions } from '@/interfaces/VoicevoxOptions';
-import { GenerateAudioOptions } from '@/interfaces/GenerateAudioOptions';
+import { AudioPlayer } from '@discordjs/voice';
 
-export {
-    AudioQueryOptions,
-    GenerateAudioOptions,
-    SynthesisOptions,
-    VoicevoxOptions,
-};
+export interface AudioQueryOptions {
+    text: string;
+    speaker?: number;
+}
+
+export interface GenerateAudioOptions extends SynthesisOptions {
+    path: string;
+}
+
+export interface VoicevoxOptions {
+    defaultSpeaker: number;
+}
+
+export interface SynthesisOptions extends AudioQueryOptions {
+    enableInterrogativeUpspeak?: boolean;
+}
+
+export interface GuildAudioQueue {
+    queue: string[];
+    isPlaying?: boolean;
+    player: AudioPlayer;
+    currentFilepath: string | null;
+}
