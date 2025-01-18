@@ -79,13 +79,19 @@ export default new Command({
 
                 if (!queue.connection) {
                     await queue.connect(channel);
+                    await queue!.setSelfMute(true);
                 }
 
                 queue.addTrack(tracks);
 
                 if (!queue.isPlaying()) {
-                    queue.node.setVolume(5);
-                    await queue.node.play();
+                    await new Promise<void>(async (resolve) => {
+                        await queue.node.play();
+                        queue.node.setVolume(5);
+                        await queue!.setSelfMute(false);
+
+                        resolve();
+                    });
                 }
 
                 return await interaction.editReply({
@@ -173,13 +179,20 @@ export default new Command({
 
                 if (!queue.connection) {
                     await queue.connect(channel);
+                    await queue.setSelfMute(true);
                 }
 
                 queue.addTrack(track);
 
                 if (!queue.isPlaying()) {
-                    queue.node.setVolume(5);
-                    await queue.node.play();
+                    await new Promise<void>(async (resolve) => {
+                        await queue.node.play();
+                        queue.node.setVolume(5);
+                        await queue!.setSelfMute(false);
+
+                        resolve();
+                    });
+
                     return await interaction.editReply({
                         embeds: [
                             {
