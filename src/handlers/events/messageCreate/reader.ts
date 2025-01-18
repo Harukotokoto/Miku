@@ -4,12 +4,14 @@ import { client } from '@/index';
 import {
     AudioPlayerStatus,
     createAudioPlayer,
+    getVoiceConnection,
     NoSubscriberBehavior,
 } from '@discordjs/voice';
 import { convertCleanMessage } from '@/libraries/Functions/Reader/convertCleanMessage';
 import { playAudio } from '@/libraries/Functions/Reader/playAudio';
 import { unlinkSync } from 'fs';
 import Speaker from '@/models/Speaker';
+import { ChannelType } from 'discord.js';
 
 export default new Event('messageCreate', async (message) => {
     if (message.author.bot || !message.guild) return;
@@ -43,7 +45,7 @@ export default new Event('messageCreate', async (message) => {
 
         const guildQueue = client.guildAudioQueues.get(guildId)!;
 
-        guildQueue.player.on('stateChange', (oldState, newState) => {
+        guildQueue.player.on('stateChange', async (oldState, newState) => {
             if (
                 oldState.status !== AudioPlayerStatus.Idle &&
                 newState.status === AudioPlayerStatus.Idle
@@ -52,6 +54,7 @@ export default new Event('messageCreate', async (message) => {
                     unlinkSync(guildQueue.currentFilepath);
                     guildQueue.currentFilepath = null;
                 }
+
                 const nextFilepath = guildQueue.queue.shift();
                 if (nextFilepath) {
                     guildQueue.currentFilepath = nextFilepath;
