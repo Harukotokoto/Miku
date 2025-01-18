@@ -9,6 +9,7 @@ import {
 import { convertCleanMessage } from '@/libraries/Functions/Reader/convertCleanMessage';
 import { playAudio } from '@/libraries/Functions/Reader/playAudio';
 import { unlinkSync } from 'fs';
+import Speaker from '@/models/Speaker';
 
 export default new Event('messageCreate', async (message) => {
     if (message.author.bot || !message.guild) return;
@@ -20,7 +21,10 @@ export default new Event('messageCreate', async (message) => {
 
     const filepath = `./sounds/${message.id}.wav`;
 
-    const voicevox = new Voicevox({ defaultSpeaker: 6 });
+    const speaker = await Speaker.findOne({ userId: message.author.id });
+
+    const voicevox = new Voicevox({ defaultSpeaker: speaker?.speakerId || 6 });
+
     await voicevox.generateAudio({
         text: convertCleanMessage(message.cleanContent),
         path: filepath,
