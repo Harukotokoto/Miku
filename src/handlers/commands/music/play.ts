@@ -84,7 +84,7 @@ export default new Command({
                 queue.addTrack(tracks);
 
                 if (!queue.isPlaying()) {
-                    queue.node.setVolume(35);
+                    queue.node.setVolume(15);
                     await queue.node.play();
                 }
 
@@ -178,7 +178,7 @@ export default new Command({
                 queue.addTrack(track);
 
                 if (!queue.isPlaying()) {
-                    queue.node.setVolume(35);
+                    queue.node.setVolume(15);
                     await queue.node.play();
                     return await interaction.editReply({
                         embeds: [
