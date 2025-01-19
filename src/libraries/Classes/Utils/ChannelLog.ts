@@ -5,7 +5,7 @@ import { getCpuUsage } from '@/libraries/Functions/System/getCpuUsage';
 import { getRamUsage } from '@/libraries/Functions/System/getRamUsage';
 import { getDiskUsage } from '@/libraries/Functions/System/getDiskUsage';
 import { client } from '@/index';
-import { MikuWebhookClient } from '@/libraries/Functions/MikuWebhookClient';
+import { MikuWebhookClient } from '@/libraries/Classes/Utils/MikuWebhookClient';
 
 export class ChannelLog {
     private webhook: MikuWebhookClient;
