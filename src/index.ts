@@ -14,11 +14,7 @@ export const client = new Miku({
         repliedUser: false,
     },
     debugMode: false,
-    admins: [
-        '1004365048887660655',
-        '957885295251034112',
-        '1301893603328786464',
-    ],
+    admins: ['1004365048887660655'],
     prefix: 'm.',
     onReady: async () => {
         await player.extractors.register(YoutubeiExtractor, {});
