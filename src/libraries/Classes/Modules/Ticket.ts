@@ -16,18 +16,38 @@ import { client } from '@/index';
 export class Ticket {
     public interaction: ButtonInteraction;
 
+    /**
+     * コンストラクタは、ButtonInteractionオブジェクトを受け取り、プロパティを初期化します。
+     *
+     * @param {ButtonInteraction} interaction ボタンインタラクションのインスタンス
+     */
     public constructor(interaction: ButtonInteraction) {
         this.interaction = interaction;
     }
 
-    public static async setup(options: TicketSetupOptions) {
+    /**
+     * チケットを設定し、新しいチケットを作成します。
+     *
+     * @param {TicketSetupOptions} options チケット設定のためのオプションオブジェクト
+     * @return {Promise<Object>} 作成されたチケットオブジェクトを返します
+     */
+    public static async setup(options: TicketSetupOptions): Promise<object> {
         return await ticket.create({
             ...options,
             ticketId: randomUUID(),
         });
     }
 
-    public static async create(interaction: ModalSubmitInteraction) {
+    /**
+     * 新しいチケット専用のテキストチャンネルを作成します。
+     *
+     * @param {ModalSubmitInteraction} interaction ユーザーのモーダル送信イベントに関連付けられたインタラクションオブジェクト
+     * @return {Promise<string>} 作成されたチャンネルのID
+     * @throws {Error} サーバー外で実行された場合や、関連するデータが見つからない場合にエラーが発生します
+     */
+    public static async create(
+        interaction: ModalSubmitInteraction,
+    ): Promise<string> {
         if (!interaction.guild)
             throw new Error('サーバー内でのみ実行することができます');
 
@@ -114,7 +134,15 @@ export class Ticket {
         return channel.id;
     }
 
-    public async close() {
+    /**
+     * このメソッドは特定のチャンネルのチケットを閉じる処理を行います。
+     * チャンネルがサーバー内の適切な形式であることを確認し、
+     * 必要な権限を変更して「チケットを閉じました」というメッセージを送信します。
+     *
+     * @throws {Error} サーバー外またはスレッドチャンネルで実行された場合にエラーをスローします。
+     * @return {Promise<void>} 処理が正常に完了した場合、解決可能な Promise を返します。
+     */
+    public async close(): Promise<void> {
         if (!this.interaction.channel)
             throw new Error('サーバー内でのみ実行することができます');
         if (!this.interaction.guild)
@@ -173,7 +201,19 @@ export class Ticket {
         });
     }
 
-    public async reopen() {
+    /**
+     * チケットを再度開くメソッド。指定されたチャンネルのアクセス権限を更新し、チケットに関連するメッセージやUI要素を再設定します。
+     *
+     * 特定の条件下でのみ実行可能であり、以下の条件を満たす必要があります:
+     * - メソッドがサーバー内で実行されていること (DMまたはスレッド内では実行不可)。
+     * - 対象のチャンネルがThreadまたはDMではないこと。
+     *
+     * エラー条件:
+     * - サーバー外やスレッド内で実行しようとした場合に例外をスローします。
+     *
+     * @return {Promise<void>} チケットの再オープン処理が完了すると解決されるPromiseを返します。
+     */
+    public async reopen(): Promise<void> {
         if (!this.interaction.channel)
             throw new Error('サーバー内でのみ実行することができます');
         if (!this.interaction.guild)
@@ -225,7 +265,14 @@ export class Ticket {
         });
     }
 
-    public async writeLogs() {
+    /**
+     * 指定されたチャンネルの最新100件のメッセージログをテキストファイルとして書き出し、添付ファイルとして送信します。
+     * また、ログ生成後にメッセージを編集してチケットアクションを更新します。
+     *
+     * @return {Promise<void>} このメソッドでは非同期操作を行うため、Promise が返されます。操作が完了すると解決されます。
+     * @throws {Error} チャンネルがサーバー内でない場合や、スレッドで実行された際に例外が発生します。
+     */
+    public async writeLogs(): Promise<void> {
         if (!this.interaction.channel)
             throw new Error('サーバー内でのみ実行することができます');
         if (!this.interaction.guild)
@@ -323,7 +370,15 @@ export class Ticket {
         });
     }
 
-    public async deleteChannel() {
+    /**
+     * 指定されたチャンネルを削除する非同期メソッド。
+     * このメソッドはサーバー内でのみ実行可能であり、
+     * DMやスレッド上では使用できません。
+     *
+     * @return {Promise<void>} チャンネルの削除処理が完了したことを示すPromise。
+     *                         指定条件を満たさない場合にエラーをスローします。
+     */
+    public async deleteChannel(): Promise<void> {
         if (!this.interaction.channel)
             throw new Error('サーバー内でのみ実行することができます');
         if (!this.interaction.guild)

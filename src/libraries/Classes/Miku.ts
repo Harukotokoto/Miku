@@ -20,13 +20,21 @@ import { GuildAudioQueue } from '@/interfaces/Voicevox';
 
 require('dotenv').config();
 
+/**
+ * Mikuクラスは、Discord Botのクライアントを拡張して、カスタム機能や設定を提供します。
+ * 主に、コマンドの登録、イベントの登録、ログ管理、固定メッセージの管理、MongoDB接続などを行います。
+ */
 export class Miku extends Client {
-    /* Clientの設定 */
     public prefix;
     public debugMode;
     public admins;
     public onReady: () => Promise<void>;
 
+    /**
+     * クラスのコンストラクタ。
+     *
+     * @param {ClientOptions & MikuOptions} options クライアントおよびMikuのオプションを含むオブジェクト。
+     */
     public constructor(options: ClientOptions & MikuOptions) {
         super(options);
 
@@ -56,6 +64,10 @@ export class Miku extends Client {
 
     public logger = new Logger();
 
+    /**
+     * フッターのテキストとアイコンURLを生成します。
+     * @return EmbedFooterData オブジェクトでフッターのテキストとアイコンURLを返します。
+     */
     public footer(): EmbedFooterData {
         const user = client.users.cache.get('1004365048887660655');
         return {
@@ -67,24 +79,47 @@ export class Miku extends Client {
     /* メッセージのピンのキャッシュ */
     public pinned_channels: string[] = [];
 
-    private async loadPinnedChannels() {
+    /**
+     * データベースからピン留めされたチャンネル情報をロードし、`pinned_channels`プロパティに設定します。
+     *
+     * @return {Promise<void>} ピン留めされたチャンネルのロード*/
+    private async loadPinnedChannels(): Promise<void> {
         const datas = await PinnedMessage.find();
         this.pinned_channels = datas.map((data) => data.channelId);
     }
 
-    public addPinnedChannels(id: string) {
+    /**
+     * 指定されたIDのチャンネルを固定されたチャンネルリストに追加します。
+     * IDが既にリスト内に存在する場合は何も処理しません。
+     *
+     * @param {string} id 追加するチャンネルのID
+     * @return {void} 返り値はありません
+     */
+    public addPinnedChannels(id: string): void {
         if (!this.pinned_channels.includes(id)) {
             this.pinned_channels.push(id);
         }
     }
 
-    public removePinnedChannels(id: string) {
+    /**
+     * 指定されたIDを持つ固定されたチャンネルをリストから削除します。
+     *
+     * @param {string} id 削除するチャンネルのID
+     * @return {void} 戻り値はありません
+     */
+    public removePinnedChannels(id: string): void {
         this.pinned_channels = this.pinned_channels.filter(
             (channelId) => channelId !== id,
         );
     }
 
-    public run() {
+    /**
+     * アプリケーションを実行するメソッド。ログイン、コマンド登録、イベント登録、
+     * 固定メッセージの読み込み、MongoDB接続、及び初期準備を行う。
+     *
+     * @return {void} このメソッドは値を返しません。
+     */
+    public run(): void {
         this.login(process.env.CLIENT_TOKEN)
             .then(() => {
                 this.logger.info('ログインしました');
@@ -114,7 +149,12 @@ export class Miku extends Client {
         this.once('ready', async () => await this.onReady());
     }
 
-    private connect() {
+    /**
+     * MongoDBに接続を試みる非同期処理を実行します。
+     *
+     * @return {Promise} MongoDBへの接続を管理するPromiseオブジェクトを返します。
+     */
+    private connect(): Promise<any> {
         return mongoose.connect(
             `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_TABLE}`,
         );
@@ -122,6 +162,12 @@ export class Miku extends Client {
 
     public commands: Collection<string, CommandType> = new Collection();
 
+    /**
+     * 指定されたファイルパスからモジュールをインポートし、そのデフォルトエクスポートを返します。
+     *
+     * @param filePath インポートするファイルのパス。文字列で指定します。
+     * @return インポートしたモジュールのデフォルトエクスポートを返します。プロミスでラップされています。
+     */
     public async importFile<T>(filePath: string): Promise<T> {
         const file = await import(filePath);
         if (!file) {
@@ -131,7 +177,13 @@ export class Miku extends Client {
         return file.default;
     }
 
-    private async registerCommands() {
+    /**
+     * コマンドを登録する非同期メソッド。
+     * 指定ディレクトリからコマンドファイルを取得し、それらをアプリケーションに登録します。
+     *
+     * @return {Promise<void>} この処理が完了すると、Promiseが解決されます。
+     */
+    private async registerCommands(): Promise<void> {
         const commands: CommandType[] = [];
         const commandFiles = await this.globPromise(
             __dirname + '/../../handlers/commands/**/*{.ts,.js}',
@@ -168,7 +220,14 @@ export class Miku extends Client {
         });
     }
 
-    private async registerEvents() {
+    /**
+     * イベントを登録する非同期メソッド。
+     * 指定されたディレクトリ内のイベントファイルを読み込み、
+     * クライアントイベントにリスナーを登録します。
+     *
+     * @return {Promise<void>} イベント登録の完了を示すPromiseを返します。
+     */
+    private async registerEvents(): Promise<void> {
         const eventFiles = await this.globPromise(
             `${__dirname}/../../handlers/events/**/*{.ts,.js}`,
         );

@@ -17,13 +17,28 @@ export class ReactionRole {
         | ChatInputCommandInteraction
         | Message<boolean>;
 
+    /**
+     * 新しいコンストラクタを初期化します。
+     *
+     * @param {ChatInputCommandInteraction | Message<boolean>} InteractionOrMessage ChatInputCommandInteractionまたはMessageオブジェクトを指定します。
+     */
     public constructor(
         InteractionOrMessage: ChatInputCommandInteraction | Message<boolean>,
     ) {
         this.InteractionOrMessage = InteractionOrMessage;
     }
 
-    public async create(id: string, options?: ReactionRoleOptions) {
+    /**
+     * 指定されたIDを使用してリアクションロールパネルを作成します。
+     *
+     * @param {string} id - リアクションロールパネルを識別するための一意のID。
+     * @param {ReactionRoleOptions} [options] - パネルのタイトルや説明など、オプション設定。
+     * @return {Promise<void>} パネル作成の実行結果を非同期操作として返します。
+     */
+    public async create(
+        id: string,
+        options?: ReactionRoleOptions,
+    ): Promise<void> {
         if (this.InteractionOrMessage instanceof ChatInputCommandInteraction) {
             const interaction = this.InteractionOrMessage;
             if (!interaction || !interaction.channel) return;
@@ -73,6 +88,12 @@ export class ReactionRole {
         }
     }
 
+    /**
+     * 指定されたIDのリアクションロールパネルを削除します。
+     *
+     * @param {string} id 削除したいリアクションロールパネルのID
+     * @return {Promise<void>} 処理が完了した時点で何も返しません
+     */
     public async remove(id: string) {
         if (this.InteractionOrMessage instanceof ChatInputCommandInteraction) {
             const interaction = this.InteractionOrMessage;
@@ -108,10 +129,21 @@ export class ReactionRole {
     }
 
     public roles = {
+        /**
+         * 指定されたIDのリアクションロールパネルにロールを追加します。
+         *
+         * @param {string} id - リアクションロールパネルの識別ID。
+         * @param {Object} options - 追加するロールと表示名のオプションを指定します。
+         * @param {Role | APIRole} options.role - 追加するロールオブジェクト。
+         * @param {string | null} [options.label] - 追加するロールの表示名（省略可能）。
+         * @returns {Promise<void>} 非同期処理のためのPromise。
+         *
+         * @throws 指定されたパネルIDが存在しない場合、または指定されたロールが既に登録されている場合、エラーを通知します。
+         */
         add: async (
             id: string,
             options: { role: Role | APIRole; label?: string | null },
-        ) => {
+        ): Promise<void> => {
             if (
                 this.InteractionOrMessage instanceof ChatInputCommandInteraction
             ) {
@@ -160,7 +192,21 @@ export class ReactionRole {
                 });
             }
         },
-        delete: async (id: string, options: { role: Role | APIRole }) => {
+        /**
+         * 指定されたIDに基づいてリアクションロールパネルからロールを削除します。
+         *
+         * @param {string} id 削除対象パネルの識別ID。
+         * @param {Object} options 削除オプション。
+         * @param {Role|APIRole} options.role 削除する対象ロール。
+         *
+         * @throws {CommandError} パネルが指定IDで見つからない場合、もしくは指定されたロールが登録されていない場合。
+         *
+         * @returns {Promise<void>} 操作が成功した場合、ユーザーにロール削除成功のメッセージを通知します。
+         */
+        delete: async (
+            id: string,
+            options: { role: Role | APIRole },
+        ): Promise<void> => {
             if (
                 this.InteractionOrMessage instanceof ChatInputCommandInteraction
             ) {
@@ -207,7 +253,14 @@ export class ReactionRole {
         },
     };
 
-    public async refresh(id: string) {
+    /**
+     * 指定されたIDに基づいてリアクションロールの設定を更新し、対応するメッセージを編集します。
+     * 存在しないまたはアクセスできない場合、データベースからそのエントリを削除します。
+     *
+     * @param {string} id リアクションロール設定のID
+     * @return {Promise<void>} 非同期操作として実行され、成功もしくは失敗の処理が完了するPromise
+     */
+    public async refresh(id: string): Promise<void> {
         if (this.InteractionOrMessage instanceof ChatInputCommandInteraction) {
             const interaction = this.InteractionOrMessage;
 

@@ -14,12 +14,27 @@ export class Pagination {
     private readonly maxPages: number;
     private currentPage: number = 0;
 
+    /**
+     * PaginationOptionsを使用してPaginationのインスタンスを初期化します。
+     *
+     * @param {Object} options - ページネーションのオプションオブジェクト。
+     * @param {Object} options.interaction - インタラクションオブジェクト。
+     * @param {Array} options.items - ページネーション対象のアイテム一覧。
+     * @param {number} options.maxPages - 最大ページ数。
+     * @return {Pagination} 新しく生成されたPaginationインスタンス。
+     */
     constructor({ interaction, items, maxPages }: PaginationOptions) {
         this.interaction = interaction;
         this.items = items;
         this.maxPages = maxPages;
     }
 
+    /**
+     * 指定されたページ番号に基づいて埋め込みデータとコンポーネントを取得します。
+     *
+     * @param {number} page ページ番号（0から始まるインデックス形式）
+     * @return {Object} 埋め込みデータとボタンコンポーネントを含むオブジェクト
+     */
     private getPage(page: number) {
         const embed = this.items[page];
         const totalPages = this.maxPages;

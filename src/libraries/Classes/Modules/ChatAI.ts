@@ -19,11 +19,25 @@ export class ChatAI {
         google: 'Gemini',
     };
 
+    /**
+     * AIOptionsオブジェクトを受け取り、AIのカテゴリとモデルを初期化するコンストラクタ。
+     *
+     * @param {AIOptions} options AI設定情報を含むオブジェクト
+     */
     constructor(options: AIOptions) {
         this.category = options.category || null;
         this.model = options.model || null;
     }
 
+    /**
+     * 指定されたオプションに基づいてテキスト生成を行います。
+     *
+     * @param {GenerateOptions} options テキスト生成に必要なオプション。以下を含みます:
+     *   - `messages` {Array} メッセージの配列。
+     *   - `raw` {boolean} (オプション) 生データを返すかを指定。デフォルトは `false` です。
+     * @return 正常に完了した場合は生成されたテキスト、`raw` が true の場合は生データを返します。
+     *  エラーまたは予期しない応答の場合は `null` を返します。
+     */
     public async generate(options: GenerateOptions) {
         const { messages, raw = false } = options;
 
@@ -58,6 +72,16 @@ export class ChatAI {
         }
     }
 
+    /**
+     * モデルを取得する非同期関数。
+     *
+     * @param {GetModelOptions} [options] モデル取得のオプション設定。
+     * options.categoryが指定されている場合、該当するカテゴリーのモデルを返却。
+     * options.modelが指定されている場合、該当するモデルIDのモデルを返却。
+     * オプションが指定されない場合、全てのモデルデータを返却。
+     *
+     * @return {Promise<AvailableModels[]>} 条件に一致するモデル情報の配列を含むPromise。
+     */
     public static async getModels(options?: GetModelOptions) {
         const originUrl = 'https://api.voids.top/v1';
 
