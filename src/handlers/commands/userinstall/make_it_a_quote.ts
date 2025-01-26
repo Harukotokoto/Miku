@@ -34,7 +34,8 @@ export default new Command({
                 .setUsername(message.author.tag)
                 .setDisplayName(message.author.displayName)
                 .setAvatarURL(message.author.displayAvatarURL({ size: 1024 }))
-                .setWatermark(client.user?.tag || '');
+                .setWatermark(client.user?.tag || '')
+                .setColor();
 
             const quote = await miq.build();
 
