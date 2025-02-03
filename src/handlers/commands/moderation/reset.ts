@@ -10,6 +10,7 @@ import { Leveling } from '@/modules/Leveling';
 export default new Command({
     name: 'reset',
     description: 'レベルをリセットします',
+    requiredPermissions: ['Administrator'],
     options: [
         {
             name: 'user',
