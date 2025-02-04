@@ -76,10 +76,10 @@ export class ModuleConfig {
 
     public async isEnabled() {
         const cfg = await config.findOne({ guildId: this.guild.id });
-        if (!cfg) return false;
+        if (!cfg) return true;
 
         const module = cfg.modules.find((m) => m.moduleId === this.moduleId);
-        if (!module) return false;
+        if (!module) return true;
 
         return module.isEnabled;
     }

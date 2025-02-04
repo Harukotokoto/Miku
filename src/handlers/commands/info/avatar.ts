@@ -23,7 +23,6 @@ export default new Command({
             name: 'user',
             description: '対象のユーザー',
             type: ApplicationCommandOptionType.User,
-            required: true,
         },
         {
             name: 'type',
@@ -37,7 +36,8 @@ export default new Command({
     ],
     execute: {
         interaction: async ({ client, interaction }) => {
-            const user = interaction.options.getUser('user', true);
+            const user =
+                interaction.options.getUser('user') || interaction.user;
             const type = interaction.options.getString('type') || 'default';
 
             if (type === 'default') {
