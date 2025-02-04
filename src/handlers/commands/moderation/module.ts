@@ -53,37 +53,29 @@ export default new Command({
             const module = new ModuleConfig(interaction.guild, moduleId);
 
             if (cmd === 'enable') {
-                if (await module.isEnabled()) {
-                    await interaction.followUp({
-                        embeds: [
-                            {
-                                description: `\`${moduleId}\`は既に有効化されています`,
-                                color: Colors.Red,
-                                footer: client.footer(),
-                            },
-                        ],
-                    });
-
-                    return;
-                }
-
                 await module.enable();
+
+                await interaction.followUp({
+                    embeds: [
+                        {
+                            description: `\`${moduleId}\`を有効化しました`,
+                            color: Colors.Green,
+                            footer: client.footer(),
+                        },
+                    ],
+                });
             } else if (cmd === 'disable') {
-                if (!(await module.isEnabled())) {
-                    await interaction.followUp({
-                        embeds: [
-                            {
-                                description: `\`${moduleId}\`は有効化されていません`,
-                                color: Colors.Red,
-                                footer: client.footer(),
-                            },
-                        ],
-                    });
-
-                    return;
-                }
-
                 await module.disable();
+
+                await interaction.followUp({
+                    embeds: [
+                        {
+                            description: `\`${moduleId}\`を無効化しました`,
+                            color: Colors.Red,
+                            footer: client.footer(),
+                        },
+                    ],
+                });
             }
         },
     },
