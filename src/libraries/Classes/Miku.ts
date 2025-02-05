@@ -49,15 +49,9 @@ export class Miku extends Client {
     public guildAudioQueues = new Collection<string, GuildAudioQueue>();
 
     /* ログのWebhookの設定 */
-    public systemLog = new ChannelLog(
-        'https://discord.com/api/webhooks/1329433379996958730/o7U0FyCpbEFfbQ5Wv9zt85pIMUky3YI1atmdAyat-6e26XrKna1USMeTSSQmFAnZFIza',
-    );
-    public errorLog = new ChannelLog(
-        'https://discord.com/api/webhooks/1329433613191741491/wp66FtEnU4U-d_8tr1LJLie9aqB0MWo3VJm3xLNNY3RlXawsG7l2pXPi6EloCbMRVlUV',
-    );
-    public additionalLog = new ChannelLog(
-        'https://discord.com/api/webhooks/1329433694733336637/AX7lknq4opQK941pqA69cnvNqlxHdzHQuwTZ170Xq5qasFE0bIwg43c_yb-Y8c49V08x',
-    );
+    public systemLog = new ChannelLog(process.env.SYSTEM_WH);
+    public errorLog = new ChannelLog(process.env.ERROR_WH);
+    public additionalLog = new ChannelLog(process.env.ADDITIONAL_WH);
 
     /* 必要なモジュールを登録 */
     public globPromise = promisify(glob);
