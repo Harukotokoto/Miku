@@ -11,4 +11,4 @@ COPY . .
 
 RUN yarn build
 
-RUN yarn start
+CMD ["node", "--experimental-global-webcrypto", "./dist/index.js"]
