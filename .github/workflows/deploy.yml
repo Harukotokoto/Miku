@@ -1,0 +1,44 @@
+name: CI/CD Pipeline
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: リポジトリをチェックアウト
+              uses: actions/checkout@v4
+
+            - name: Node.js をセットアップ
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 18
+
+            - name: 依存関係をインストール
+              run: npm install
+
+            - name: ESLint を実行
+              run: npm run lint
+
+            - name: TypeScript をビルド
+              run: npm run build
+
+            - name: テストを実行
+              run: npm test
+
+    deploy:
+        needs: test
+        runs-on: ubuntu-latest
+        steps:
+            - name: サーバーにデプロイ
+              uses: appleboy/ssh-action@v1.0.3
+              with:
+                  host: ${{ secrets.SSH_HOST }}
+                  username: ${{ secrets.SSH_USER }}
+                  key: ${{ secrets.SSH_KEY }}
+                  script: |
+                      cd /etc/harukoto_projects/miku
+                      yarn update
