@@ -9,7 +9,7 @@ services:
             - DB_USER=${DB_USER}
             - DB_PASSWORD=${DB_PASSWORD}
             - VOIDS_API=${VOIDS_API}
-            - VOICEVOX_API=${VOICEVOX_API}
+            - VOICEVOX_API=http://localhost:50021
             - ERROR_WH=${ERROR_WH}
             - SYSTEM_WH=${SYSTEM_WH}
             - ADDITIONAL_WH=${ADDITIONAL_WH}
