@@ -19,6 +19,10 @@ FROM voicevox/voicevox_engine:cpu-ubuntu20.04-latest AS voicevox
 # gosu のインストール
 RUN apt-get update && apt-get install -y gosu sudo && rm -rf /var/lib/apt/lists/*
 
+# requirements.txt をコピーしてライブラリをインストール
+COPY requirements.txt /opt/requirements.txt
+RUN pip3 install --no-cache-dir -r /opt/requirements.txt
+
 # 必要な権限を付与
 RUN chown -R user:user /opt
 
