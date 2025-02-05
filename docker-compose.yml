@@ -3,7 +3,7 @@ services:
         build: ./voicevox
         restart: always
         ports:
-            - "50021:50021"
+            - '50021:50021'
         environment:
             - VOICEVOX_USER=user
         networks:
@@ -30,4 +30,4 @@ services:
 
 networks:
     voicevox:
-        driver: "bridge"
+        driver: 'bridge'
