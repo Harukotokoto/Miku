@@ -1,4 +1,13 @@
 services:
+    voicevox:
+        build: ./voicevox
+        restart: always
+        ports:
+            - "50021:50021"
+        environment:
+            - VOICEVOX_USER=user
+        networks:
+            - voicevox
     miku:
         build: .
         environment:
@@ -9,11 +18,16 @@ services:
             - DB_USER=${DB_USER}
             - DB_PASSWORD=${DB_PASSWORD}
             - VOIDS_API=${VOIDS_API}
-            - VOICEVOX_API=http://localhost:50021
+            - VOICEVOX_API=${VOICEVOX_API}
             - ERROR_WH=${ERROR_WH}
             - SYSTEM_WH=${SYSTEM_WH}
             - ADDITIONAL_WH=${ADDITIONAL_WH}
         volumes:
             - ./logs:/usr/src/app/logs
         restart: always
-        network_mode: "host"
+        networks:
+            - voicevox
+
+networks:
+    voicevox:
+        driver: "bridge"
