@@ -57,8 +57,8 @@ export class Voicevox {
     ): Promise<SpeakerInfo> {
         const speakers = await this.getSpeakers();
 
-        const speaker = speakers.find((sp: any) =>
-            sp.styles.some((style: any) => style.id === speakerStyleId),
+        const speaker = speakers.find((sp) =>
+            sp.styles.some((style) => style.id === speakerStyleId),
         );
 
         if (!speaker) {
@@ -76,7 +76,7 @@ export class Voicevox {
         const speakerInfo = speakerInfoResponse.data;
 
         const styleInfo = speakerInfo.style_infos.find(
-            (style: any) => style.id === speakerStyleId,
+            (style: { id: number }) => style.id === speakerStyleId,
         );
 
         if (!styleInfo) {

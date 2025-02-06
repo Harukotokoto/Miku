@@ -13,7 +13,7 @@ export default new Command({
         },
     ],
     execute: {
-        interaction: async ({ client, interaction }) => {
+        interaction: async ({ interaction }) => {
             const user =
                 interaction.options.getUser('user') || interaction.user;
             if (!interaction.guild) return;
@@ -22,7 +22,7 @@ export default new Command({
 
             const image = await leveling.createRankCard();
 
-            return await interaction.followUp({
+            await interaction.followUp({
                 files: [
                     {
                         name: 'rank.png',

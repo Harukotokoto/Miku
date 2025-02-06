@@ -1,5 +1,5 @@
 import autoPublish from '@/models/AutoPublish';
-import { ChannelType, NewsChannel } from 'discord.js';
+import { NewsChannel } from 'discord.js';
 
 export class AutoPublish {
     private channel: NewsChannel;

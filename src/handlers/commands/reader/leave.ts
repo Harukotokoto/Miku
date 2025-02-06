@@ -1,6 +1,6 @@
 import { Command } from '@/handlers/Command';
 import { getVoiceConnection } from '@discordjs/voice';
-import { ChannelType, Colors } from 'discord.js';
+import { Colors } from 'discord.js';
 
 export default new Command({
     name: 'leave',
@@ -17,7 +17,7 @@ export default new Command({
 
             const channel = member.voice.channel;
             if (!channel) {
-                return interaction.followUp({
+                await interaction.followUp({
                     embeds: [
                         {
                             description:
@@ -27,10 +27,12 @@ export default new Command({
                         },
                     ],
                 });
+
+                return;
             }
 
             if (!channel.joinable) {
-                return interaction.followUp({
+                await interaction.followUp({
                     embeds: [
                         {
                             description:
@@ -40,11 +42,13 @@ export default new Command({
                         },
                     ],
                 });
+
+                return;
             }
 
             const connection = getVoiceConnection(channel.guild.id);
             if (!connection) {
-                return interaction.followUp({
+                await interaction.followUp({
                     embeds: [
                         {
                             description: 'VCに接続していません',
@@ -53,6 +57,8 @@ export default new Command({
                         },
                     ],
                 });
+
+                return;
             }
 
             connection.destroy();

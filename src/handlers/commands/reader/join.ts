@@ -1,6 +1,6 @@
 import { Command } from '@/handlers/Command';
 import { joinVoiceChannel } from '@discordjs/voice';
-import { ChannelType, Colors } from 'discord.js';
+import { Colors } from 'discord.js';
 
 export default new Command({
     name: 'join',
@@ -17,7 +17,7 @@ export default new Command({
 
             const channel = member.voice.channel;
             if (!channel) {
-                return interaction.followUp({
+                await interaction.followUp({
                     embeds: [
                         {
                             description:
@@ -27,10 +27,12 @@ export default new Command({
                         },
                     ],
                 });
+
+                return;
             }
 
             if (!channel.joinable) {
-                return interaction.followUp({
+                await interaction.followUp({
                     embeds: [
                         {
                             description:
@@ -40,6 +42,8 @@ export default new Command({
                         },
                     ],
                 });
+
+                return;
             }
 
             joinVoiceChannel({

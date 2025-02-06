@@ -402,7 +402,7 @@ export class Ticket {
         });
 
         setTimeout(async () => {
-            await this.interaction.channel!.delete();
+            await this.interaction.channel?.delete();
         }, 5000);
     }
 }

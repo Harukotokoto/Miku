@@ -41,7 +41,7 @@ export interface Speaker {
 }
 
 export interface SpeakerInfo {
-    icon: Buffer<ArrayBuffer>;
+    icon: Buffer;
     speakerUuid: string;
     styleInfo: {
         name: string;

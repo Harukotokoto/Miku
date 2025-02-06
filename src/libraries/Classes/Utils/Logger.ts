@@ -1,5 +1,3 @@
-type LogType = 'info' | 'warn' | 'error' | 'debug';
-
 import { BackgroundColor, LogColor } from '@/libraries/Enums/LogColor';
 
 export class Logger {

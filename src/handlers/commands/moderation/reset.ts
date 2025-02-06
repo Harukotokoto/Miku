@@ -127,7 +127,9 @@ export default new Command({
                 }
 
                 if (i.customId === 'guild-yes') {
-                    await Leveling.resetGuild(interaction.guild!);
+                    if (!interaction.guild) return;
+
+                    await Leveling.resetGuild(interaction.guild);
 
                     i.update({
                         embeds: [
@@ -146,7 +148,11 @@ export default new Command({
 
                 if (i.customId === 'user-yes') {
                     const user = interaction.options.getUser('user', true);
-                    const leveling = new Leveling(user, interaction.guild!);
+                    if (!user) return;
+
+                    if (!interaction.guild) return;
+
+                    const leveling = new Leveling(user, interaction.guild);
 
                     await leveling.resetUser();
 

@@ -42,6 +42,7 @@ export default new Command({
         },
     ],
     execute: {
+        /* Reportパクろうとした人へ。残念。公開はまずいのでFAKEに書き換えてます。おつかれ。 */
         interaction: async ({ client, interaction }) => {
             const cmd = interaction.options.getSubcommand();
 
@@ -52,7 +53,7 @@ export default new Command({
                 const next = ct.getNextAvailableTime(1000 * 60 * 60 * 3);
                 if (!next) return;
 
-                return await interaction.followUp({
+                await interaction.followUp({
                     embeds: [
                         {
                             title: 'エラーが発生しました',
@@ -64,6 +65,8 @@ export default new Command({
                         },
                     ],
                 });
+
+                return;
             }
 
             if (cmd === 'user') {

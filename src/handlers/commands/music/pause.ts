@@ -13,7 +13,7 @@ export default new Command({
             });
 
             if (!timeline) {
-                return await interaction.followUp({
+                await interaction.followUp({
                     embeds: [
                         {
                             description: '楽曲が再生されていません',
@@ -22,13 +22,15 @@ export default new Command({
                         },
                     ],
                 });
+
+                return;
             }
 
             const wasPaused = timeline.paused;
 
             wasPaused ? timeline.resume() : timeline.pause();
 
-            return await interaction.followUp({
+            await interaction.followUp({
                 embeds: [
                     {
                         description: `楽曲の再生を${wasPaused ? '再開' : '一時停止'}しました`,

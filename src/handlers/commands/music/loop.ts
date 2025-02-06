@@ -37,7 +37,7 @@ export default new Command({
             const queue = useQueue(interaction.guild);
 
             if (!queue) {
-                return await interaction.followUp({
+                await interaction.followUp({
                     embeds: [
                         {
                             description: '楽曲が再生されていません',
@@ -46,6 +46,8 @@ export default new Command({
                         },
                     ],
                 });
+
+                return;
             }
 
             const loopMode = interaction.options.getNumber('mode', true) as
@@ -63,7 +65,7 @@ export default new Command({
                 3: '自動再生',
             };
 
-            return await interaction.followUp({
+            await interaction.followUp({
                 embeds: [
                     {
                         description: `ループ設定を**${modeDictionary[loopMode]}**に設定しました`,

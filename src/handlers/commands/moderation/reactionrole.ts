@@ -107,7 +107,7 @@ export default new Command({
         },
     ],
     execute: {
-        autoComplete: async ({ client, interaction }) => {
+        autoComplete: async ({ interaction }) => {
             const option = interaction.options.getFocused(true);
             if (option.name === 'panel_id') {
                 const reaction_roles = await ReactionRoleModel.find({
@@ -132,7 +132,7 @@ export default new Command({
             const role = interaction.options.getRole('role');
 
             switch (interaction.options.getSubcommand()) {
-                case 'create':
+                case 'create': {
                     const title = interaction.options.getString('title');
                     const description =
                         interaction.options.getString('description');
@@ -142,10 +142,12 @@ export default new Command({
                         description,
                     });
                     break;
-                case 'remove':
+                }
+                case 'remove': {
                     await reactionRole.remove(rr_id);
                     break;
-                case 'add':
+                }
+                case 'add': {
                     if (!role) return;
                     const label = interaction.options.getString('label');
 
@@ -154,11 +156,13 @@ export default new Command({
                         label,
                     });
                     break;
-                case 'delete':
+                }
+                case 'delete': {
                     if (!role) return;
                     await reactionRole.roles.delete(rr_id, { role });
                     break;
-                case 'refresh':
+                }
+                case 'refresh': {
                     await interaction.followUp({
                         embeds: [
                             {
@@ -169,6 +173,7 @@ export default new Command({
                         ],
                     });
                     break;
+                }
             }
 
             await reactionRole.refresh(rr_id);

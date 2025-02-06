@@ -1,6 +1,5 @@
 import { Command } from '@/handlers/Command';
 import {
-    APIEmbed,
     APISelectMenuOption,
     ApplicationCommandOptionType,
     Colors,
@@ -31,8 +30,8 @@ export default new Command({
             if (!member) return;
 
             const channel = member.voice.channel;
-            if (!channel)
-                return interaction.followUp({
+            if (!channel) {
+                await interaction.followUp({
                     embeds: [
                         {
                             description:
@@ -43,6 +42,9 @@ export default new Command({
                     ],
                 });
 
+                return;
+            }
+
             const player = useMainPlayer();
             const query = interaction.options.getString('query', true);
 
@@ -52,7 +54,7 @@ export default new Command({
             });
 
             if (!searchResult || !searchResult.tracks.length) {
-                return await interaction.followUp({
+                await interaction.followUp({
                     embeds: [
                         {
                             description: '検索結果がありませんでした',
@@ -61,6 +63,8 @@ export default new Command({
                         },
                     ],
                 });
+
+                return;
             }
 
             const tracks = searchResult.tracks;
@@ -79,42 +83,44 @@ export default new Command({
 
                 if (!queue.connection) {
                     await queue.connect(channel);
-                    await queue!.setSelfMute(true);
                 }
 
                 queue.addTrack(tracks);
 
                 if (!queue.isPlaying()) {
-                    await new Promise<void>(async (resolve) => {
-                        await queue.node.play();
-                        queue.node.setVolume(5);
-                        await queue!.setSelfMute(false);
+                    await queue?.node.play();
+                    queue?.node.setVolume(5);
+                }
 
-                        resolve();
+                if (tracks.length !== 1) {
+                    await interaction.editReply({
+                        embeds: [
+                            {
+                                description: `${tracks.length}個の楽曲ををキューに追加しました`,
+                                color: Colors.Blue,
+                                footer: client.footer(),
+                            },
+                        ],
+                        components: [],
+                    });
+                } else {
+                    await interaction.editReply({
+                        embeds: [
+                            {
+                                title: '🎵 再生中 🎵',
+                                description: `[${tracks[0].title}](${tracks[0].url}) - ${tracks[0].author}`,
+                                image: {
+                                    url: tracks[0].thumbnail,
+                                },
+                                color: Colors.Blue,
+                                footer: client.footer(),
+                            },
+                        ],
+                        components: [],
                     });
                 }
 
-                return await interaction.editReply({
-                    embeds: [
-                        tracks.length !== 1
-                            ? {
-                                  description: `${tracks.length}個の楽曲ををキューに追加しました`,
-                                  color: Colors.Blue,
-                                  footer: client.footer(),
-                              }
-                            : undefined,
-                        {
-                            title: '🎵 再生中 🎵',
-                            description: `[${tracks[0].title}](${tracks[0].url}) - ${tracks[0].author}`,
-                            image: {
-                                url: tracks[0].thumbnail,
-                            },
-                            color: Colors.Blue,
-                            footer: client.footer(),
-                        },
-                    ].filter((embed) => embed !== undefined),
-                    components: [],
-                });
+                return;
             }
 
             const track_options: APISelectMenuOption[] = tracks
@@ -179,21 +185,15 @@ export default new Command({
 
                 if (!queue.connection) {
                     await queue.connect(channel);
-                    await queue.setSelfMute(true);
                 }
 
                 queue.addTrack(track);
 
                 if (!queue.isPlaying()) {
-                    await new Promise<void>(async (resolve) => {
-                        await queue.node.play();
-                        queue.node.setVolume(5);
-                        await queue!.setSelfMute(false);
+                    await queue?.node.play();
+                    queue?.node.setVolume(5);
 
-                        resolve();
-                    });
-
-                    return await interaction.editReply({
+                    await interaction.editReply({
                         embeds: [
                             {
                                 title: '🎵 再生中 🎵',
@@ -207,6 +207,8 @@ export default new Command({
                         ],
                         components: [],
                     });
+
+                    return;
                 }
 
                 await interaction.editReply({

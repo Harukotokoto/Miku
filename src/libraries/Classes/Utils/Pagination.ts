@@ -12,7 +12,7 @@ export class Pagination {
     private interaction: CommandInteraction;
     private readonly items: APIEmbed[];
     private readonly maxPages: number;
-    private currentPage: number = 0;
+    private currentPage = 0;
 
     /**
      * PaginationOptionsを使用してPaginationのインスタンスを初期化します。

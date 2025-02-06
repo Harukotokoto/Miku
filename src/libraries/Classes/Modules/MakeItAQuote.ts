@@ -78,7 +78,7 @@ export class MakeItAQuote {
      * @param {boolean} [color=true] 設定する色の状態。デフォルトは true です。
      * @return {this} メソッドチェーンをサポートするための自身のインスタンス。
      */
-    public setColor(color: boolean = true): this {
+    public setColor(color = true): this {
         this.color = color;
 
         return this;

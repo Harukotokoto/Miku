@@ -1,9 +1,5 @@
 import { Command } from '@/handlers/Command';
-import {
-    ApplicationIntegrationType,
-    Colors,
-    InteractionContextType,
-} from 'discord.js';
+import { Colors } from 'discord.js';
 
 export default new Command({
     name: 'tos',

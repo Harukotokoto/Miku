@@ -1,9 +1,5 @@
 import { Command } from '@/handlers/Command';
-import {
-    ApplicationCommandType,
-    ApplicationIntegrationType,
-    InteractionContextType,
-} from 'discord.js';
+import { ApplicationCommandType } from 'discord.js';
 import { MakeItAQuote } from '@/libraries/Classes/Modules/MakeItAQuote';
 import { CommandError } from '@/handlers/CommandError';
 

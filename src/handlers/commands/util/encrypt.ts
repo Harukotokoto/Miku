@@ -1,11 +1,9 @@
 import { Command } from '@/handlers/Command';
 import {
     ApplicationCommandOptionType,
-    ApplicationIntegrationType,
     ButtonStyle,
     Colors,
     ComponentType,
-    InteractionContextType,
 } from 'discord.js';
 import crypto from 'crypto';
 

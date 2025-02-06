@@ -11,7 +11,7 @@ export default new Command({
             const queue = useQueue(interaction.guild);
 
             if (!queue || !queue.isPlaying()) {
-                return await interaction.followUp({
+                await interaction.followUp({
                     embeds: [
                         {
                             description: '楽曲が再生されていません',
@@ -20,11 +20,13 @@ export default new Command({
                         },
                     ],
                 });
+
+                return;
             }
 
             queue.delete();
 
-            return await interaction.followUp({
+            await interaction.followUp({
                 embeds: [
                     {
                         description: '再生を終了しました',

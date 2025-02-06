@@ -7,7 +7,6 @@ import {
     RankCardBuilder,
 } from 'canvacord';
 import { client } from '@/index';
-import { writeFileSync } from 'fs';
 import sharp from 'sharp';
 
 export class Leveling {
@@ -160,7 +159,8 @@ export class Leveling {
                 title: guild.name,
                 image:
                     guild.iconURL({ size: 256, extension: 'png' }) ||
-                    client.user!.displayAvatarURL(),
+                    client.user?.displayAvatarURL() ||
+                    '',
                 subtitle: `${guild.memberCount} members`,
             })
             .setPlayers(

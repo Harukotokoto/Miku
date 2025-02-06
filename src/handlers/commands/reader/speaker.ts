@@ -152,10 +152,6 @@ export default new Command({
                             return;
                         }
 
-                        const speakerInfo = await Voicevox.getSpeakerInfo(
-                            selectedSpeaker.styles[0].id,
-                        );
-
                         const speakerName = selectedSpeaker.name;
 
                         await i.update({
