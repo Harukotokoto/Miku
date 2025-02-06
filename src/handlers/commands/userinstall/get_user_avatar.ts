@@ -9,15 +9,7 @@ import {
 export default new Command({
     name: 'ユーザーのアバターを取得',
     type: ApplicationCommandType.User,
-    contexts: [
-        InteractionContextType.PrivateChannel,
-        InteractionContextType.BotDM,
-        InteractionContextType.Guild,
-    ],
-    integrationTypes: [
-        ApplicationIntegrationType.UserInstall,
-        ApplicationIntegrationType.GuildInstall,
-    ],
+    userInstall: true,
     execute: {
         interaction: async ({ client, interaction }) => {
             const user = interaction.targetUser;

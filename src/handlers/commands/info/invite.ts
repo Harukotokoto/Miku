@@ -26,6 +26,7 @@ export default new Command({
             type: ApplicationCommandOptionType.User,
         },
     ],
+    userInstall: true,
     execute: {
         interaction: async ({ client, interaction }) => {
             const user = interaction.options.getUser('bot') || client.user;

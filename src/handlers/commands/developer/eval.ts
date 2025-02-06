@@ -14,6 +14,7 @@ export default new Command({
             required: true,
         },
     ],
+    userInstall: true,
     execute: {
         interaction: async ({ client, interaction }) => {
             const content = interaction.options.getString('content') || '';

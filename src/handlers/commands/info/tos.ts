@@ -8,15 +8,7 @@ import {
 export default new Command({
     name: 'tos',
     description: '利用規約を表示します',
-    contexts: [
-        InteractionContextType.PrivateChannel,
-        InteractionContextType.BotDM,
-        InteractionContextType.Guild,
-    ],
-    integrationTypes: [
-        ApplicationIntegrationType.UserInstall,
-        ApplicationIntegrationType.GuildInstall,
-    ],
+    userInstall: true,
     execute: {
         interaction: async ({ client, interaction }) => {
             await interaction.followUp({

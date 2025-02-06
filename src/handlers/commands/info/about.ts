@@ -19,6 +19,7 @@ export default new Command({
         ApplicationIntegrationType.UserInstall,
         ApplicationIntegrationType.GuildInstall,
     ],
+    userInstall: true,
     execute: {
         interaction: async ({ client, interaction }) => {
             await interaction.followUp({

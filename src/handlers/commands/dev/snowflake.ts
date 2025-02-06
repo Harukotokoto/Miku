@@ -18,15 +18,7 @@ export default new Command({
             required: true,
         },
     ],
-    contexts: [
-        InteractionContextType.PrivateChannel,
-        InteractionContextType.BotDM,
-        InteractionContextType.Guild,
-    ],
-    integrationTypes: [
-        ApplicationIntegrationType.UserInstall,
-        ApplicationIntegrationType.GuildInstall,
-    ],
+    userInstall: true,
     execute: {
         interaction: async ({ client, interaction }) => {
             const snowflake = interaction.options.getString('snowflake', true);
