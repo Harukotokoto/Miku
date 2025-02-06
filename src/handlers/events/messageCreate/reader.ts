@@ -4,14 +4,12 @@ import { client } from '@/index';
 import {
     AudioPlayerStatus,
     createAudioPlayer,
-    getVoiceConnection,
     NoSubscriberBehavior,
 } from '@discordjs/voice';
 import { convertCleanMessage } from '@/libraries/Functions/Reader/convertCleanMessage';
 import { playAudio } from '@/libraries/Functions/Reader/playAudio';
 import { unlinkSync } from 'fs';
 import Speaker from '@/models/Speaker';
-import { ChannelType } from 'discord.js';
 
 export default new Event('messageCreate', async (message) => {
     if (message.author.bot || !message.guild) return;
@@ -43,7 +41,8 @@ export default new Event('messageCreate', async (message) => {
             }),
         });
 
-        const guildQueue = client.guildAudioQueues.get(guildId)!;
+        const guildQueue = client.guildAudioQueues.get(guildId);
+        if (!guildQueue) return;
 
         guildQueue.player.on('stateChange', async (oldState, newState) => {
             if (
@@ -66,7 +65,8 @@ export default new Event('messageCreate', async (message) => {
         });
     }
 
-    const guildQueue = client.guildAudioQueues.get(guildId)!;
+    const guildQueue = client.guildAudioQueues.get(guildId);
+    if (!guildQueue) return;
 
     guildQueue.queue.push(filepath);
     if (!guildQueue.currentFilepath) {

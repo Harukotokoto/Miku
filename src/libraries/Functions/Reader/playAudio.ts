@@ -1,11 +1,9 @@
 import {
     AudioPlayer,
-    AudioPlayerStatus,
     createAudioResource,
     getVoiceConnection,
     StreamType,
 } from '@discordjs/voice';
-import { unlinkSync } from 'fs';
 
 export async function playAudio(
     guildId: string,

@@ -1,9 +1,5 @@
 import { Command } from '@/libraries/Classes/Handlers/Command';
-import {
-    ApplicationIntegrationType,
-    Colors,
-    InteractionContextType,
-} from 'discord.js';
+import { Colors } from 'discord.js';
 
 export default new Command({
     name: 'ping',
@@ -28,7 +24,7 @@ export default new Command({
                 ],
             });
         },
-        message: async ({ client, message, args }) => {
+        message: async ({ client, message }) => {
             const ping = client.ws.ping;
 
             await message.reply({

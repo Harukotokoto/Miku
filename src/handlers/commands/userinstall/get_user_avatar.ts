@@ -1,10 +1,5 @@
 import { Command } from '@/handlers/Command';
-import {
-    ApplicationCommandType,
-    ApplicationIntegrationType,
-    Colors,
-    InteractionContextType,
-} from 'discord.js';
+import { ApplicationCommandType, Colors } from 'discord.js';
 
 export default new Command({
     name: 'ユーザーのアバターを取得',

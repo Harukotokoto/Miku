@@ -3,7 +3,6 @@ import {
     ApplicationCommandType,
     AutocompleteInteraction,
     ChatInputCommandInteraction,
-    InteractionContextType,
     Message,
     MessageContextMenuCommandInteraction,
     PermissionResolvable,
@@ -19,7 +18,7 @@ type MessageExecuteType = ({
     client: Miku;
     message: Message;
     args: string[];
-}) => any;
+}) => Promise<void>;
 
 type AutoCompleteExecuteType = ({
     client,
@@ -27,7 +26,7 @@ type AutoCompleteExecuteType = ({
 }: {
     client: Miku;
     interaction: AutocompleteInteraction;
-}) => any;
+}) => Promise<void>;
 
 type CommandBase = {
     requiredPermissions?: PermissionResolvable[];
@@ -55,7 +54,7 @@ type Command<
                 : T extends ApplicationCommandType.Message
                   ? MessageContextMenuCommandInteraction
                   : UserContextMenuCommandInteraction;
-        }) => any;
+        }) => Promise<void>;
         message?: MessageExecuteType;
         autoComplete?: AutoCompleteExecuteType;
     };
@@ -70,7 +69,7 @@ type CommandWithDefault = {
         }: {
             client: Miku;
             interaction: ChatInputCommandInteraction;
-        }) => any;
+        }) => Promise<void>;
         message?: MessageExecuteType;
         autoComplete?: AutoCompleteExecuteType;
     };

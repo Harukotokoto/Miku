@@ -13,7 +13,7 @@ export default new Command({
             const queue = useQueue(interaction.guild);
 
             if (!queue || !queue.currentTrack) {
-                return await interaction.followUp({
+                await interaction.followUp({
                     embeds: [
                         {
                             description: '楽曲が再生されていません',
@@ -22,13 +22,15 @@ export default new Command({
                         },
                     ],
                 });
+
+                return;
             }
 
             const currentTrack = queue.currentTrack;
             const tracks = queue.tracks.toArray();
 
             if (!currentTrack) {
-                return await interaction.followUp({
+                await interaction.followUp({
                     embeds: [
                         {
                             description: '楽曲が再生されていません',
@@ -37,10 +39,12 @@ export default new Command({
                         },
                     ],
                 });
+
+                return;
             }
 
             if (tracks.length < 1) {
-                return await interaction.followUp({
+                await interaction.followUp({
                     embeds: [
                         {
                             title: `キュー - ページ 1/1`,
@@ -50,6 +54,8 @@ export default new Command({
                         },
                     ],
                 });
+
+                return;
             }
 
             const chunkedTracks: Track[][] = chunkArray(tracks, 10);

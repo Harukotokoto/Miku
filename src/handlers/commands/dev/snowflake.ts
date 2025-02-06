@@ -1,9 +1,7 @@
 import { Command } from '@/handlers/Command';
 import {
     ApplicationCommandOptionType,
-    ApplicationIntegrationType,
     Colors,
-    InteractionContextType,
     SnowflakeUtil,
 } from 'discord.js';
 

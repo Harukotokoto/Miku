@@ -65,7 +65,7 @@ export default new Command({
         },
     ],
     execute: {
-        interaction: async ({ client, interaction }) => {
+        interaction: async ({ interaction }) => {
             const cmd = interaction.options.getSubcommand();
             const { create } = new CommandError(interaction);
 
@@ -175,7 +175,7 @@ export default new Command({
                 });
             }
         },
-        autoComplete: async ({ client, interaction }) => {
+        autoComplete: async ({ interaction }) => {
             const models = await ChatAI.getModels();
             const modelIds = models.map((model) => model.id);
 

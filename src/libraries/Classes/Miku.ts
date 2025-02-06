@@ -7,6 +7,7 @@ import {
     Collection,
     EmbedFooterData,
     InteractionContextType,
+    Message,
 } from 'discord.js';
 import { Logger } from '@/libraries/Classes/Utils/Logger';
 import { promisify } from 'util';
@@ -19,8 +20,9 @@ import PinnedMessage from '@/libraries/Models/PinnedMessage';
 import * as mongoose from 'mongoose';
 import { ChannelLog } from '@/libraries/Classes/Utils/ChannelLog';
 import { GuildAudioQueue } from '@/interfaces/Voicevox';
+import dotenv from 'dotenv';
 
-require('dotenv').config();
+dotenv.config();
 
 /**
  * Mikuクラスは、Discord Botのクライアントを拡張して、カスタム機能や設定を提供します。
@@ -43,7 +45,11 @@ export class Miku extends Client {
         this.debugMode = options.debugMode || false;
         this.admins = options.admins || [];
         this.prefix = options.prefix || '!';
-        this.onReady = options.onReady || (async () => {});
+        this.onReady =
+            options.onReady ||
+            (async () => {
+                return;
+            });
     }
 
     /* 読み上げ機能のキャッシュ */
@@ -57,6 +63,13 @@ export class Miku extends Client {
 
     /* 必要なモジュールを登録 */
     public globPromise = promisify(glob);
+
+    /* Snipeのキャッシュ */
+    public snipes = new Collection<string, Message>();
+    public edit_snipes = new Collection<
+        string,
+        { oldMessage: Message; newMessage: Message }
+    >();
 
     public logger = new Logger();
 
@@ -150,7 +163,7 @@ export class Miku extends Client {
      *
      * @return {Promise} MongoDBへの接続を管理するPromiseオブジェクトを返します。
      */
-    private connect(): Promise<any> {
+    private connect(): Promise<typeof mongoose> {
         return mongoose.connect(
             `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_TABLE}`,
         );

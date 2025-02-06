@@ -11,7 +11,7 @@ export default new Command({
             const queue = useQueue(interaction.guild);
 
             if (!queue) {
-                return await interaction.followUp({
+                await interaction.followUp({
                     embeds: [
                         {
                             description: '楽曲が再生されていません',
@@ -20,10 +20,12 @@ export default new Command({
                         },
                     ],
                 });
+
+                return;
             }
 
             if (queue.tracks.size < 2) {
-                return interaction.followUp({
+                await interaction.followUp({
                     embeds: [
                         {
                             description:
@@ -33,11 +35,13 @@ export default new Command({
                         },
                     ],
                 });
+
+                return;
             }
 
             queue.tracks.shuffle();
 
-            return interaction.followUp({
+            await interaction.followUp({
                 embeds: [
                     {
                         description: `${queue.tracks.size}個の楽曲をシャッフルしました`,
