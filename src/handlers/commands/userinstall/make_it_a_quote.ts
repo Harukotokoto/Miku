@@ -10,15 +10,7 @@ import { CommandError } from '@/handlers/CommandError';
 export default new Command({
     name: 'Make it a Quote',
     type: ApplicationCommandType.Message,
-    contexts: [
-        InteractionContextType.PrivateChannel,
-        InteractionContextType.BotDM,
-        InteractionContextType.Guild,
-    ],
-    integrationTypes: [
-        ApplicationIntegrationType.UserInstall,
-        ApplicationIntegrationType.GuildInstall,
-    ],
+    userInstall: true,
     execute: {
         interaction: async ({ client, interaction }) => {
             const message = interaction.targetMessage;

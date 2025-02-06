@@ -3,6 +3,7 @@ import {
     ApplicationCommandType,
     AutocompleteInteraction,
     ChatInputCommandInteraction,
+    InteractionContextType,
     Message,
     MessageContextMenuCommandInteraction,
     PermissionResolvable,
@@ -33,7 +34,7 @@ type CommandBase = {
     ephemeral?: boolean;
     aliases?: string[];
     isOwnerCommand?: boolean;
-    canUseUserCommand?: boolean;
+    userInstall?: boolean;
 };
 
 type Command<

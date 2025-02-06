@@ -12,16 +12,7 @@ import crypto from 'crypto';
 export default new Command({
     name: 'crypto',
     description: 'メッセージを暗号化します',
-    ephemeral: true,
-    contexts: [
-        InteractionContextType.PrivateChannel,
-        InteractionContextType.Guild,
-        InteractionContextType.BotDM,
-    ],
-    integrationTypes: [
-        ApplicationIntegrationType.UserInstall,
-        ApplicationIntegrationType.GuildInstall,
-    ],
+    userInstall: true,
     options: [
         {
             name: 'encode',

@@ -1,10 +1,12 @@
 import {
     ApplicationCommandType,
+    ApplicationIntegrationType,
     Client,
     ClientEvents,
     ClientOptions,
     Collection,
     EmbedFooterData,
+    InteractionContextType,
 } from 'discord.js';
 import { Logger } from '@/libraries/Classes/Utils/Logger';
 import { promisify } from 'util';
@@ -193,6 +195,27 @@ export class Miku extends Client {
                 this.logger.info(`"/${command.name}"を読み込みました`);
             } else {
                 this.logger.info(`"${command.name}"を読み込みました`);
+            }
+
+            if (command.userInstall) {
+                command.contexts = [
+                    InteractionContextType.BotDM,
+                    InteractionContextType.Guild,
+                    InteractionContextType.PrivateChannel,
+                ]
+
+                command.integrationTypes = [
+                    ApplicationIntegrationType.GuildInstall,
+                    ApplicationIntegrationType.UserInstall,
+                ]
+            } else {
+                command.contexts = [
+                    InteractionContextType.Guild,
+                ]
+
+                command.integrationTypes = [
+                    ApplicationIntegrationType.GuildInstall,
+                ]
             }
 
             commands.push(command);

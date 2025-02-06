@@ -6,6 +6,7 @@ import { LibraryType } from '@/libraries/Enums/LibraryType';
 export default new Command({
     name: 'libraries',
     description: '開発に使用しているライブラリを表示します',
+    userInstall: true,
     execute: {
         interaction: async ({ client, interaction }) => {
             try {

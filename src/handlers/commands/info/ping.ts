@@ -8,15 +8,7 @@ import {
 export default new Command({
     name: 'ping',
     description: 'BotにPingを送信します',
-    contexts: [
-        InteractionContextType.PrivateChannel,
-        InteractionContextType.BotDM,
-        InteractionContextType.Guild,
-    ],
-    integrationTypes: [
-        ApplicationIntegrationType.UserInstall,
-        ApplicationIntegrationType.GuildInstall,
-    ],
+    userInstall: true,
     execute: {
         interaction: async ({ client, interaction }) => {
             const ping = client.ws.ping;
