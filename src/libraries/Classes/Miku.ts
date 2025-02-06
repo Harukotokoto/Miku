@@ -202,20 +202,18 @@ export class Miku extends Client {
                     InteractionContextType.BotDM,
                     InteractionContextType.Guild,
                     InteractionContextType.PrivateChannel,
-                ]
+                ];
 
                 command.integrationTypes = [
                     ApplicationIntegrationType.GuildInstall,
                     ApplicationIntegrationType.UserInstall,
-                ]
+                ];
             } else {
-                command.contexts = [
-                    InteractionContextType.Guild,
-                ]
+                command.contexts = [InteractionContextType.Guild];
 
                 command.integrationTypes = [
                     ApplicationIntegrationType.GuildInstall,
-                ]
+                ];
             }
 
             commands.push(command);
