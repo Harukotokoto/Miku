@@ -30,6 +30,7 @@ export default new Command({
             const categoryDictionary: Record<string, string> = {
                 ai: 'AI系コマンド',
                 auth: '認証系コマンド',
+                custom_role: 'カスタムロール',
                 dev: '開発者向けコマンド',
                 info: '情報系コマンド',
                 moderation: '管理系コマンド',
