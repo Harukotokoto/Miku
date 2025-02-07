@@ -302,4 +302,33 @@ export class CustomRole {
 
         await role.setIcon(icon?.url || '');
     }
+
+    public async getRequiredRole() {
+        const data = await customRoleSettings.findOne({
+            guildId: this.guild.id,
+        });
+
+        if (!data) {
+            return null;
+        }
+
+        return data.requiredRoleId || null;
+    }
+
+    public async allowAdminBypass() {
+        const data = await customRoleSettings.findOne({
+            guildId: this.guild.id,
+        });
+
+        return !!data?.options.allowAdminBypass;
+    }
+
+    public async hasCustomRole(member: GuildMember) {
+        const data = await customRole.findOne({
+            guildId: this.guild.id,
+            userId: member.id,
+        });
+
+        return !!data;
+    }
 }
