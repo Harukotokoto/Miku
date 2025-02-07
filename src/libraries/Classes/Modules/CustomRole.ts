@@ -296,7 +296,7 @@ export class CustomRole {
             throw new Error('Botに必要な権限が不足しています: `MANAGE_ROLES`');
         }
 
-        if (me.roles.highest.comparePositionTo(role) > 0) {
+        if (me.roles.highest.comparePositionTo(role) < 0) {
             throw new Error('ロール設定を変更することができません。');
         }
 
