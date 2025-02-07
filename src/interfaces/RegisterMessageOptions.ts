@@ -1,17 +1,15 @@
-import { Message, OmitPartialGroupDMChannel, PartialMessage } from 'discord.js';
-
-type Msg = OmitPartialGroupDMChannel<Message<boolean> | PartialMessage>;
+import { Message, PartialMessage } from 'discord.js';
 
 interface RegisterDeleteMessageOptions {
     type: 'delete';
-    message: Msg;
+    message: Message | PartialMessage;
     newMessage?: never;
 }
 
 interface RegisterEditMessageOptions {
     type: 'edit';
-    message: Msg;
-    newMessage: Msg;
+    message: Message | PartialMessage;
+    newMessage: Message | PartialMessage;
 }
 
 export type RegisterMessageOptions =

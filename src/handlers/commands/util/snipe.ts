@@ -137,7 +137,7 @@ export default new Command({
                             ).toISOString(),
                             color: Colors.Blue,
                             image: {
-                                url: `https://25dsnipe.com/${sniped_message.newMessage.author.id}`,
+                                url: `https://25dsnipe.com/${sniped_message.newMessage.author?.id}`,
                             },
                         },
                     ],
