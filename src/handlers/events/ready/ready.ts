@@ -29,11 +29,11 @@ export default new Event('ready', async () => {
     } else {
         const presences: ActivitiesOptions[] = [
             {
-                name: `${client.guilds.cache.size}サーバー`,
+                name: '{guildCount}サーバー',
                 type: ActivityType.Competing,
             },
             {
-                name: `/help | ${client.ws.ping}ms`,
+                name: '/help | {ping}ms',
                 type: ActivityType.Playing,
             },
         ];
@@ -41,13 +41,20 @@ export default new Event('ready', async () => {
         let index = 0;
 
         setInterval(() => {
-            client.user?.setActivity(presences[index]);
+            client.user?.setActivity(
+                presences[index].name
+                    .replace(
+                        '{guildCount}',
+                        client.guilds.cache.size.toString(),
+                    )
+                    .replace('{ping}', client.ws.ping.toString()),
+            );
 
-            if (index === presences.length) {
+            if (index === presences.length - 1) {
                 index = 0;
             } else {
                 index++;
             }
-        }, 5 * 1_000);
+        }, 7.5 * 1_000);
     }
 });
