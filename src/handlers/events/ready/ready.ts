@@ -43,11 +43,11 @@ export default new Event('ready', async () => {
         setInterval(() => {
             client.user?.setActivity(presences[index]);
 
-            if (index === presences.length) {
+            if (index === presences.length - 1) {
                 index = 0;
             } else {
                 index++;
             }
-        }, 5 * 1_000);
+        }, 7.5 * 1_000);
     }
 });
