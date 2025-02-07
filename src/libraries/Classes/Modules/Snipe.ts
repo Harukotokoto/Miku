@@ -1,13 +1,16 @@
-import { Channel, Collection, Message } from 'discord.js';
+import { Channel, Collection, Message, PartialMessage } from 'discord.js';
 import { client } from '@/index';
 import { RegisterMessageOptions } from '@/interfaces/RegisterMessageOptions';
 
 export class Snipe {
     private channel: Channel;
-    private snipes: Collection<string, Message>;
+    private snipes: Collection<string, Message | PartialMessage>;
     private editSnipes: Collection<
         string,
-        { oldMessage: Message; newMessage: Message }
+        {
+            oldMessage: Message | PartialMessage;
+            newMessage: Message | PartialMessage;
+        }
     >;
 
     constructor(channel: Channel) {

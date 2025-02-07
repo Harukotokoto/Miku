@@ -8,6 +8,7 @@ import {
     EmbedFooterData,
     InteractionContextType,
     Message,
+    PartialMessage,
 } from 'discord.js';
 import { Logger } from '@/libraries/Classes/Utils/Logger';
 import { promisify } from 'util';
@@ -65,10 +66,13 @@ export class Miku extends Client {
     public globPromise = promisify(glob);
 
     /* Snipeのキャッシュ */
-    public snipes = new Collection<string, Message>();
+    public snipes = new Collection<string, Message | PartialMessage>();
     public edit_snipes = new Collection<
         string,
-        { oldMessage: Message; newMessage: Message }
+        {
+            oldMessage: Message | PartialMessage;
+            newMessage: Message | PartialMessage;
+        }
     >();
 
     public logger = new Logger();
