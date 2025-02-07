@@ -1,6 +1,6 @@
 import { Event } from '@/libraries/Classes/Handlers/Event';
 import { client } from '@/index';
-import { ActivityType } from 'discord.js';
+import { ActivitiesOptions, ActivityType } from 'discord.js';
 
 export default new Event('ready', async () => {
     if (!client.user) {
@@ -27,14 +27,27 @@ export default new Event('ready', async () => {
             status: 'dnd',
         });
     } else {
-        client.user.setPresence({
-            activities: [
-                {
-                    name: 'Im Here!',
-                    type: ActivityType.Playing,
-                },
-            ],
-            status: 'online',
-        });
+        const presences: ActivitiesOptions[] = [
+            {
+                name: `${client.guilds.cache.size}サーバー`,
+                type: ActivityType.Competing,
+            },
+            {
+                name: `/help | ${client.ws.ping}ms`,
+                type: ActivityType.Playing,
+            },
+        ];
+
+        let index = 0;
+
+        setInterval(() => {
+            client.user?.setActivity(presences[index]);
+
+            if (index === presences.length) {
+                index = 0;
+            } else {
+                index++;
+            }
+        }, 5 * 1_000);
     }
 });
