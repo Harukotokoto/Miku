@@ -1,14 +1,14 @@
-FROM node:18
+FROM node:20
 
 WORKDIR /app
 
 COPY package.json ./
 
 # 依存関係をインストール（既にインストールされている場合はスキップ）
-RUN npm install --check-files
+RUN yarn install --check-files
 
 COPY . .
 
-RUN npm run build
+RUN yarn build
 
 CMD ["node", "--experimental-global-webcrypto", "./dist/index.js"]
