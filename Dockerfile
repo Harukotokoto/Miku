@@ -5,10 +5,10 @@ WORKDIR /app
 COPY package.json ./
 
 # 依存関係をインストール（既にインストールされている場合はスキップ）
-RUN yarn install --ignore-engines --check-files
+RUN npm install --check-files
 
 COPY . .
 
-RUN yarn build
+RUN npm run build
 
 CMD ["node", "--experimental-global-webcrypto", "./dist/index.js"]
