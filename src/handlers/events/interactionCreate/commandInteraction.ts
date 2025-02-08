@@ -2,7 +2,6 @@ import {
     ApplicationCommandType,
     ChatInputCommandInteraction,
     MessageContextMenuCommandInteraction,
-    MessageFlagsBitField,
     UserContextMenuCommandInteraction,
 } from 'discord.js';
 import { client } from '@/index';
@@ -15,20 +14,14 @@ export default new Event('interactionCreate', async (interaction) => {
 
         const Error = new CommandError(interaction);
 
-        console.log('1');
-
         if (!interaction.guild && interaction.inGuild()) {
             await interaction.deferReply({
-                flags: MessageFlagsBitField.Flags.Ephemeral,
+                ephemeral: true,
             });
         } else {
-            if (command?.ephemeral) {
-                await interaction.deferReply({
-                    flags: MessageFlagsBitField.Flags.Ephemeral,
-                });
-            } else {
-                await interaction.deferReply();
-            }
+            await interaction.deferReply({
+                ephemeral: command?.ephemeral || false,
+            });
         }
 
         if (!command) return await Error.create('コマンドが存在しません');
