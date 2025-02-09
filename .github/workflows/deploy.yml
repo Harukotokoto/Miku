@@ -34,5 +34,5 @@ jobs:
                   username: ${{ secrets.SSH_USER }}
                   key: ${{ secrets.SSH_KEY }}
                   script: |
-                      cd /home/harukoto/harukoto_project/miku
+                      cd /home/harukoto/hatukoto_project/nodejs/miku/
                       yarn update
