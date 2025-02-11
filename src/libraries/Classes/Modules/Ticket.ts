@@ -88,7 +88,7 @@ export class Ticket {
             ],
         });
 
-        await channel.send({
+        const msg = await channel.send({
             content: staffRole.toString(),
             embeds: [
                 {
@@ -130,6 +130,8 @@ export class Ticket {
                 parse: ['roles'],
             },
         });
+
+        await msg.pin();
 
         return channel.id;
     }
