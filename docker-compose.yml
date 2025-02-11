@@ -1,13 +1,14 @@
 services:
-    voicevox:
-        build: ./voicevox
-        restart: always
-        ports:
-            - '50021:50021'
-        environment:
-            - VOICEVOX_USER=user
-        networks:
-            - voicevox
+    # voicevox:
+    #        build: ./voicevox
+    #        restart: always
+    #        ports:
+    #   ports:
+    #           - '50021:50021'
+    #        environment:
+    #            - VOICEVOX_USER=user
+    #      networks:
+    #          - voicevox
     miku:
         build: .
         environment:
