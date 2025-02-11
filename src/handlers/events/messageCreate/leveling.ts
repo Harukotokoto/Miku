@@ -21,27 +21,6 @@ export default new Event('messageCreate', async (message) => {
     const afterLevel = await leveling.getInfo();
 
     if (beforeLevel.level < afterLevel.level) {
-        await message.reply({
-            embeds: [
-                {
-                    description: `${message.author}のレベルが**${afterLevel.level}**になりました！`,
-                    color: Colors.Gold,
-                    footer: client.footer(),
-                },
-            ],
-            components: [
-                {
-                    type: ComponentType.ActionRow,
-                    components: [
-                        {
-                            type: ComponentType.Button,
-                            style: ButtonStyle.Primary,
-                            label: 'メッセージを削除',
-                            customId: 'delete-message',
-                        },
-                    ],
-                },
-            ],
-        });
+        await message.reply(`-# **${message.author.displayName}**のレベルが**${afterLevel.level}**になりました！`);
     }
 });
