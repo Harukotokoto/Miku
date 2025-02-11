@@ -1,7 +1,5 @@
 import { Event } from '@/handlers/Event';
 import { Leveling } from '@/modules/Leveling';
-import { ButtonStyle, Colors, ComponentType } from 'discord.js';
-import { client } from '@/index';
 import { ModuleConfig } from '@/modules/ModuleConfig';
 
 export default new Event('messageCreate', async (message) => {
@@ -21,6 +19,10 @@ export default new Event('messageCreate', async (message) => {
     const afterLevel = await leveling.getInfo();
 
     if (beforeLevel.level < afterLevel.level) {
-        await message.reply(`-# **${message.author.displayName}**のレベルが**${afterLevel.level}**になりました！`);
+        const msg = await message.reply(
+            `-# **${message.author.displayName}**のレベルが**${afterLevel.level}**になりました！`,
+        );
+
+        await msg.react('🗑️');
     }
 });
