@@ -30,6 +30,7 @@ export default new Command({
             const categoryDictionary: Record<string, string> = {
                 ai: 'AI系コマンド',
                 auth: '認証系コマンド',
+                context: 'コンテキストコマンド',
                 custom_role: 'カスタムロール',
                 dev: '開発者向けコマンド',
                 info: '情報系コマンド',
@@ -100,13 +101,13 @@ export default new Command({
                 ],
             });
 
-            const collecter = (
+            const collector = (
                 await interaction.fetchReply()
             ).createMessageComponentCollector({
                 filter: (i) => i.user.id === interaction.user.id,
             });
 
-            collecter.on('collect', async (i) => {
+            collector.on('collect', async (i) => {
                 if (!i.isStringSelectMenu()) return;
 
                 if (i.customId === 'category_select') {
