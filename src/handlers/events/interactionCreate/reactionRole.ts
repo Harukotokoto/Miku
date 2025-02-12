@@ -33,6 +33,36 @@ export default new Event('interactionCreate', async (interaction) => {
 
         const selected_roles = interaction.values;
 
+        await interaction.message.edit({
+            embeds: interaction.message.embeds,
+            components: interaction.message.components,
+        });
+
+        try {
+            for (const roleId of selected_roles) {
+                const role = interaction.guild?.roles.cache.get(roleId);
+
+                if (role) {
+                    if (member.roles.cache.has(role.id)) {
+                        await member.roles.remove(role);
+                    } else {
+                        await member.roles.add(role);
+                    }
+                }
+            }
+        } catch (e) {
+            await interaction.followUp({
+                embeds: [
+                    {
+                        title: 'エラーが発生しました',
+                        description: `${e}`,
+                        color: Colors.Red,
+                        footer: client.footer(),
+                    },
+                ],
+            });
+        }
+
         await interaction.followUp({
             embeds: [
                 {
@@ -57,23 +87,6 @@ export default new Event('interactionCreate', async (interaction) => {
                 },
             ],
             ephemeral: true,
-        });
-
-        for (const roleId of selected_roles) {
-            const role = interaction.guild?.roles.cache.get(roleId);
-
-            if (role) {
-                if (member.roles.cache.has(role.id)) {
-                    await member.roles.remove(role);
-                } else {
-                    await member.roles.add(role);
-                }
-            }
-        }
-
-        await interaction.message.edit({
-            embeds: interaction.message.embeds,
-            components: interaction.message.components,
         });
     }
 });

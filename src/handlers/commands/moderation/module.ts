@@ -2,12 +2,13 @@ import { Command } from '@/handlers/Command';
 import { ApplicationCommandOptionType, Colors } from 'discord.js';
 import { ModuleConfig } from '@/modules/ModuleConfig';
 
-const modules = [
-    {
-        name: 'leveling',
-        value: 'leveling',
-    },
-];
+const modules = ['leveling', 'role_keeper'];
+const choices = modules.map((m) => {
+    return {
+        name: m,
+        value: m,
+    };
+});
 
 export default new Command({
     name: 'module',
@@ -22,7 +23,7 @@ export default new Command({
                 {
                     name: 'module',
                     description: '有効化するモジュール',
-                    choices: modules,
+                    choices,
                     type: ApplicationCommandOptionType.String,
                     required: true,
                 },
@@ -36,7 +37,7 @@ export default new Command({
                 {
                     name: 'module',
                     description: '無効化するモジュール',
-                    choices: modules,
+                    choices,
                     type: ApplicationCommandOptionType.String,
                     required: true,
                 },
