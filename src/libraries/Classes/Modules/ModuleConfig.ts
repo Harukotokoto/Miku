@@ -74,12 +74,12 @@ export class ModuleConfig {
         }
     }
 
-    public async isEnabled() {
+    public async isEnabled(defaultState?: boolean) {
         const cfg = await config.findOne({ guildId: this.guild.id });
-        if (!cfg) return true;
+        if (!cfg) return defaultState || true;
 
         const module = cfg.modules.find((m) => m.moduleId === this.moduleId);
-        if (!module) return true;
+        if (!module) return defaultState || true;
 
         return module.isEnabled;
     }
