@@ -1,6 +1,7 @@
 import { Guild, GuildMember } from 'discord.js';
 import savedRoles from '@/models/SavedRoles';
 import { ModuleConfig } from '@/modules/ModuleConfig';
+import { client } from '@/index';
 
 export class RoleKeeper {
     public member: GuildMember;
@@ -46,8 +47,21 @@ export class RoleKeeper {
             const role = await this.member.guild.roles.fetch(r);
             if (!role) continue;
 
+            if (role.id === this.member.guild.id) continue;
+            if (this.member.roles.cache.has(role.id)) continue;
+
+            const me = await this.member.guild.members.fetch(
+                client.user?.id as string,
+            );
+            if (me.roles.highest.comparePositionTo(role) <= 0) continue;
+
             await this.member.roles.add(role);
         }
+
+        await savedRoles.deleteOne({
+            guildId: this.member.guild.id,
+            memberId: this.member.id,
+        });
     }
 
     public static async isEnabled(guild: Guild) {
