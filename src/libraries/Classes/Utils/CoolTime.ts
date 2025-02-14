@@ -1,13 +1,11 @@
 export class CoolTime {
-    private static coolTimeData: { userId: string; lastUsed: Date }[] = [];
+    private static coolTimeData: {
+        userId: string;
+        lastUsed: Date;
+        id: string;
+    }[] = [];
     private readonly userId: string;
 
-    /**
-     * ユーザーIDを指定して新しいインスタンスを生成します。
-     *
-     * @param {string} userId ユーザーを一意に識別するID
-     * @return {void}
-     */
     constructor(userId: string) {
         this.userId = userId;
     }
@@ -19,7 +17,7 @@ export class CoolTime {
      *
      * @return {void} 何も返しません。
      */
-    public setCoolTime(): void {
+    public setCoolTime(id: string): void {
         const now = new Date();
         const existingEntry = CoolTime.coolTimeData.find(
             (entry) => entry.userId === this.userId,
@@ -27,20 +25,24 @@ export class CoolTime {
         if (existingEntry) {
             existingEntry.lastUsed = now;
         } else {
-            CoolTime.coolTimeData.push({ userId: this.userId, lastUsed: now });
+            CoolTime.coolTimeData.push({
+                userId: this.userId,
+                lastUsed: now,
+                id,
+            });
         }
     }
 
     /**
-     * クールタイムが経過しているかを確認します。
-     *
-     * @param {number} time クールタイムの閾値をミリ秒単位で指定します。
-     * @return {boolean} クールタイム中であればtrueを返し、そうでなければfalseを返します。
+     * 指定されたIDと時間を基に、クールタイム中かどうかを判定します。
+     * @param {string} id 判定対象のID。
+     * @param {number} time クールタイムの基準時間（ミリ秒単位）。
+     * @return {boolean} クールタイム中であればtrue、そうでなければfalseを返します。
      */
-    public getCoolTime(time: number): boolean {
+    public getCoolTime(id: string, time: number): boolean {
         const now = new Date();
         const entry = CoolTime.coolTimeData.find(
-            (entry) => entry.userId === this.userId,
+            (entry) => entry.userId === this.userId && entry.id === id,
         );
         if (entry) {
             const elapsed = now.getTime() - entry.lastUsed.getTime();
@@ -50,14 +52,15 @@ export class CoolTime {
     }
 
     /**
-     * 指定された時間を基準に次に利用可能な時間を取得します。
+     * 指定されたIDと時間を基に、次に使用可能な時間を取得します。
      *
-     * @param {number} time 基準となるミリ秒の時間。
-     * @return {number | null} 利用可能な時間が秒単位で返されます。該当するデータがない場合はnullを返します。
+     * @param {string} id ユーザーが問い合わせる対象のID。
+     * @param {number} time 指定されたクールダウン時間（ミリ秒単位）。
+     * @return {number | null} 次に使用可能な時間のタイムスタンプ（秒単位）を返します。該当するエントリが存在しない場合はnullを返します。
      */
-    public getNextAvailableTime(time: number): number | null {
+    public getNextAvailableTime(id: string, time: number): number | null {
         const entry = CoolTime.coolTimeData.find(
-            (entry) => entry.userId === this.userId,
+            (entry) => entry.userId === this.userId && entry.id === id,
         );
         if (entry) {
             return Math.floor(
