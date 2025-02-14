@@ -16,9 +16,9 @@ export default new Event('messageUpdate', async (_, message) => {
             message.embeds[0]?.fields[0]?.name.match(/I've bumped up/)
         ) {
             const ct = new CoolTime(message.author.id);
-            if (ct.getCoolTime('up_notification', ms('59m'))) return;
+            if (ct.getCoolTime(`up_${message.guild.id}`, ms('50m'))) return;
 
-            ct.setCoolTime('up_notification');
+            ct.setCoolTime(`up_${message.guild.id}`);
 
             await message.channel.send({
                 embeds: [
