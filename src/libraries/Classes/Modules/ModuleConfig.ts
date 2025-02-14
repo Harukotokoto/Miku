@@ -74,7 +74,7 @@ export class ModuleConfig {
         }
     }
 
-    public async isEnabled(defaultState?: boolean) {
+    public async isEnabled(defaultState = true) {
         const cfg = await config.findOne({ guildId: this.guild.id });
         if (!cfg) return defaultState || true;
 
