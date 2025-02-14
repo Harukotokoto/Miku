@@ -1,0 +1,58 @@
+name: 毎日自動マージ（Develop → Main）
+
+on:
+    schedule:
+        - cron: '0 0 * * *'
+    workflow_dispatch:
+
+jobs:
+    merge:
+        name: DevelopブランチをMainにマージ
+        runs-on: ubuntu-latest
+        steps:
+            - name: リポジトリをチェックアウト
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Gitの設定
+              run: |
+                  git config --global user.name "github-actions[bot]"
+                  git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+            - name: DevelopをMainにマージ
+              id: merge
+              run: |
+                  git checkout main
+                  git pull origin main
+                  git merge --no-ff develop -m "自動マージ: Develop から Main"
+                  git push origin main
+              continue-on-error: true
+
+            - name: 成功通知をDiscordに送信
+              if: success()
+              run: |
+                  curl -H "Content-Type: application/json" \
+                       -X POST \
+                       -d '{
+                         "embeds": [{
+                           "description": "DevelopブランチをMainブランチにマージしました",
+                           "color": 65280,
+                           "timestamp": "'$(date -u +"%Y-%m-%dT%H:%M:%SZ")'"
+                         }]
+                       }' \
+                       ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+            - name: 失敗通知をDiscordに送信
+              if: failure()
+              run: |
+                  curl -H "Content-Type: application/json" \
+                       -X POST \
+                       -d '{
+                         "embeds": [{
+                           "description": "DevelopブランチをMainブランチにマージできませんでした",
+                           "color": 16711680,
+                           "timestamp": "'$(date -u +"%Y-%m-%dT%H:%M:%SZ")'"
+                         }]
+                       }' \
+                       ${{ secrets.DISCORD_WEBHOOK_URL }}
