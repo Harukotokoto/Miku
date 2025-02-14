@@ -2,7 +2,12 @@ import { Command } from '@/handlers/Command';
 import { ApplicationCommandOptionType, Colors } from 'discord.js';
 import { ModuleConfig } from '@/modules/ModuleConfig';
 
-const modules = ['leveling', 'role_keeper'];
+const modules = [
+    'leveling',
+    'role_keeper',
+    'up_notification',
+    'bump_notification',
+];
 const choices = modules.map((m) => {
     return {
         name: m,
@@ -13,7 +18,7 @@ const choices = modules.map((m) => {
 export default new Command({
     name: 'module',
     description: 'モジュールの有効化/無効化を切り替えます',
-    requiredPermissions: ['Administrator'],
+    requiredPermissions: ['ManageGuild'],
     options: [
         {
             name: 'enable',
