@@ -7,7 +7,7 @@ import { CoolTime } from '@/libraries/Classes/Utils/CoolTime';
 
 export default new Event('messageUpdate', async (_, message) => {
     if (!message.guild) return;
-    const module = new ModuleConfig(message.guild, 'bump_notification');
+    const module = new ModuleConfig(message.guild, 'up_notification');
     if (!(await module.isEnabled())) return;
 
     if (message.author.id === '761562078095867916') {
