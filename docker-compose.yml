@@ -22,6 +22,8 @@ services:
             - ERROR_WH=${ERROR_WH}
             - SYSTEM_WH=${SYSTEM_WH}
             - ADDITIONAL_WH=${ADDITIONAL_WH}
+            - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+            - APP_URL=${APP_URL}
         volumes:
             - ./logs:/usr/src/app/logs
         restart: always

@@ -12,6 +12,8 @@ declare global {
             ERROR_WH: string;
             SYSTEM_WH: string;
             ADDITIONAL_WH: string;
+            ENCRYPTION_KEY: string;
+            APP_URL: string;
         }
     }
 }
