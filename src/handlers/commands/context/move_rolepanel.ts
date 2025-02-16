@@ -13,6 +13,7 @@ import { extractRoleIds } from '@/libraries/Functions/Util/extractRoleIds';
 export default new Command({
     name: '役職パネルから移行する',
     type: ApplicationCommandType.Message,
+    requiredPermissions: ["ManageGuild"],
     userInstall: false,
     execute: {
         interaction: async ({ client, interaction }) => {
