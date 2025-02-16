@@ -7,6 +7,7 @@ const modules = [
     'role_keeper',
     'up_notification',
     'bump_notification',
+    'dm_disabler',
 ];
 const choices = modules.map((m) => {
     return {
