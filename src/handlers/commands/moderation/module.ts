@@ -71,6 +71,14 @@ export default new Command({
                         },
                     ],
                 });
+                if (moduleId === 'dm_disabler') {
+                    const tomorrow = new Date();
+                    tomorrow.setDate(tomorrow.getDate() + 1);
+
+                    await interaction.guild.setIncidentActions({
+                        dmsDisabledUntil: tomorrow.toISOString(),
+                    });
+                }
             } else if (cmd === 'disable') {
                 await module.disable();
 
