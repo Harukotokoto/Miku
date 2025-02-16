@@ -77,6 +77,7 @@ export default new Command({
 
                     await interaction.guild.setIncidentActions({
                         dmsDisabledUntil: tomorrow.toISOString(),
+                        invitesDisabledUntil: null,
                     });
                 }
             } else if (cmd === 'disable') {
