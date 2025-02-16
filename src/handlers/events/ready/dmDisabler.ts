@@ -31,6 +31,7 @@ async function dmDisabler() {
 
             await guild.setIncidentActions({
                 dmsDisabledUntil: tomorrow.toISOString(),
+                invitesDisabledUntil: null,
             });
         }
     }
