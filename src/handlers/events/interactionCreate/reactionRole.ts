@@ -61,6 +61,8 @@ export default new Event('interactionCreate', async (interaction) => {
                     },
                 ],
             });
+
+            return;
         }
 
         await interaction.followUp({
