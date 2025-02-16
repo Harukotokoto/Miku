@@ -1,5 +1,5 @@
 import { Command } from '@/handlers/Command';
-import { ApplicationCommandOptionType, Colors } from 'discord.js';
+import { ApplicationCommandOptionType, ChannelType, Colors } from 'discord.js';
 import { ReactionRole } from '@/modules/ReactionRole';
 import ReactionRoleModel from '@/models/ReactionRole';
 
@@ -126,7 +126,8 @@ export default new Command({
             }
         },
         interaction: async ({ client, interaction }) => {
-            const reactionRole = new ReactionRole(interaction);
+            if (!interaction.guild) return;
+            const reactionRole = new ReactionRole(interaction.guild);
             const rr_id = interaction.options.getString('panel_id', true);
 
             const role = interaction.options.getRole('role');
@@ -137,29 +138,141 @@ export default new Command({
                     const description =
                         interaction.options.getString('description');
 
-                    await reactionRole.create(rr_id, {
-                        title,
-                        description,
+                    if (
+                        interaction.channel?.type !== ChannelType.GuildText &&
+                        interaction.channel?.type !==
+                            ChannelType.GuildAnnouncement
+                    )
+                        return;
+
+                    try {
+                        await reactionRole.create(rr_id, {
+                            channel: interaction.channel,
+                            title,
+                            description,
+                        });
+                    } catch (e) {
+                        await interaction.followUp({
+                            embeds: [
+                                {
+                                    description: `${e}`,
+                                    color: Colors.Red,
+                                    footer: client.footer(),
+                                },
+                            ],
+                        });
+
+                        return;
+                    }
+
+                    await interaction.followUp({
+                        embeds: [
+                            {
+                                title: 'パネルを新規作成しました',
+                                description: `識別ID: ${rr_id}`,
+                                color: Colors.Green,
+                                footer: client.footer(),
+                            },
+                        ],
                     });
+
                     break;
                 }
                 case 'remove': {
-                    await reactionRole.remove(rr_id);
+                    try {
+                        await reactionRole.remove(rr_id);
+                    } catch (e) {
+                        await interaction.followUp({
+                            embeds: [
+                                {
+                                    description: `${e}`,
+                                    color: Colors.Red,
+                                    footer: client.footer(),
+                                },
+                            ],
+                        });
+
+                        return;
+                    }
+
+                    await interaction.followUp({
+                        embeds: [
+                            {
+                                title: 'パネルを削除しました',
+                                color: Colors.Red,
+                                footer: client.footer(),
+                            },
+                        ],
+                    });
                     break;
                 }
                 case 'add': {
                     if (!role) return;
                     const label = interaction.options.getString('label');
 
-                    await reactionRole.roles.add(rr_id, {
-                        role,
-                        label,
+                    try {
+                        await reactionRole.roles.add(rr_id, {
+                            role,
+                            label,
+                        });
+                    } catch (e) {
+                        await interaction.followUp({
+                            embeds: [
+                                {
+                                    description: `${e}`,
+                                    color: Colors.Red,
+                                    footer: client.footer(),
+                                },
+                            ],
+                        });
+
+                        return;
+                    }
+
+                    await interaction.followUp({
+                        embeds: [
+                            {
+                                title: 'ロールを追加しました',
+                                description:
+                                    `追加したロール: ${role.toString()}\n` +
+                                    `表示名: ${label || role.name}`,
+                                color: Colors.Green,
+                                footer: client.footer(),
+                            },
+                        ],
                     });
                     break;
                 }
                 case 'delete': {
                     if (!role) return;
-                    await reactionRole.roles.delete(rr_id, { role });
+                    try {
+                        await reactionRole.roles.delete(rr_id, { role });
+                    } catch (e) {
+                        await interaction.followUp({
+                            embeds: [
+                                {
+                                    description: `${e}`,
+                                    color: Colors.Red,
+                                    footer: client.footer(),
+                                },
+                            ],
+                        });
+
+                        return;
+                    }
+
+                    await interaction.followUp({
+                        embeds: [
+                            {
+                                title: 'ロールを削除しました',
+                                description:
+                                    `識別ID: ${rr_id}\n\n` +
+                                    `削除したロール: $role.toString()}\n`,
+                                color: Colors.Green,
+                                footer: client.footer(),
+                            },
+                        ],
+                    });
                     break;
                 }
                 case 'refresh': {
